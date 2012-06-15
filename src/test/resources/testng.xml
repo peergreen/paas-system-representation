@@ -1,0 +1,51 @@
+<!--
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - JPaaS
+  - Copyright (C) 2012 Bull S.A.S.
+  - Contact: jasmine@ow2.org
+  -
+  - This library is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU Lesser General Public
+  - License as published by the Free Software Foundation; either
+  - version 2.1 of the License, or any later version.
+  -
+  - This library is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  - Lesser General Public License for more details.
+  -
+  - You should have received a copy of the GNU Lesser General Public
+  - License along with this library; if not, write to the Free Software
+  - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+  - USA
+  -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - $Id$
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SR Tests">
+    <test name="Facade tests">
+        <classes>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestUserFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestApplicationFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestApplicationVersionFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestApplicationVersionInstanceFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestEnvironmentFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestApplicationEnvLink"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasJonasContainerFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasApacheJkRouterFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasDatabaseFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasAgentFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestIaasComputeFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasFrontendFacade"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestEnvironmentPaasResourceLink"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasResourcePaasAgentLink"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasResourceIaasComputeLink"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasRouterFrontendLink"/>
+          <!--  <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasContainerPaasDatabaseLink"/>-->
+        <!--    <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasRouterPaasContainerLink"/>-->
+        </classes>
+    </test>
+</suite>
