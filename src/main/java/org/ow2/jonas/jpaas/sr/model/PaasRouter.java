@@ -33,7 +33,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
-import java.util.Collection;
+import javax.persistence.ManyToOne;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,16 +55,16 @@ public class PaasRouter extends PaasResource implements java.io.Serializable {
     /**
      * PaasFrontend of the PaasRouter.
      */
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<PaasFrontend> paasFrontendList;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private PaasFrontend paasFrontend;
 
 
-    public List<PaasFrontend> getPaasFrontendList() {
-        return paasFrontendList;
+    public PaasFrontend getPaasFrontend() {
+        return paasFrontend;
     }
 
-    public void setPaasFrontendList(List<PaasFrontend> paasFrontendList) {
-        this.paasFrontendList = paasFrontendList;
+    public void setPaasFrontend(PaasFrontend paasFrontend) {
+        this.paasFrontend = paasFrontend;
     }
 
     public PaasRouterVO createPaasRouterVO() {

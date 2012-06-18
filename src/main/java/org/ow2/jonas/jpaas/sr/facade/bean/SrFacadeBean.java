@@ -1619,7 +1619,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         PaasFrontend paasFrontend = getPaasFrontendBean(paasResourceId);
         if (paasFrontend.getPaasRouterList() != null) {
             for (PaasRouter tmp : paasFrontend.getPaasRouterList()) {
-                tmp.getPaasFrontendList().remove(paasFrontend);
+                tmp.setPaasFrontend(null);
             }
         }
         entityManager.remove(paasFrontend);
@@ -1997,7 +1997,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     public void addPaasRouterFrontendLink(String paasRouterId, String paasFrontendId) {
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
-        paasRouter.getPaasFrontendList().add(paasFrontend);
+        paasRouter.setPaasFrontend(paasFrontend);
         paasFrontend.getPaasRouterList().add(paasRouter);
         entityManager.merge(paasFrontend);
     }
@@ -2012,7 +2012,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     public void removePaasRouterFrontendLink(String paasRouterId, String paasFrontendId) {
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
-        paasRouter.getPaasFrontendList().remove(paasFrontend);
+        paasRouter.setPaasFrontend(null);
         paasFrontend.getPaasRouterList().remove(paasRouter);
         entityManager.merge(paasFrontend);
     }
@@ -2021,6 +2021,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * Get the PaasRouters of a PaasFrontend
      *
      * @param paasFrontendId Id of the PaasFrontend
+     * @return a list of PaasRouter
      */
     @Override
     public List<PaasRouterVO> findPaasRoutersByFrontend(String paasFrontendId) {
@@ -2036,14 +2037,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * Get the PaasFrontends of a PaasRouter
      *
      * @param paasRouterId Id of the PaasRouter
+     * @return the PaasFrontend
      */
     @Override
-    public List<PaasFrontendVO> findFrontendsByPaasRouter(String paasRouterId) {
+    public PaasFrontendVO findFrontendByPaasRouter(String paasRouterId) {
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
-        List<PaasFrontendVO> resultList = new LinkedList<PaasFrontendVO>();
-        for (PaasFrontend tmp : paasRouter.getPaasFrontendList()) {
-            resultList.add(tmp.createPaasFrontendVO());
-        }
-        return  resultList;
+        return paasRouter.getPaasFrontend().createPaasFrontendVO();
     }
 }

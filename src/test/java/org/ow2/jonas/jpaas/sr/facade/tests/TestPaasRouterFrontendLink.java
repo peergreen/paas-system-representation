@@ -77,11 +77,6 @@ public class TestPaasRouterFrontendLink {
      */
     private PaasFrontendVO paasFrontend1 ;
 
-    /**
-     * PaasFrontend 2 value object
-     */
-    private PaasFrontendVO paasFrontend2;
-
 
     @BeforeClass
     public void init() throws NamingException {
@@ -120,15 +115,12 @@ public class TestPaasRouterFrontendLink {
         apacheJk2 = iSrPaasApacheJkRouterFacade.createApacheJkRouter(apacheJk2);
 
         paasFrontend1 = new PaasFrontendVO();
-        paasFrontend2 = new PaasFrontendVO();
         paasFrontend1 = iSrPaasFrontendFacade.createFrontend(paasFrontend1);
-        paasFrontend2 = iSrPaasFrontendFacade.createFrontend(paasFrontend2);
     }
 
     @AfterClass
     public void cleanDatabase() {
         iSrPaasFrontendFacade.deleteFrontend(paasFrontend1.getId());
-        iSrPaasFrontendFacade.deleteFrontend(paasFrontend2.getId());
         iSrPaasApacheJkRouterFacade.deleteApacheJkRouter(apacheJk1.getId());
         iSrPaasApacheJkRouterFacade.deleteApacheJkRouter(apacheJk2.getId());
     }
@@ -136,42 +128,35 @@ public class TestPaasRouterFrontendLink {
     @Test
     public void testAddPaasRouterFrontendLink() {
         iSrPaasRouterFrontendLink.addPaasRouterFrontendLink(apacheJk1.getId(), paasFrontend1.getId());
-        iSrPaasRouterFrontendLink.addPaasRouterFrontendLink(apacheJk1.getId(), paasFrontend2.getId());
-        iSrPaasRouterFrontendLink.addPaasRouterFrontendLink(apacheJk2.getId(), paasFrontend2.getId());
+        iSrPaasRouterFrontendLink.addPaasRouterFrontendLink(apacheJk2.getId(), paasFrontend1.getId());
     }
 
     @Test(dependsOnMethods="testAddPaasRouterFrontendLink")
     public void testFindPaasRoutersByFrontend() {
-        List<PaasRouterVO> paasRouterVOList = iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(
-                paasFrontend1.getId());
-        Assert.assertEquals(paasRouterVOList.size(), 1);
-        paasRouterVOList = iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(paasFrontend2.getId());
+        List<PaasRouterVO> paasRouterVOList =
+                iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(paasFrontend1.getId());
         Assert.assertEquals(paasRouterVOList.size(), 2);
         Assert.assertEquals(paasRouterVOList.get(0).getId(), apacheJk1.getId());
     }
 
     @Test(dependsOnMethods="testFindPaasRoutersByFrontend")
-    public void testFindFrontendsByPaasRouter() {
-        List<PaasFrontendVO> paasFrontendVOList =
-                iSrPaasRouterFrontendLink.findFrontendsByPaasRouter(apacheJk1.getId());
-        Assert.assertEquals(paasFrontendVOList.size(), 2);
-        Assert.assertEquals(paasFrontendVOList.get(0).getId(), paasFrontend1.getId());
+    public void testFindFrontendByPaasRouter() {
+        PaasFrontendVO paasFrontendVO =
+                iSrPaasRouterFrontendLink.findFrontendByPaasRouter(apacheJk1.getId());
+        Assert.assertEquals(paasFrontendVO.getId(), paasFrontend1.getId());
+        paasFrontendVO = iSrPaasRouterFrontendLink.findFrontendByPaasRouter(apacheJk2.getId());
+        Assert.assertEquals(paasFrontendVO.getId(), paasFrontend1.getId());
     }
 
-    @Test(dependsOnMethods = "testFindFrontendsByPaasRouter")
+    @Test(dependsOnMethods = "testFindFrontendByPaasRouter")
     public void testRemovePaasRouterFrontendLink() {
         iSrPaasRouterFrontendLink.removePaasRouterFrontendLink(apacheJk1.getId(), paasFrontend1.getId());
-        List<PaasRouterVO> paasRouterVOList = iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(paasFrontend1.getId());
-        Assert.assertEquals(paasRouterVOList.isEmpty(), true);
-        List<PaasFrontendVO> paasFrontendVOList = iSrPaasRouterFrontendLink.findFrontendsByPaasRouter(apacheJk1.getId());
-        Assert.assertEquals(paasFrontendVOList.size(), 1);
-
-        iSrPaasRouterFrontendLink.removePaasRouterFrontendLink(apacheJk2.getId(), paasFrontend2.getId());
-        paasRouterVOList =
-                iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(paasFrontend2.getId());
+        List<PaasRouterVO> paasRouterVOList =
+                iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(paasFrontend1.getId());
         Assert.assertEquals(paasRouterVOList.size(), 1);
-        paasFrontendVOList =
-                iSrPaasRouterFrontendLink.findFrontendsByPaasRouter(apacheJk2.getId());
-        Assert.assertEquals(paasFrontendVOList.isEmpty(), true);
+
+        iSrPaasRouterFrontendLink.removePaasRouterFrontendLink(apacheJk2.getId(), paasFrontend1.getId());
+        paasRouterVOList = iSrPaasRouterFrontendLink.findPaasRoutersByFrontend(paasFrontend1.getId());
+        Assert.assertEquals(paasRouterVOList.isEmpty(), true);
     }
 }

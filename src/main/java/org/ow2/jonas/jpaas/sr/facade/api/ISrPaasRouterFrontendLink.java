@@ -58,13 +58,15 @@ public interface ISrPaasRouterFrontendLink {
      * Get the PaasRouters of a PaasFrontend
      *
      * @param paasFrontendId Id of the PaasFrontend
+     * @return a list of PaasRouter
      */
     public List<PaasRouterVO> findPaasRoutersByFrontend(String paasFrontendId);
 
     /**
-     * Get the PaasFrontends of a PaasRouter
+     * Get the PaasFrontend of a PaasRouter
      *
      * @param paasRouterId Id of the PaasRouter
+     * @return the PaasFrontend
      */
-    public List<PaasFrontendVO> findFrontendsByPaasRouter(String paasRouterId);
+    public PaasFrontendVO findFrontendByPaasRouter(String paasRouterId);
 }

@@ -31,7 +31,6 @@ import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
 import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.LinkedList;
@@ -66,7 +65,7 @@ public class PaasFrontend implements java.io.Serializable {
     /**
      * PaasRouters of the VirtualHost.
      */
-    @ManyToMany(mappedBy="paasFrontendList", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy= "paasFrontend", cascade = CascadeType.MERGE)
     private List<PaasRouter> paasRouterList;
 
 
