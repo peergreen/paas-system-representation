@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.model;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasDatabaseVO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -48,7 +49,7 @@ public class PaasDatabase extends PaasResource implements java.io.Serializable {
     /**
      * PaasContainers of the PaasDatabase.
      */
-    @ManyToMany(mappedBy = "paasDatabaseList")
+    @ManyToMany(mappedBy = "paasDatabaseList",  cascade = CascadeType.MERGE)
     private List<PaasContainer> paasContainerList;
 
     public PaasDatabaseVO createPaasDatabaseVO() {

@@ -28,9 +28,12 @@ package org.ow2.jonas.jpaas.sr.model;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -48,13 +51,19 @@ public class PaasContainer extends PaasResource implements java.io.Serializable 
     /**
      * PaasDatabases of the PaasContainer.
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "PaasContainerPaasDatabaseLink",
+            joinColumns = { @JoinColumn(name = "PaasContainer_key")},
+            inverseJoinColumns={@JoinColumn(name="PaasDatabase_key")})
     private List<PaasDatabase> paasDatabaseList;
 
     /**
      * PaasRouters of the PaasContainer.
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "PaasRouterPaasContainerLink",
+            joinColumns = { @JoinColumn(name = "PaasContainer_key")},
+            inverseJoinColumns={@JoinColumn(name="PaasRouter_key")})
     private List<PaasRouter> paasRouterList;
 
 

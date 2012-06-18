@@ -141,20 +141,39 @@ public class TestPaasContainerPaasDatabaseLink {
 
     @Test(dependsOnMethods="testAddContainerDatabaseLink")
     public void testFindContainersByDatabase() {
-/*       List<PaasContainerVO> paasContainerVOList = iSrPaasContainerPaasDatabaseLink.findContainersByDatabase
-                (paasDatabase1.getId());
+        List<PaasContainerVO> paasContainerVOList =
+                iSrPaasContainerPaasDatabaseLink.findContainersByDatabase(paasDatabase1.getId());
         Assert.assertEquals(paasContainerVOList.size(), 2);
         paasContainerVOList = iSrPaasContainerPaasDatabaseLink.findContainersByDatabase(paasDatabase2.getId());
         Assert.assertEquals(paasContainerVOList.size(), 1);
-        Assert.assertEquals(paasContainerVOList.get(0).getId(), jonas1.getId());*/
+        Assert.assertEquals(paasContainerVOList.get(0).getId(), jonas1.getId());
     }
 
     @Test(dependsOnMethods="testFindContainersByDatabase")
     public void testFindDatabasesByContainer() {
-        /*  List<PaasDatabaseVO> paasDatabaseVOList = iSrPaasContainerPaasDatabaseLink.findDatabasesByContainer(jonas1.getId());
-       Assert.assertEquals(paasDatabaseVOList.size(), 2);
-       paasDatabaseVOList = iSrPaasContainerPaasDatabaseLink.findDatabasesByContainer(jonas2.getId());
-       Assert.assertEquals(paasDatabaseVOList.size(), 1);
-       Assert.assertEquals(paasDatabaseVOList.get(0).getId(), paasDatabase1.getId());*/
+        List<PaasDatabaseVO> paasDatabaseVOList = iSrPaasContainerPaasDatabaseLink.findDatabasesByContainer(jonas1.getId());
+        Assert.assertEquals(paasDatabaseVOList.size(), 2);
+        paasDatabaseVOList = iSrPaasContainerPaasDatabaseLink.findDatabasesByContainer(jonas2.getId());
+        Assert.assertEquals(paasDatabaseVOList.size(), 1);
+        Assert.assertEquals(paasDatabaseVOList.get(0).getId(), paasDatabase1.getId());
+    }
+
+    @Test(dependsOnMethods = "testFindDatabasesByContainer")
+    public void testRemoveContainerDatabaseLink() {
+        iSrPaasContainerPaasDatabaseLink.removeContainerDatabaseLink(jonas1.getId(), paasDatabase2.getId());
+        List<PaasDatabaseVO> paasDatabaseVOList =
+                iSrPaasContainerPaasDatabaseLink.findDatabasesByContainer(jonas1.getId());
+        Assert.assertEquals(paasDatabaseVOList.size(), 1);
+        Assert.assertEquals(paasDatabaseVOList.get(0).getId(), paasDatabase1.getId());
+        List<PaasContainerVO> paasContainerVOList =
+                iSrPaasContainerPaasDatabaseLink.findContainersByDatabase(paasDatabase2.getId());
+        Assert.assertEquals(paasContainerVOList.isEmpty(), true);
+
+        iSrPaasContainerPaasDatabaseLink.removeContainerDatabaseLink(jonas2.getId(), paasDatabase1.getId());
+        paasDatabaseVOList = iSrPaasContainerPaasDatabaseLink.findDatabasesByContainer(jonas2.getId());
+        Assert.assertEquals(paasDatabaseVOList.isEmpty(), true);
+        paasContainerVOList = iSrPaasContainerPaasDatabaseLink.findContainersByDatabase(paasDatabase1.getId());
+        Assert.assertEquals(paasContainerVOList.size(), 1);
+        Assert.assertEquals(paasContainerVOList.get(0).getId(), jonas1.getId());
     }
 }

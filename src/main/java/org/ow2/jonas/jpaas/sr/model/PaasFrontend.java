@@ -66,7 +66,7 @@ public class PaasFrontend implements java.io.Serializable {
     /**
      * PaasRouters of the VirtualHost.
      */
-    @ManyToMany(mappedBy="paasFrontendList")
+    @ManyToMany(mappedBy="paasFrontendList", cascade = CascadeType.MERGE)
     private List<PaasRouter> paasRouterList;
 
 

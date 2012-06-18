@@ -44,8 +44,8 @@
             <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasResourcePaasAgentLink"/>
             <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasResourceIaasComputeLink"/>
             <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasRouterFrontendLink"/>
-          <!--  <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasContainerPaasDatabaseLink"/>-->
-        <!--    <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasRouterPaasContainerLink"/>-->
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasContainerPaasDatabaseLink"/>
+            <class name="org.ow2.jonas.jpaas.sr.facade.tests.TestPaasRouterPaasContainerLink"/>
         </classes>
     </test>
 </suite>

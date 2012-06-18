@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.model;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasRouterVO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -48,13 +49,13 @@ public class PaasRouter extends PaasResource implements java.io.Serializable {
     /**
      * PaasContainers of the PaasRouter.
      */
-    @ManyToMany(mappedBy = "paasRouterList")
+    @ManyToMany(mappedBy = "paasRouterList",  cascade = CascadeType.MERGE)
     private List<PaasContainer> paasContainerList;
 
     /**
      * PaasFrontend of the PaasRouter.
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<PaasFrontend> paasFrontendList;
 
 

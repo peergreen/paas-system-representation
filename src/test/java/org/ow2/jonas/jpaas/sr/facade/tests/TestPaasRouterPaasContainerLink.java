@@ -140,28 +140,46 @@ public class TestPaasRouterPaasContainerLink {
     }
 
     @Test
-    public void testAddContainerRouterLink() {
+    public void testAddRouterContainerLink() {
         iSrPaasContainerPaasRouterLink.addRouterContainerLink(apacheJk1.getId(), jonas1.getId());
         iSrPaasContainerPaasRouterLink.addRouterContainerLink(apacheJk1.getId(), jonas2.getId());
         iSrPaasContainerPaasRouterLink.addRouterContainerLink(apacheJk2.getId(), jonas1.getId());
     }
 
-    @Test(dependsOnMethods="testAddContainerRouterLink")
+    @Test(dependsOnMethods="testAddRouterContainerLink")
     public void testFindContainersByRouter() {
-/*        List<PaasContainerVO> paasContainerVOList = iSrPaasContainerPaasRouterLink.findContainersByRouter
-                (apacheJk1.getId());
+        List<PaasContainerVO> paasContainerVOList =
+                iSrPaasContainerPaasRouterLink.findContainersByRouter(apacheJk1.getId());
         Assert.assertEquals(paasContainerVOList.size(), 2);
         paasContainerVOList = iSrPaasContainerPaasRouterLink.findContainersByRouter(apacheJk2.getId());
         Assert.assertEquals(paasContainerVOList.size(), 1);
-        Assert.assertEquals(paasContainerVOList.get(0).getId(), jonas1.getId());*/
+        Assert.assertEquals(paasContainerVOList.get(0).getId(), jonas1.getId());
     }
 
     @Test(dependsOnMethods="testFindContainersByRouter")
     public void testFindRoutersByContainer() {
-/*        List<PaasRouterVO> paasRouterVOList = iSrPaasContainerPaasRouterLink.findRoutersByContainer(jonas1.getId());
+        List<PaasRouterVO> paasRouterVOList = iSrPaasContainerPaasRouterLink.findRoutersByContainer(jonas1.getId());
         Assert.assertEquals(paasRouterVOList.size(), 2);
         paasRouterVOList = iSrPaasContainerPaasRouterLink.findRoutersByContainer(jonas2.getId());
         Assert.assertEquals(paasRouterVOList.size(), 1);
-        Assert.assertEquals(paasRouterVOList.get(0).getId(), apacheJk1.getId());*/
+        Assert.assertEquals(paasRouterVOList.get(0).getId(), apacheJk1.getId());
+    }
+
+    @Test(dependsOnMethods = "testFindRoutersByContainer")
+    public void testRemoveRouterContainerLink() {
+        iSrPaasContainerPaasRouterLink.removeRouterContainerLink(apacheJk2.getId(), jonas1.getId());
+        List<PaasRouterVO> paasRouterVOList = iSrPaasContainerPaasRouterLink.findRoutersByContainer(jonas1.getId());
+        Assert.assertEquals(paasRouterVOList.size(), 1);
+        Assert.assertEquals(paasRouterVOList.get(0).getId(), apacheJk1.getId());
+        List<PaasContainerVO> paasContainerVOList =
+                iSrPaasContainerPaasRouterLink.findContainersByRouter(apacheJk2.getId());
+        Assert.assertEquals(paasContainerVOList.isEmpty(), true);
+
+        iSrPaasContainerPaasRouterLink.removeRouterContainerLink(apacheJk1.getId(), jonas2.getId());
+        paasRouterVOList = iSrPaasContainerPaasRouterLink.findRoutersByContainer(jonas2.getId());
+        Assert.assertEquals(paasRouterVOList.isEmpty(), true);
+        paasContainerVOList = iSrPaasContainerPaasRouterLink.findContainersByRouter(apacheJk1.getId());
+        Assert.assertEquals(paasContainerVOList.size(), 1);
+        Assert.assertEquals(paasContainerVOList.get(0).getId(), jonas1.getId());
     }
 }

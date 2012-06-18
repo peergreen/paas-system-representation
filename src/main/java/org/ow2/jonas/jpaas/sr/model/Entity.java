@@ -25,6 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -91,7 +92,7 @@ public class Entity implements java.io.Serializable {
     /**
      * NodeTemplates of the Node.
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<NodeTemplate> nodeTemplateList;
 
     public long getKey() {

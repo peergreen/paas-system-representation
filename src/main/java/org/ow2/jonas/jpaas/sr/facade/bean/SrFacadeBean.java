@@ -1168,7 +1168,13 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteApacheJkRouter(String paasResourceId) {
-        entityManager.remove(getApacheJkRouterBean(paasResourceId));
+        ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
+        if (apacheJk.getPaasContainerList() != null) {
+            for (PaasContainer tmp : apacheJk.getPaasContainerList()) {
+                tmp.getPaasDatabaseList().remove(apacheJk);
+            }
+        }
+        entityManager.remove(apacheJk);
     }
 
     /**
@@ -1362,7 +1368,13 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteDatabase(String paasResourceId) {
-        entityManager.remove(getPaasDatabaseBean(paasResourceId));
+        PaasDatabase paasDatabase = getPaasDatabaseBean(paasResourceId);
+        if (paasDatabase.getPaasContainerList() != null) {
+            for (PaasContainer tmp : paasDatabase.getPaasContainerList()) {
+                tmp.getPaasDatabaseList().remove(paasDatabase);
+            }
+        }
+        entityManager.remove(paasDatabase);
     }
 
     /**
@@ -1605,8 +1617,10 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public void deleteFrontend(String paasResourceId) {
         PaasFrontend paasFrontend = getPaasFrontendBean(paasResourceId);
-        for (PaasRouter tmp : paasFrontend.getPaasRouterList()) {
-            tmp.getPaasFrontendList().remove(paasFrontend);
+        if (paasFrontend.getPaasRouterList() != null) {
+            for (PaasRouter tmp : paasFrontend.getPaasRouterList()) {
+                tmp.getPaasFrontendList().remove(paasFrontend);
+            }
         }
         entityManager.remove(paasFrontend);
     }
