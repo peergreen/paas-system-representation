@@ -86,6 +86,11 @@ public class TestPaasResourceIaasComputeLink {
      */
     private IaasComputeVO iaasCompute2;
 
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
+
 
     @BeforeClass
     public void init() throws NamingException {
@@ -97,13 +102,13 @@ public class TestPaasResourceIaasComputeLink {
     private void getBean() throws NamingException {
         InitialContext initialContext = new InitialContext();
         this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
         this.iSrIaasComputeFacade = (ISrIaasComputeFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade");
         this.iSrPaasResourceIaasComputeLink = (ISrPaasResourceIaasComputeLink) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourceIaasComputeLink");
     }
 

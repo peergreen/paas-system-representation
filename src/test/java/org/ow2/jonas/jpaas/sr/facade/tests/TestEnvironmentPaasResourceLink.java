@@ -105,6 +105,11 @@ public class TestEnvironmentPaasResourceLink {
      */
     private NodeTemplateVO nodeTemplate2;
 
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
+
 
     @BeforeClass
     public void init() throws NamingException {
@@ -115,16 +120,16 @@ public class TestEnvironmentPaasResourceLink {
 
     private void getBean() throws NamingException {
         InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
+        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
         this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade");
         this.iSrEnvironmentPaasResourceLink = (ISrEnvironmentPaasResourceLink) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink");
     }
 

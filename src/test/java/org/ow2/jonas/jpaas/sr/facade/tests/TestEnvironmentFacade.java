@@ -79,6 +79,11 @@ public class TestEnvironmentFacade {
      */
     private EnvironmentVO env2;
 
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
+
     @BeforeClass
     public void init() throws NamingException {
         getBean();
@@ -90,10 +95,10 @@ public class TestEnvironmentFacade {
 
     private void getBean() throws NamingException {
         InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
+        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade");
     }
 

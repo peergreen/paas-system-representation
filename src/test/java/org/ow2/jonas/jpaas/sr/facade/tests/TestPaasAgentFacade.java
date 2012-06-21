@@ -67,6 +67,11 @@ public class TestPaasAgentFacade {
      */
     private PaasAgentVO paasAgent2;
 
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
+
 
     @BeforeClass
     public void init() throws NamingException {
@@ -86,8 +91,8 @@ public class TestPaasAgentFacade {
 
 
     private void getBean() throws NamingException {
-        this.iSrPaasAgentFacade = (ISrPaasAgentFacade) new InitialContext().lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrPaasAgentFacade = (ISrPaasAgentFacade) new InitialContext().lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade");
     }
 

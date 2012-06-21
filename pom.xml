@@ -212,17 +212,12 @@
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <skipTests>true</skipTests>
-                    <systemProperties>
-                        <property>
-                            <name>java.naming.factory.initial</name>
-                            <value>org.ow2.easybeans.component.smartclient.spi.SmartContextFactory
-                            </value>
-                        </property>
-                        <property>
-                            <name>java.naming.provider.url</name>
-                            <value>smart://localhost:${smartFactory.port}</value>
-                        </property>
-                    </systemProperties>
+                    <systemPropertyVariables>
+                        <java.naming.factory.initial>org.ow2.easybeans.component.smartclient.spi.SmartContextFactory
+                        </java.naming.factory.initial>
+                        <java.naming.provider.url>smart://localhost:${smartFactory.port}</java.naming.provider.url>
+                        <module.name>${project.build.finalName}</module.name>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>

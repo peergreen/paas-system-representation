@@ -96,6 +96,11 @@ public class TestApplicationVersionInstanceFacade {
      */
     private ApplicationVersionInstanceVO appVersionInstance2;
 
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
+
 
     @BeforeClass
     public void init() throws NamingException {
@@ -107,16 +112,16 @@ public class TestApplicationVersionInstanceFacade {
 
     private void getBean() throws NamingException {
         InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-        this.iSrApplicationFacade = (ISrApplicationFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
+        this.iSrApplicationFacade = (ISrApplicationFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade");
         this.iSrApplicationVersionFacade = (ISrApplicationVersionFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade");
         this.iSrApplicationVersionInstanceFacade = (ISrApplicationVersionInstanceFacade) initialContext.lookup(
-                "java:global/system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                "java:global/" + moduleName + "/SrFacadeBean!" +
                         "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade");
     }
 

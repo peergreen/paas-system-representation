@@ -81,6 +81,11 @@ public class TestPaasContainerPaasDatabaseLink {
      */
     private PaasDatabaseVO paasDatabase2;
 
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
+
 
     @BeforeClass
     public void init() throws NamingException {
@@ -92,13 +97,13 @@ public class TestPaasContainerPaasDatabaseLink {
     private void getBean() throws NamingException {
         InitialContext initialContext = new InitialContext();
         this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrPaasDatabaseFacade = (ISrPaasDatabaseFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrPaasDatabaseFacade = (ISrPaasDatabaseFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasDatabaseFacade");
-        this.iSrPaasContainerPaasDatabaseLink = (ISrPaasContainerPaasDatabaseLink) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrPaasContainerPaasDatabaseLink = (ISrPaasContainerPaasDatabaseLink) initialContext.lookup("java:global/"
+                + moduleName + "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerPaasDatabaseLink");
     }
 

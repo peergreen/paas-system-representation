@@ -75,7 +75,12 @@ public class TestPaasRouterFrontendLink {
     /**
      * PaasFrontend 1 value object
      */
-    private PaasFrontendVO paasFrontend1 ;
+    private PaasFrontendVO paasFrontend1;
+
+    /**
+     * Name of the module for the lookup
+     */
+    private final String moduleName = System.getProperty("module.name");
 
 
     @BeforeClass
@@ -88,12 +93,12 @@ public class TestPaasRouterFrontendLink {
     private void getBean() throws NamingException {
         InitialContext initialContext = new InitialContext();
         this.iSrPaasApacheJkRouterFacade = (ISrPaasApacheJkRouterFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade");
-        this.iSrPaasFrontendFacade = (ISrPaasFrontendFacade) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+                moduleName + "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade");
+        this.iSrPaasFrontendFacade = (ISrPaasFrontendFacade) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasFrontendFacade");
-        this.iSrPaasRouterFrontendLink = (ISrPaasRouterFrontendLink) initialContext.lookup("java:global/" +
-                "system-representation-1.1.1-SNAPSHOT/SrFacadeBean!" +
+        this.iSrPaasRouterFrontendLink = (ISrPaasRouterFrontendLink) initialContext.lookup("java:global/" + moduleName +
+                "/SrFacadeBean!" +
                 "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterFrontendLink");
     }
 
