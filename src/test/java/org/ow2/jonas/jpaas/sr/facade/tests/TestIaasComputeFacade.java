@@ -50,7 +50,7 @@ public class TestIaasComputeFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitesList;
+    private List<String> capabilitiesList;
 
     /**
      * usedPorts list
@@ -72,17 +72,17 @@ public class TestIaasComputeFacade {
     public void init() throws NamingException {
         getBean();
 
-        capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitesList, true, true, usedPorts, "ipAddress",
+        iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
                 "hostname", "conf", "role");
-        iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitesList, false, false, usedPorts, "ipAddress",
+        iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
                 "hostname", "conf", "role");
     }
 

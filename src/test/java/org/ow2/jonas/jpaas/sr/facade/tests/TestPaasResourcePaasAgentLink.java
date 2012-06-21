@@ -108,22 +108,22 @@ public class TestPaasResourcePaasAgentLink {
     }
 
     private void initDatabase() {
-        List<String> capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        List<String> capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas3 = new JonasVO("jonas3", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        paasAgent1 = new PaasAgentVO("paasAgent1", "state", capabilitesList, true, true, usedPorts, "apiUrl");
-        paasAgent2 = new PaasAgentVO("paasAgent2", "state", capabilitesList, false, false, usedPorts, "apiUrl2");
+        paasAgent1 = new PaasAgentVO("paasAgent1", "state", capabilitiesList, true, true, usedPorts, "apiUrl");
+        paasAgent2 = new PaasAgentVO("paasAgent2", "state", capabilitiesList, false, false, usedPorts, "apiUrl2");
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
         jonas2 = iSrPaasJonasContainerFacade.createJonasContainer(jonas2);

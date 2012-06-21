@@ -50,7 +50,7 @@ public class TestPaasAgentFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitesList;
+    private List<String> capabilitiesList;
 
     /**
      * usedPorts list
@@ -72,16 +72,16 @@ public class TestPaasAgentFacade {
     public void init() throws NamingException {
         getBean();
 
-        capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        paasAgent1 = new PaasAgentVO("paasAgent1", "state", capabilitesList, true, true, usedPorts, "apiUrl");
-        paasAgent2 = new PaasAgentVO("paasAgent2", "state", capabilitesList, false, false, usedPorts, "apiUrl2");
+        paasAgent1 = new PaasAgentVO("paasAgent1", "state", capabilitiesList, true, true, usedPorts, "apiUrl");
+        paasAgent2 = new PaasAgentVO("paasAgent2", "state", capabilitiesList, false, false, usedPorts, "apiUrl2");
     }
 
 

@@ -147,14 +147,14 @@ public class TestApplicationEnvLink {
         this.userID = user1.getId();
 
         //Create Application
-        List<String> capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        List<String> capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
         List<String> requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
         requirementsList.add("requirement 2");
         ApplicationVO app1 =  new ApplicationVO(applicationID, "app1", "testDescription", requirementsList,
-                capabilitesList);
+                capabilitiesList);
         app1 = iSrApplicationFacade.createApplication(userID, app1);
         this.applicationID = app1.getId();
 

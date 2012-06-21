@@ -50,7 +50,7 @@ public class TestPaasDatabaseFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitesList;
+    private List<String> capabilitiesList;
 
     /**
      * usedPorts list
@@ -72,16 +72,16 @@ public class TestPaasDatabaseFacade {
     public void init() throws NamingException {
         getBean();
 
-        capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        paasDatabase1 = new PaasDatabaseVO("paasDatabase1", "state", capabilitesList, true, true, usedPorts);
-        paasDatabase2 = new PaasDatabaseVO("paasDatabase2", "state", capabilitesList, false, false, usedPorts);
+        paasDatabase1 = new PaasDatabaseVO("paasDatabase1", "state", capabilitiesList, true, true, usedPorts);
+        paasDatabase2 = new PaasDatabaseVO("paasDatabase2", "state", capabilitiesList, false, false, usedPorts);
     }
 
 

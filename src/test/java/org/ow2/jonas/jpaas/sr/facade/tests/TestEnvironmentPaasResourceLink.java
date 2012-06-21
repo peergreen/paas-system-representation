@@ -133,19 +133,19 @@ public class TestEnvironmentPaasResourceLink {
         user1 = iSrUserFacade.createUser(user1);
         this.userID = user1.getId();
 
-        List<String> capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        List<String> capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas3 = new JonasVO("jonas3", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
         env1 =  new EnvironmentVO("env1", "testDescription", "testState");
         nodeTemplate1 = new NodeTemplateVO("nodeTemplate1", new LinkedList<String>(),

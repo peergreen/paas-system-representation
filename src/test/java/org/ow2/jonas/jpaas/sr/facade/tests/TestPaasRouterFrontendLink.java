@@ -99,17 +99,17 @@ public class TestPaasRouterFrontendLink {
 
     private void initDatabase() {
 
-        List<String> capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        List<String> capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitesList, true, true, usedPorts, "apacheVersion",
+        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
                 "jkVersion");
-        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitesList, false, false, usedPorts, "apacheVersion2",
+        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
                 "jkVersion2");
         apacheJk1 = iSrPaasApacheJkRouterFacade.createApacheJkRouter(apacheJk1);
         apacheJk2 = iSrPaasApacheJkRouterFacade.createApacheJkRouter(apacheJk2);

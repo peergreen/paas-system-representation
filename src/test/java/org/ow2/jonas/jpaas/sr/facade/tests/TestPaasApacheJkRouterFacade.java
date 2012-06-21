@@ -52,7 +52,7 @@ public class TestPaasApacheJkRouterFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitesList;
+    private List<String> capabilitiesList;
 
     /**
      * usedPorts list
@@ -74,17 +74,17 @@ public class TestPaasApacheJkRouterFacade {
     public void init() throws NamingException {
         getBean();
 
-        capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitesList, true, true, usedPorts, "apacheVersion",
+        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
                 "jkVersion");
-        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitesList, false, false, usedPorts, "apacheVersion2",
+        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
                         "jkVersion2");
     }
 

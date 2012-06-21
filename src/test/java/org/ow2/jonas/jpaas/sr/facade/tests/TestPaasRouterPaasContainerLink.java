@@ -108,21 +108,21 @@ public class TestPaasRouterPaasContainerLink {
     }
 
     private void initRouter() {
-        List<String> capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        List<String> capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitesList, true, true, usedPorts, "apacheVersion",
+        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
                 "jkVersion");
-        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitesList, false, false, usedPorts, "apacheVersion2",
+        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
                 "jkVersion2");
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);

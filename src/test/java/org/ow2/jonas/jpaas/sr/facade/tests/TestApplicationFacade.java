@@ -63,7 +63,7 @@ public class TestApplicationFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitesList;
+    private List<String> capabilitiesList;
 
     /**
      * Requirements list
@@ -85,16 +85,16 @@ public class TestApplicationFacade {
         getBean();
         initDatabase();
 
-        capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
         requirementsList.add("requirement 2");
 
-        app1 =  new ApplicationVO("app1", "testDescription", requirementsList, capabilitesList);
-        app2 =  new ApplicationVO("app2", "testDescription2", requirementsList, capabilitesList);
+        app1 =  new ApplicationVO("app1", "testDescription", requirementsList, capabilitiesList);
+        app2 =  new ApplicationVO("app2", "testDescription2", requirementsList, capabilitiesList);
     }
 
     private void getBean() throws NamingException {
@@ -150,9 +150,9 @@ public class TestApplicationFacade {
         List<String> updateRequirementsList = new LinkedList<String>(requirementsList);
         updateRequirementsList.add("capability 3");
         app1.setRequirements(updateRequirementsList);
-        List<String> updateCapabilitesList = new LinkedList<String>(capabilitesList);
-        updateCapabilitesList.remove(1);
-        app1.setCapabilities(updateCapabilitesList);
+        List<String> updateCapabilitiesList = new LinkedList<String>(capabilitiesList);
+        updateCapabilitiesList.remove(1);
+        app1.setCapabilities(updateCapabilitiesList);
         ApplicationVO tmpApp1 = iSrApplicationFacade.updateApplication(app1);
         Assert.assertEquals(app1.getId(), tmpApp1.getId());
         Assert.assertEquals(app1.getName(), tmpApp1.getName());

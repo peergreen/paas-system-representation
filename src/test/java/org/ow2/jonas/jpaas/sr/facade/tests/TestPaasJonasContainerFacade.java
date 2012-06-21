@@ -52,7 +52,7 @@ public class TestPaasJonasContainerFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitesList;
+    private List<String> capabilitiesList;
 
     /**
      * usedPorts list
@@ -74,17 +74,17 @@ public class TestPaasJonasContainerFacade {
     public void init() throws NamingException {
         getBean();
 
-        capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitesList, false, false, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, false, false, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
     }
 

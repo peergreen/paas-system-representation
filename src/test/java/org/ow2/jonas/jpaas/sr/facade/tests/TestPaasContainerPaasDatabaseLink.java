@@ -103,20 +103,20 @@ public class TestPaasContainerPaasDatabaseLink {
     }
 
     private void initDatabase() {
-        List<String> capabilitesList = new LinkedList<String>();
-        capabilitesList.add("capability 1");
-        capabilitesList.add("capability 2");
+        List<String> capabilitiesList = new LinkedList<String>();
+        capabilitiesList.add("capability 1");
+        capabilitiesList.add("capability 2");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        paasDatabase1 = new PaasDatabaseVO("paasDatabase1", "state", capabilitesList, true, true, usedPorts);
-        paasDatabase2 = new PaasDatabaseVO("paasDatabase2", "state", capabilitesList, false, false, usedPorts);
+        paasDatabase1 = new PaasDatabaseVO("paasDatabase1", "state", capabilitiesList, true, true, usedPorts);
+        paasDatabase2 = new PaasDatabaseVO("paasDatabase2", "state", capabilitiesList, false, false, usedPorts);
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
         jonas2 = iSrPaasJonasContainerFacade.createJonasContainer(jonas2);
