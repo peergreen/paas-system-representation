@@ -69,7 +69,7 @@
         </jms>
 
         <!-- Creates an embedded HSQLDB database              -->
-        <hsqldb port="${db.port}" dbName="jdbc_1">
+        <hsqldb port="${db.port}" dbName="jdbc_1" path="${project.build.directory}/easybeans/hsqldb">
             <user name="easybeans" password="easybeans" />
         </hsqldb>
 
