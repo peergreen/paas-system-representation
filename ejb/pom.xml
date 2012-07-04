@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - JPaaS
+  - Copyright (C) 2012 Bull S.A.S.
+  - Contact: jasmine@ow2.org
+  -
+  - This library is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU Lesser General Public
+  - License as published by the Free Software Foundation; either
+  - version 2.1 of the License, or any later version.
+  -
+  - This library is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  - Lesser General Public License for more details.
+  -
+  - You should have received a copy of the GNU Lesser General Public
+  - License along with this library; if not, write to the Free Software
+  - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+  - USA
+  -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - $Id$
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ow2.jonas.jpaas.system-representation</groupId>
+    <artifactId>system-representation</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>system-representation-ejb</artifactId>
+  <packaging>bundle</packaging>
+  <name>jPaaS :: System Representation :: EJB</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.ow2.jonas.jpaas.system-representation</groupId>
+      <artifactId>system-representation-vo</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.spec.ee</groupId>
+      <artifactId>ow2-ejb-3.1-spec</artifactId>
+      <version>${ow2-spec.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.spec.ee</groupId>
+      <artifactId>ow2-annotation-1.1-spec</artifactId>
+      <version>${ow2-spec.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.spec.ee</groupId>
+      <artifactId>ow2-jpa-2.0-spec</artifactId>
+      <version>${ow2-spec.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.easybeans</groupId>
+      <artifactId>easybeans-component-smartclient</artifactId>
+      <version>${easybeans.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.2.0</version>
+        <extensions>true</extensions>
+        <goals>
+          <goal>bundle</goal>
+        </goals>
+        <configuration>
+          <instructions>
+            <_include>-target/classes/META-INF/${project.artifactId}.bnd</_include>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <!--
+        Make sure tests always use randomly assigned and available ports
+      -->
+      <!--<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build-helper-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>generate-port-numbers</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <configuration>
+              <portNames>
+                <portName>smartFactory.port</portName>
+                <portName>carol.port</portName>
+                <portName>jms.port</portName>
+                <portName>db.port</portName>
+              </portNames>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.ow2.easybeans</groupId>
+        <artifactId>maven-easybeans-osgi</artifactId>
+        <version>${easybeans.version}</version>
+
+        <configuration>
+
+          <frameworkDependencies>
+            <dependency>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>org.apache.felix.framework</artifactId>
+              <version>4.0.2</version>
+            </dependency>
+          </frameworkDependencies>
+
+          <fork>true</fork>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>start-maven-plugin</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-maven-plugin</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.plugin.version}</version>
+        <configuration>
+          <skipTests>true</skipTests>
+          <systemPropertyVariables>
+            <java.naming.factory.initial>org.ow2.easybeans.component.smartclient.spi.SmartContextFactory
+            </java.naming.factory.initial>
+            <java.naming.provider.url>smart://localhost:${smartFactory.port}</java.naming.provider.url>
+            <module.name>${project.build.finalName}</module.name>
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <id>launch-integration-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skipTests>false</skipTests>
+              <suiteXmlFiles>
+                <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin> -->
+    </plugins>
+  </build>
+
+</project>
