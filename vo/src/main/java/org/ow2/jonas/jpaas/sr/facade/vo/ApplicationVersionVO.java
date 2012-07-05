@@ -25,8 +25,8 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.ApplicationVersion;
-import org.ow2.jonas.jpaas.sr.facade.model.Deployable;
+import org.ow2.jonas.jpaas.sr.model.ApplicationVersion;
+import org.ow2.jonas.jpaas.sr.model.Deployable;
 
 import java.util.LinkedList;
 import java.util.List;

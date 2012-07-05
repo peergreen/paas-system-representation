@@ -25,9 +25,9 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.Connector;
-import org.ow2.jonas.jpaas.sr.facade.model.Datasource;
-import org.ow2.jonas.jpaas.sr.facade.model.Jonas;
+import org.ow2.jonas.jpaas.sr.model.Connector;
+import org.ow2.jonas.jpaas.sr.model.Datasource;
+import org.ow2.jonas.jpaas.sr.model.Jonas;
 
 import java.util.LinkedList;
 import java.util.List;

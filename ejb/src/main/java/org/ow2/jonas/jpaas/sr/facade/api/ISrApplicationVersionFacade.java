@@ -34,7 +34,6 @@ import java.util.List;
  * Interface for the ApplicationVersion facade.
  * @author David Richard
  */
-@Remote
 public interface ISrApplicationVersionFacade {
 
     /**

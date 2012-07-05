@@ -25,9 +25,9 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.NodeTemplate;
-import org.ow2.jonas.jpaas.sr.facade.model.RelationshipTemplate;
-import org.ow2.jonas.jpaas.sr.facade.model.TopologyTemplate;
+import org.ow2.jonas.jpaas.sr.model.NodeTemplate;
+import org.ow2.jonas.jpaas.sr.model.RelationshipTemplate;
+import org.ow2.jonas.jpaas.sr.model.TopologyTemplate;
 
 import java.util.LinkedList;
 import java.util.List;

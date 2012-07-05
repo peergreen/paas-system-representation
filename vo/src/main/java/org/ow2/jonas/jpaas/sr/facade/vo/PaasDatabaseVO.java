@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.PaasDatabase;
+import org.ow2.jonas.jpaas.sr.model.PaasDatabase;
 
 import java.util.List;
 

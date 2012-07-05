@@ -26,7 +26,7 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
-import org.ow2.jonas.jpaas.sr.facade.model.Environment;
+import org.ow2.jonas.jpaas.sr.model.Environment;
 
 /**
  * Define an Environment Value Object

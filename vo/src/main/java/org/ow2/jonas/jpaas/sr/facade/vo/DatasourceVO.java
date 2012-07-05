@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.Datasource;
+import org.ow2.jonas.jpaas.sr.model.Datasource;
 
 /**
  * Define a Datasource Value Object

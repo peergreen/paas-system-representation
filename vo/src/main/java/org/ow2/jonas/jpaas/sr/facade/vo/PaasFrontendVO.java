@@ -25,8 +25,8 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.PaasFrontend;
-import org.ow2.jonas.jpaas.sr.facade.model.VirtualHost;
+import org.ow2.jonas.jpaas.sr.model.PaasFrontend;
+import org.ow2.jonas.jpaas.sr.model.VirtualHost;
 
 import java.util.LinkedList;
 import java.util.List;

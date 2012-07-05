@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.IaasCompute;
+import org.ow2.jonas.jpaas.sr.model.IaasCompute;
 
 import java.util.List;
 
@@ -98,8 +98,8 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         return conf;
     }
 
-    public void setConf(String description) {
-        this.conf = description;
+    public void setConf(String conf) {
+        this.conf = conf;
     }
 
     public String getRole() {

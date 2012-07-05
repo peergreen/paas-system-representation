@@ -27,14 +27,12 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the User facade.
  * @author David Richard
  */
-@Remote
 public interface ISrUserFacade {
 
     /**

@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.PaasArtefact;
+import org.ow2.jonas.jpaas.sr.model.PaasArtefact;
 
 /**
  * Define a PaasArtefact Value Object

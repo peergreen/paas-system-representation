@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.Worker;
+import org.ow2.jonas.jpaas.sr.model.Worker;
 
 
 
@@ -60,19 +60,19 @@ public class WorkerVO implements java.io.Serializable {
         this.port = port;
     }
 
-    public String getLoadBalancerName() {
+    public String getName() {
         return name;
     }
 
-    public void setLoadBalancerName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getMountPoints() {
+    public String getHost() {
         return host;
     }
 
-    public void setMountPoints(String host) {
+    public void setHost(String host) {
         this.host = host;
     }
 

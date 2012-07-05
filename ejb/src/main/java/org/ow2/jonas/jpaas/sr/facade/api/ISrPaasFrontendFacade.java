@@ -28,14 +28,12 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasFrontendVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the PaasFrontend facade.
  * @author David Richard
  */
-@Remote
 public interface ISrPaasFrontendFacade {
 
     /**

@@ -28,14 +28,12 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 import org.ow2.jonas.jpaas.sr.facade.vo.NodeTemplateVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the EnvironmentPaasResourceLink facade.
  * @author David Richard
  */
-@Remote
 public interface ISrEnvironmentPaasResourceLink {
 
     /**

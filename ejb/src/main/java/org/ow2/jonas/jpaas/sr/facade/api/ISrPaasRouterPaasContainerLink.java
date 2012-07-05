@@ -28,14 +28,12 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasRouterVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the PaasRouterPaasContainerLink facade.
  * @author David Richard
  */
-@Remote
 public interface ISrPaasRouterPaasContainerLink {
 
     /**

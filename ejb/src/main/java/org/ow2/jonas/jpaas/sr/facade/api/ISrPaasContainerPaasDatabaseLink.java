@@ -28,14 +28,12 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasDatabaseVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the PaasDatabasePaasDatabaseLink facade.
  * @author David Richard
  */
-@Remote
 public interface ISrPaasContainerPaasDatabaseLink {
 
     /**

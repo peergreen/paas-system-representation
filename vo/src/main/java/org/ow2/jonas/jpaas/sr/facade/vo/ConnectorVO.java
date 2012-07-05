@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.Connector;
+import org.ow2.jonas.jpaas.sr.model.Connector;
 
 /**
  * Define a Connector Value Object

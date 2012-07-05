@@ -63,35 +63,37 @@ import org.ow2.jonas.jpaas.sr.facade.vo.PaasRouterVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
-import org.ow2.jonas.jpaas.sr.facade.model.ApacheJk;
-import org.ow2.jonas.jpaas.sr.facade.model.Application;
-import org.ow2.jonas.jpaas.sr.facade.model.ApplicationVersion;
-import org.ow2.jonas.jpaas.sr.facade.model.ApplicationVersionInstance;
-import org.ow2.jonas.jpaas.sr.facade.model.Connector;
-import org.ow2.jonas.jpaas.sr.facade.model.Datasource;
-import org.ow2.jonas.jpaas.sr.facade.model.Deployable;
-import org.ow2.jonas.jpaas.sr.facade.model.Entity;
-import org.ow2.jonas.jpaas.sr.facade.model.Environment;
-import org.ow2.jonas.jpaas.sr.facade.model.IaasCompute;
-import org.ow2.jonas.jpaas.sr.facade.model.Jonas;
-import org.ow2.jonas.jpaas.sr.facade.model.LoadBalancer;
-import org.ow2.jonas.jpaas.sr.facade.model.NodeTemplate;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasAgent;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasArtefact;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasContainer;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasDatabase;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasEntity;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasFrontend;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasResource;
-import org.ow2.jonas.jpaas.sr.facade.model.PaasRouter;
-import org.ow2.jonas.jpaas.sr.facade.model.RelationshipTemplate;
-import org.ow2.jonas.jpaas.sr.facade.model.TopologyTemplate;
-import org.ow2.jonas.jpaas.sr.facade.model.User;
-import org.ow2.jonas.jpaas.sr.facade.model.VirtualHost;
-import org.ow2.jonas.jpaas.sr.facade.model.Worker;
+import org.ow2.jonas.jpaas.sr.model.ApacheJk;
+import org.ow2.jonas.jpaas.sr.model.Application;
+import org.ow2.jonas.jpaas.sr.model.ApplicationVersion;
+import org.ow2.jonas.jpaas.sr.model.ApplicationVersionInstance;
+import org.ow2.jonas.jpaas.sr.model.Connector;
+import org.ow2.jonas.jpaas.sr.model.Datasource;
+import org.ow2.jonas.jpaas.sr.model.Deployable;
+import org.ow2.jonas.jpaas.sr.model.Entity;
+import org.ow2.jonas.jpaas.sr.model.Environment;
+import org.ow2.jonas.jpaas.sr.model.IaasCompute;
+import org.ow2.jonas.jpaas.sr.model.Jonas;
+import org.ow2.jonas.jpaas.sr.model.LoadBalancer;
+import org.ow2.jonas.jpaas.sr.model.NodeTemplate;
+import org.ow2.jonas.jpaas.sr.model.PaasAgent;
+import org.ow2.jonas.jpaas.sr.model.PaasArtefact;
+import org.ow2.jonas.jpaas.sr.model.PaasContainer;
+import org.ow2.jonas.jpaas.sr.model.PaasDatabase;
+import org.ow2.jonas.jpaas.sr.model.PaasEntity;
+import org.ow2.jonas.jpaas.sr.model.PaasFrontend;
+import org.ow2.jonas.jpaas.sr.model.PaasResource;
+import org.ow2.jonas.jpaas.sr.model.PaasRouter;
+import org.ow2.jonas.jpaas.sr.model.RelationshipTemplate;
+import org.ow2.jonas.jpaas.sr.model.TopologyTemplate;
+import org.ow2.jonas.jpaas.sr.model.User;
+import org.ow2.jonas.jpaas.sr.model.VirtualHost;
+import org.ow2.jonas.jpaas.sr.model.Worker;
 import org.ow2.jonas.jpaas.sr.sequence.Sequence;
 
 
+import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -105,6 +107,18 @@ import java.util.ListIterator;
  * @author David Richard
  */
 @Stateless
+@Local({ISrUserFacade.class, ISrApplicationFacade.class, ISrApplicationVersionFacade.class,
+        ISrApplicationVersionInstanceFacade.class, ISrEnvironmentFacade.class, ISrApplicationEnvLink.class,
+        ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
+        ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
+        ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
+        ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class})
+@Remote({ISrUserFacade.class, ISrApplicationFacade.class, ISrApplicationVersionFacade.class,
+        ISrApplicationVersionInstanceFacade.class, ISrEnvironmentFacade.class, ISrApplicationEnvLink.class,
+        ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
+        ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
+        ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
+        ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class})
 public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApplicationVersionFacade,
         ISrApplicationVersionInstanceFacade, ISrEnvironmentFacade, ISrApplicationEnvLink, ISrPaasJonasContainerFacade,
         ISrEnvironmentPaasResourceLink, ISrPaasApacheJkRouterFacade, ISrPaasDatabaseFacade, ISrPaasAgentFacade,

@@ -29,14 +29,12 @@ import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the ApacheJk facade.
  * @author David Richard
  */
-@Remote
 public interface ISrPaasApacheJkRouterFacade {
 
     /**

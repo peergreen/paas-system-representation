@@ -29,14 +29,12 @@ import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.DatasourceVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the PaasJonasContainer facade.
  * @author David Richard
  */
-@Remote
 public interface ISrPaasJonasContainerFacade {
 
     /**

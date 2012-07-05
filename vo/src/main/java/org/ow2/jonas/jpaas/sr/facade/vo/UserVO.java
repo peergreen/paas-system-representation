@@ -25,7 +25,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.User;
+import org.ow2.jonas.jpaas.sr.model.User;
 
 /**
  * Define a User

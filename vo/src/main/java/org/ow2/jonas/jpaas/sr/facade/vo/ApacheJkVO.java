@@ -25,9 +25,9 @@
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.facade.model.ApacheJk;
-import org.ow2.jonas.jpaas.sr.facade.model.LoadBalancer;
-import org.ow2.jonas.jpaas.sr.facade.model.Worker;
+import org.ow2.jonas.jpaas.sr.model.ApacheJk;
+import org.ow2.jonas.jpaas.sr.model.LoadBalancer;
+import org.ow2.jonas.jpaas.sr.model.Worker;
 
 import java.util.LinkedList;
 import java.util.List;

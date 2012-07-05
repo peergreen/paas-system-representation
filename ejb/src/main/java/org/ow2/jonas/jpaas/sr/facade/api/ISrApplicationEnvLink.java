@@ -28,14 +28,12 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionInstanceVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.EnvironmentVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Interface for the ApplicationEnvLink facade.
  * @author David Richard
  */
-@Remote
 public interface ISrApplicationEnvLink {
 
     /**
