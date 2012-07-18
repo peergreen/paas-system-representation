@@ -27,6 +27,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 import org.ow2.jonas.jpaas.sr.model.IaasCompute;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -50,22 +51,23 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
     private String conf;
 
     /**
-     * Role of the IaasCompute.
+     * Roles of the IaasCompute.
      */
-    private String role;
+    private List<String> roles;
 
     public IaasComputeVO() {
         super();
+        roles = new LinkedList<String>();
     }
 
     public IaasComputeVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String ipAddress, String hostname, String conf,
-            String role) {
+            List<String> roles) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
         this.ipAddress = ipAddress;
         this.hostname = hostname;
         this.conf = conf;
-        this.role = role;
+        this.roles = roles;
     }
 
     public IaasComputeVO(String name, String state, List<String> capabilities, boolean multitenant,
@@ -75,7 +77,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         this.ipAddress = ipAddress;
         this.hostname = hostname;
         this.conf = conf;
-        this.role = role;
+        this.roles = roles;
     }
 
     public String getIpAddress() {
@@ -102,12 +104,12 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         this.conf = conf;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public String toString() {
@@ -115,7 +117,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         sb.append("IaasCompute[ipAddress=").append(getIpAddress())
                 .append(", hostname=").append(getHostname())
                 .append(", conf=").append(getConf())
-                .append(", role=").append(getRole())
+                .append(", roles=").append(getRoles().toString())
                 .append("]");
         return sb.toString();
     }
@@ -129,7 +131,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         iaasCompute.setIpAddress(ipAddress);
         iaasCompute.setHostname(hostname);
         iaasCompute.setConf(conf);
-        iaasCompute.setRole(role);
+        iaasCompute.setRoles(roles);
         iaasCompute.setMultitenant(isMultitenant());
         iaasCompute.setName(getName());
         iaasCompute.setState(getState());

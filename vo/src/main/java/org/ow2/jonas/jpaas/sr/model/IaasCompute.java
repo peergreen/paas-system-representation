@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.model;
 import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -59,9 +60,10 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
     private String conf;
 
     /**
-     * Role of the IaasCompute.
+     * Roles of the IaasCompute.
      */
-    private String role;
+    @ElementCollection
+    private List<String> roles;
 
     /**
      * PaasEntities of the IaasCompute.
@@ -94,12 +96,12 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
         this.conf = description;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public String toString() {
@@ -107,7 +109,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
         sb.append("IaasCompute[ipAddress=").append(getIpAddress())
                 .append(", hostname=").append(getHostname())
                 .append(", conf=").append(getConf())
-                .append(", role=").append(getRole())
+                .append(", roles=").append(getRoles().toString())
                 .append("]");
         return sb.toString();
     }
@@ -115,7 +117,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
     public IaasComputeVO createIaasComputeVO() {
         return new IaasComputeVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), ipAddress, hostname,
-                conf, role);
+                conf, new LinkedList<String>(getRoles()));
     }
 
     public void mergeIaasComputeVO(IaasComputeVO iaasComputeVO) {
@@ -128,7 +130,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
         this.ipAddress = iaasComputeVO.getIpAddress();
         this.hostname = iaasComputeVO.getHostname();
         this.conf = iaasComputeVO.getConf();
-        this.role = iaasComputeVO.getRole();
+        this.roles = iaasComputeVO.getRoles();
     }
 
     public List<PaasEntity> getPaasEntityList() {
