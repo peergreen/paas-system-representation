@@ -72,7 +72,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
 
     public IaasComputeVO(String name, String state, List<String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String ipAddress, String hostname, String conf,
-            String role) {
+            List<String> roles) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
         this.ipAddress = ipAddress;
         this.hostname = hostname;

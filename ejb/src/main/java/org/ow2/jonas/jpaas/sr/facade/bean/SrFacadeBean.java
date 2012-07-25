@@ -224,7 +224,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public UserVO getUser(String userId) {
         User user = getUserBean(userId);
-        return user.createUserVO();
+        if (user != null) {
+            return user.createUserVO();
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -326,7 +331,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public ApplicationVO getApplication(String appId) {
         Application application = getApplicationBean(appId);
-        return application.createApplicationVO();
+        if (application != null) {
+            return application.createApplicationVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -463,7 +472,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public ApplicationVersionVO getApplicationVersion(String appId, String appVersionId) {
         ApplicationVersion applicationVersion = getApplicationVersionBean(appId, appVersionId);
-        return applicationVersion.createApplicationVersionVO();
+        if (applicationVersion != null) {
+            return applicationVersion.createApplicationVersionVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -617,7 +630,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             String appVersionInstanceId) {
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
-        return applicationVersionInstance.createApplicationVersionInstanceVO();
+        if (applicationVersionInstance != null) {
+            return applicationVersionInstance.createApplicationVersionInstanceVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -757,7 +774,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public EnvironmentVO getEnvironment(String envId) {
         Environment environment = getEnvironmentBean(envId);
-        return environment.createEnvironmentVO();
+        if (environment != null) {
+            return environment.createEnvironmentVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -860,7 +881,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             String appVersionInstanceId) {
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
-        return applicationVersionInstance.getEnvironment().createEnvironmentVO();
+        Environment environment = applicationVersionInstance.getEnvironment();
+        if (environment != null) {
+            return environment.createEnvironmentVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -932,7 +958,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public JonasVO getJonasContainer(String paasResourceId) {
         Jonas paasJonasContainer = getJonasContainerBean(paasResourceId);
-        return paasJonasContainer.createJonasVO();
+        if (paasJonasContainer != null) {
+            return paasJonasContainer.createJonasVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1227,7 +1257,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public ApacheJkVO getApacheJkRouter(String paasResourceId) {
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
-        return apacheJk.createApacheJkVO();
+        if (apacheJk != null) {
+            return apacheJk.createApacheJkVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1427,7 +1461,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public PaasDatabaseVO getDatabase(String paasResourceId) {
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasResourceId);
-        return paasDatabase.createPaasDatabaseVO();
+        if (paasDatabase != null) {
+            return paasDatabase.createPaasDatabaseVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1506,7 +1544,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public IaasComputeVO getIaasCompute(String iaasComputeId) {
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
-        return iaasCompute.createIaasComputeVO();
+        if (iaasCompute != null) {
+            return iaasCompute.createIaasComputeVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1585,7 +1627,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public PaasAgentVO getAgent(String paasResourceId) {
         PaasAgent paasAgent = getPaasAgentBean(paasResourceId);
-        return paasAgent.createPaasAgentVO();
+        if (paasAgent != null) {
+            return paasAgent.createPaasAgentVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1675,7 +1721,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public PaasFrontendVO getFrontend(String paasResourceId) {
         PaasFrontend paasFrontend = getPaasFrontendBean(paasResourceId);
-        return paasFrontend.createPaasFrontendVO();
+        if (paasFrontend != null) {
+            return paasFrontend.createPaasFrontendVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1940,7 +1990,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public PaasAgentVO findAgentByPaasResource(String paasResourceId) {
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
-        return paasResource.getPaasAgent().createPaasAgentVO();
+        PaasAgent paasAgent = paasResource.getPaasAgent();
+        if (paasAgent != null) {
+            return paasAgent.createPaasAgentVO();
+        } else {
+            return null;
+        }
     }
 
 
@@ -1998,7 +2053,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public IaasComputeVO findIaasComputeByPaasResource(String paasResourceId) {
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
-        return paasResource.getIaasCompute().createIaasComputeVO();
+        IaasCompute iaasCompute = paasResource.getIaasCompute();
+        if (iaasCompute != null) {
+            return iaasCompute.createIaasComputeVO();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -2056,6 +2116,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public PaasFrontendVO findFrontendByPaasRouter(String paasRouterId) {
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
-        return paasRouter.getPaasFrontend().createPaasFrontendVO();
+        PaasFrontend paasFrontend = paasRouter.getPaasFrontend();
+        if (paasFrontend != null) {
+            return paasFrontend.createPaasFrontendVO();
+        } else {
+            return null;
+        }
     }
 }

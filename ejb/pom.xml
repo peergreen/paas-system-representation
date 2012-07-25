@@ -120,7 +120,7 @@
       <!--
         Make sure tests always use randomly assigned and available ports
       -->
-      <!--<plugin>
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>${build-helper-maven-plugin.version}</version>
@@ -150,6 +150,19 @@
 
         <configuration>
 
+          <modules>
+            <module>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>system-representation-vo</artifactId>
+              <version>${project.version}</version>
+            </module>
+            <module>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>${project.artifactId}</artifactId>
+              <version>${project.version}</version>
+            </module>
+          </modules>
+
           <frameworkDependencies>
             <dependency>
               <groupId>org.apache.felix</groupId>
@@ -168,6 +181,14 @@
             <goals>
               <goal>start</goal>
             </goals>
+            <configuration>
+              <jvmProperties>
+                <property>
+                  <name>org.ow2.easybeans.osgi.conf.dir</name>
+                  <value>${project.build.directory}/test-classes</value>
+                </property>
+              </jvmProperties>
+            </configuration>
           </execution>
           <execution>
             <id>stop-maven-plugin</id>
@@ -207,7 +228,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin> -->
+      </plugin>-->
     </plugins>
   </build>
 

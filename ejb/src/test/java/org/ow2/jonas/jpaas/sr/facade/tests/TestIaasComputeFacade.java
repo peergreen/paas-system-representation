@@ -85,10 +85,13 @@ public class TestIaasComputeFacade {
         usedPorts.add(1);
         usedPorts.add(2);
 
+        List<String> roles = new LinkedList<String>();
+        roles.add("Jonas");
+
         iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
-                "hostname", "conf", "role");
+                "hostname", "conf", roles);
         iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
-                "hostname", "conf", "role");
+                "hostname", "conf", roles);
     }
 
 
@@ -122,7 +125,7 @@ public class TestIaasComputeFacade {
         Assert.assertEquals(iaasCompute1.getIpAddress(), tmpIaasCompute1.getIpAddress());
         Assert.assertEquals(iaasCompute1.getConf(), tmpIaasCompute1.getConf());
         Assert.assertEquals(iaasCompute1.getHostname(), tmpIaasCompute1.getHostname());
-        Assert.assertEquals(iaasCompute1.getRole(), tmpIaasCompute1.getRole());
+        Assert.assertEquals(iaasCompute1.getRoles().toString(), tmpIaasCompute1.getRoles().toString());
     }
 
     @Test(dependsOnMethods = "testGetIaasCompute")
@@ -131,7 +134,6 @@ public class TestIaasComputeFacade {
         iaasCompute1.setIpAddress("updateIpAddress");
         iaasCompute1.setConf("updateConf");
         iaasCompute1.setHostname("updateHostname");
-        iaasCompute1.setRole("updateRole");
 
         IaasComputeVO tmpIaasCompute1 = iSrIaasComputeFacade.updateIaasCompute(iaasCompute1);
         Assert.assertEquals(iaasCompute1.getId(), tmpIaasCompute1.getId());
@@ -139,7 +141,6 @@ public class TestIaasComputeFacade {
         Assert.assertEquals(iaasCompute1.getIpAddress(), tmpIaasCompute1.getIpAddress());
         Assert.assertEquals(iaasCompute1.getConf(), tmpIaasCompute1.getConf());
         Assert.assertEquals(iaasCompute1.getHostname(), tmpIaasCompute1.getHostname());
-        Assert.assertEquals(iaasCompute1.getRole(), tmpIaasCompute1.getRole());
     }
 
     @Test(dependsOnMethods = "testUpdateIaasCompute")

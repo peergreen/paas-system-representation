@@ -5,5 +5,4 @@ DynamicImport-Package *
 Export-Package org.ow2.jonas.jpaas.sr.facade.api
 
 Private-Package org.ow2.jonas.jpaas.sr.facade.bean,\
-                org.ow2.jonas.jpaas.sr.facade.model,\
                 org.ow2.jonas.jpaas.sr.sequence

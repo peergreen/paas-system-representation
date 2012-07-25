@@ -121,6 +121,9 @@ public class TestPaasResourceIaasComputeLink {
         usedPorts.add(1);
         usedPorts.add(2);
 
+        List<String> roles = new LinkedList<String>();
+        roles.add("Jonas");
+
         jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
         jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
@@ -128,9 +131,9 @@ public class TestPaasResourceIaasComputeLink {
         jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
         iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
-                "hostname", "conf", "role");
+                "hostname", "conf", roles);
         iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
-                "hostname", "conf", "role");
+                "hostname", "conf", roles);
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
         jonas2 = iSrPaasJonasContainerFacade.createJonasContainer(jonas2);
