@@ -63,6 +63,11 @@ public class Worker implements java.io.Serializable {
     private int port;
 
     /**
+     * Status of the Worker.
+     */
+    private String status;
+
+    /**
      * ApacheJk of the Worker.
      */
     @ManyToOne(optional=false)
@@ -102,12 +107,21 @@ public class Worker implements java.io.Serializable {
         this.port = port;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Connector[key=").append(getKey())
                 .append(", name=").append(getName())
                 .append(", host=").append(getHost())
                 .append(", port=").append(getPort())
+                .append(", status=").append(getStatus())
                 .append(", apacheJk=").append(getApacheJk())
                 .append("]");
         return sb.toString();
@@ -122,6 +136,6 @@ public class Worker implements java.io.Serializable {
     }
 
     public WorkerVO createWorkerVO() {
-        return new WorkerVO(name, host, port);
+        return new WorkerVO(name, host, port, status);
     }
 }
