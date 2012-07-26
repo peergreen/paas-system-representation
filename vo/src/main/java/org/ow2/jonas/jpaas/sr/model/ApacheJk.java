@@ -27,6 +27,8 @@ package org.ow2.jonas.jpaas.sr.model;
 
 
 import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -102,7 +104,7 @@ public class ApacheJk extends PaasRouter implements java.io.Serializable {
     public ApacheJkVO createApacheJkVO() {
         ApacheJkVO apacheJkVO = new ApacheJkVO(getId(), getName(), getState(),
                 new LinkedList<String>(getCapabilities()), isMultitenant(), isReusable(),
-                new LinkedList<Integer>(getUsedPorts()), apacheVersion, jkVersion); 
+                new LinkedList<Integer>(getUsedPorts()), apacheVersion, jkVersion);
         if (workerList != null) {
             for (Worker tmp : workerList) {
                 apacheJkVO.getWorkerList().add(tmp.createWorkerVO());
@@ -125,5 +127,33 @@ public class ApacheJk extends PaasRouter implements java.io.Serializable {
         setUsedPorts(apacheJkVO.getUsedPorts());
         setApacheVersion(apacheJkVO.getApacheVersion());
         setJkVersion(apacheJkVO.getJkVersion());
+        if (apacheJkVO.getWorkerList() != null) {
+            LinkedList<Worker> originalWorkerList = new LinkedList<Worker>(this.workerList);
+            this.workerList.clear();
+            for (WorkerVO tmp : apacheJkVO.getWorkerList()) {
+                Worker worker = tmp.createBean();
+                for (Worker originalWorker : originalWorkerList) {
+                    if (originalWorker.getName().equals(worker.getName())) {
+                        worker.setKey(originalWorker.getKey());
+                        break;
+                    }
+                }
+                this.workerList.add(worker);
+            }
+        }
+        if (apacheJkVO.getLoadBalancerList() != null) {
+            LinkedList<LoadBalancer> originalLoadBalancerList = new LinkedList<LoadBalancer>(this.loadBalancerList);
+            this.loadBalancerList.clear();
+            for (LoadBalancerVO tmp : apacheJkVO.getLoadBalancerList()) {
+                LoadBalancer loadBalancer = tmp.createBean();
+                for (LoadBalancer originalLoadBalancer : originalLoadBalancerList) {
+                    if (originalLoadBalancer.getName().equals(loadBalancer.getName())) {
+                        loadBalancer.setKey(originalLoadBalancer.getKey());
+                        break;
+                    }
+                }
+                this.loadBalancerList.add(loadBalancer);
+            }
+        }
     }
 }

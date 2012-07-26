@@ -50,17 +50,18 @@ public class LoadBalancerVO implements java.io.Serializable {
     /**
      * Workers of the LoadBalancer
      */
-    private List<WorkerVO> workers;
+    private List<String> workers;
 
 
     public LoadBalancerVO() {
         mountPoints = new LinkedList<String>();
-        workers = new LinkedList<WorkerVO>();
+        workers = new LinkedList<String>();
     }
 
-    public LoadBalancerVO(String name, List<String> mountPoints, List<WorkerVO> workers) {
+    public LoadBalancerVO(String name, List<String> mountPoints, List<String> workers) {
         this.name = name;
         this.mountPoints = mountPoints;
+        this.workers = workers;
     }
 
     public String getLoadBalancerName() {
@@ -87,11 +88,11 @@ public class LoadBalancerVO implements java.io.Serializable {
         this.name = name;
     }
 
-    public List<WorkerVO> getWorkers() {
+    public List<String> getWorkers() {
         return workers;
     }
 
-    public void setWorkers(List<WorkerVO> workers) {
+    public void setWorkers(List<String> workers) {
         this.workers = workers;
     }
 
@@ -103,11 +104,7 @@ public class LoadBalancerVO implements java.io.Serializable {
         LoadBalancer loadBalancer = new LoadBalancer();
         loadBalancer.setName(name);
         loadBalancer.setMountPoints(mountPoints);
-        List<Worker> workerList = new LinkedList<Worker>();
-        for (WorkerVO tmp : workers) {
-            workerList.add(tmp.createBean());
-        }
-        loadBalancer.setWorkers(workerList);
+        loadBalancer.setWorkers(workers);
         return loadBalancer;
     }
 

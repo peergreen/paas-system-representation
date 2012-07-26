@@ -67,8 +67,8 @@ public class LoadBalancer implements java.io.Serializable {
     /**
      * Workers of the LoadBalancer.
      */
-    @OneToMany(cascade={CascadeType.ALL})
-    private List<Worker> workers;
+    @ElementCollection
+    private List<String> workers;
 
 
     /**
@@ -121,19 +121,15 @@ public class LoadBalancer implements java.io.Serializable {
         this.apacheJk = apacheJk;
     }
 
-    public List<Worker> getWorkers() {
+    public List<String> getWorkers() {
         return workers;
     }
 
-    public void setWorkers(List<Worker> workers) {
+    public void setWorkers(List<String> workers) {
         this.workers = workers;
     }
 
     public LoadBalancerVO createLoadBalancerVO() {
-        List<WorkerVO> workerVOList = new LinkedList<WorkerVO>();
-        for (Worker tmp : workers) {
-            workerVOList.add(tmp.createWorkerVO());
-        }
-        return new LoadBalancerVO(name, new LinkedList<String>(mountPoints), new LinkedList<WorkerVO>(workerVOList));
+        return new LoadBalancerVO(name, new LinkedList<String>(mountPoints), new LinkedList<String>(workers));
     }
 }

@@ -933,6 +933,16 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     public JonasVO updateJonasContainer(JonasVO jonasVO) {
         Jonas jonas = getJonasContainerBean(jonasVO.getId());
         jonas.mergeJonasVO(jonasVO);
+        if (jonas.getConnectorList() != null) {
+            for (Connector tmp : jonas.getConnectorList()) {
+                tmp.setJonas(jonas);
+            }
+        }
+        if (jonas.getDatasourceList() != null) {
+            for (Datasource tmp : jonas.getDatasourceList()) {
+                tmp.setJonas(jonas);
+            }
+        }
         jonas = entityManager.merge(jonas);
         return jonas.createJonasVO();
     }
@@ -1231,6 +1241,16 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     public ApacheJkVO updateApacheJkRouter(ApacheJkVO apacheJkVO) {
         ApacheJk apacheJk = getApacheJkRouterBean(apacheJkVO.getId());
         apacheJk.mergeApacheJkVO(apacheJkVO);
+        if (apacheJk.getLoadBalancerList() != null) {
+            for (LoadBalancer tmp : apacheJk.getLoadBalancerList()) {
+                tmp.setApacheJk(apacheJk);
+            }
+        }
+        if (apacheJk.getWorkerList() != null) {
+            for (Worker tmp : apacheJk.getWorkerList()) {
+                tmp.setApacheJk(apacheJk);
+            }
+        }
         apacheJk = entityManager.merge(apacheJk);
         return apacheJk.createApacheJkVO();
     }
@@ -1343,19 +1363,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @param workers        the LoadBalancer workerList
      */
     @Override
-    public void addLoadBalancer(String paasResourceId, String name, List<String> mountPoints, List<WorkerVO> workers) {
+    public void addLoadBalancer(String paasResourceId, String name, List<String> mountPoints, List<String> workers) {
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         LoadBalancer loadBalancer = new LoadBalancer();
         loadBalancer.setName(name);
         loadBalancer.setMountPoints(mountPoints);
-        List<Worker> workerList = new LinkedList<Worker>();
-        for (WorkerVO tmp : workers) {
-
-            Worker worker = tmp.createBean();
-            worker.setApacheJk(apacheJk);
-            workerList.add(worker);
-        }
-        loadBalancer.setWorkers(workerList);
+        loadBalancer.setWorkers(workers);
         loadBalancer.setApacheJk(apacheJk);
         entityManager.persist(loadBalancer);
     }
@@ -1695,6 +1708,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     public PaasFrontendVO updateFrontend(PaasFrontendVO paasFrontendVO) {
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendVO.getId());
         paasFrontend.mergePaasFrontendVO(paasFrontendVO);
+        if (paasFrontend.getVirtualHosts() != null) {
+            for (VirtualHost tmp : paasFrontend.getVirtualHosts()) {
+                tmp.setPaasFrontend(paasFrontend);
+            }
+        }
         paasFrontend = entityManager.merge(paasFrontend);
         return paasFrontend.createPaasFrontendVO();
     }

@@ -109,7 +109,7 @@ public interface ISrPaasApacheJkRouterFacade {
      * @param mountPoints the LoadBalancer mountPoints
      * @param workers the LoadBalancer workerList
      */
-    public void addLoadBalancer(String paasResourceId, String name, List<String> mountPoints, List<WorkerVO> workers);
+    public void addLoadBalancer(String paasResourceId, String name, List<String> mountPoints, List<String> workers);
 
     /**
      * Remove a LoadBalancer

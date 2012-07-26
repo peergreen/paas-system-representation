@@ -90,7 +90,7 @@ public class TestPaasApacheJkRouterFacade {
         apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
                 "jkVersion");
         apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
-                        "jkVersion2");
+                "jkVersion2");
     }
 
 
@@ -171,14 +171,15 @@ public class TestPaasApacheJkRouterFacade {
         Assert.assertEquals(workerList.isEmpty(), true);
     }
 
-   @Test(dependsOnMethods = "testRemoveWorker")
+    @Test(dependsOnMethods = "testRemoveWorker")
     public void testAddLoadBalancer() {
         List<String> mountPoints = new LinkedList<String>();
         mountPoints.add("mountPoint 1");
         mountPoints.add("mountPoint 2");
 
-        List<WorkerVO> workers = new LinkedList<WorkerVO>();
-        workers.add(new WorkerVO("worker1", "host", 10));
+        List<String> workers = new LinkedList<String>();
+        workers.add("worker1");
+        workers.add("worker2");
 
         iSrPaasApacheJkRouterFacade.addLoadBalancer(apacheJk1.getId(), "loadBalancer1", mountPoints, workers);
         iSrPaasApacheJkRouterFacade.addLoadBalancer(apacheJk1.getId(), "loadBalancer2", mountPoints, workers);

@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.model;
 
 
+import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.DatasourceVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 
 import javax.persistence.CascadeType;
@@ -154,6 +156,34 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
         setProfile(jonasVO.getProfile());
         setJdkVersion(jonasVO.getJdkVersion());
         setDomain(jonasVO.getDomain());
+        if (jonasVO.getConnectorList() != null) {
+            LinkedList<Connector> originalConnectorList = new LinkedList<Connector>(this.connectorList);
+            this.connectorList.clear();
+            for (ConnectorVO tmp : jonasVO.getConnectorList()) {
+                Connector connector = tmp.createBean();
+                for (Connector originalConnector : originalConnectorList) {
+                    if (originalConnector.getName().equals(connector.getName())) {
+                        connector.setKey(originalConnector.getKey());
+                        break;
+                    }
+                }
+                this.connectorList.add(connector);
+            }
+        }
+        if (jonasVO.getDatasourceList() != null) {
+            LinkedList<Datasource> originalDatasourceList = new LinkedList<Datasource>(this.datasourceList);
+            this.datasourceList.clear();
+            for (DatasourceVO tmp : jonasVO.getDatasourceList()) {
+                Datasource datasource = tmp.createBean();
+                for (Datasource originalDatasource : originalDatasourceList) {
+                    if (originalDatasource.getName().equals(datasource.getName())) {
+                        datasource.setKey(originalDatasource.getKey());
+                        break;
+                    }
+                }
+                this.datasourceList.add(datasource);
+            }
+        }
     }
 
 }

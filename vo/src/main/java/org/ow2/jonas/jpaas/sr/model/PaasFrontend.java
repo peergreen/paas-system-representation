@@ -110,11 +110,20 @@ public class PaasFrontend implements java.io.Serializable {
     }
 
     public void mergePaasFrontendVO(PaasFrontendVO paasFrontendVO) {
-/*        for (VirtualHostVO tmp : paasFrontendVO.getVirtualHosts()) {
-            VirtualHost virtualHost = tmp.createBean();
-            virtualHost.setPaasFrontend(this);
-            virtualHostList.add(virtualHost);
-        }*/
+        if (paasFrontendVO.getVirtualHosts() != null) {
+            LinkedList<VirtualHost> originalVirtualHostList = new LinkedList<VirtualHost>(this.virtualHosts);
+            this.virtualHosts.clear();
+            for (VirtualHostVO tmp : paasFrontendVO.getVirtualHosts()) {
+                VirtualHost virtualHost = tmp.createBean();
+                for (VirtualHost originalVirtualHost : originalVirtualHostList) {
+                    if (originalVirtualHost.getName().equals(virtualHost.getName())) {
+                        virtualHost.setKey(originalVirtualHost.getKey());
+                        break;
+                    }
+                }
+                this.virtualHosts.add(virtualHost);
+            }
+        }
     }
 
     public List<PaasRouter> getPaasRouterList() {
