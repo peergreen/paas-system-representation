@@ -35,7 +35,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
-public class Sequence implements java.io.Serializable {
+public class IdGenerator implements java.io.Serializable {
 
     /**
      * Sequence type

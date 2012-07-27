@@ -30,66 +30,66 @@
              http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
              version="1.0">
 
-    <persistence-unit name="entity" transaction-type="JTA">
-        <jta-data-source>jdbc_1</jta-data-source>
+  <persistence-unit name="entity" transaction-type="JTA">
+    <jta-data-source>jdbc_1</jta-data-source>
 
-        <class>org.ow2.jonas.jpaas.sr.model.Application</class>
-        <class>org.ow2.jonas.jpaas.sr.model.User</class>
-        <class>org.ow2.jonas.jpaas.sr.model.ApplicationVersion</class>
-        <class>org.ow2.jonas.jpaas.sr.model.ApplicationVersionInstance</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Deployable</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Ear</class>
-        <class>org.ow2.jonas.jpaas.sr.model.War</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Ejbjar</class>
-        <class>org.ow2.jonas.jpaas.sr.model.OSGiBundle</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasArtefact</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Application</class>
+    <class>org.ow2.jonas.jpaas.sr.model.User</class>
+    <class>org.ow2.jonas.jpaas.sr.model.ApplicationVersion</class>
+    <class>org.ow2.jonas.jpaas.sr.model.ApplicationVersionInstance</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Deployable</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Ear</class>
+    <class>org.ow2.jonas.jpaas.sr.model.War</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Ejbjar</class>
+    <class>org.ow2.jonas.jpaas.sr.model.OSGiBundle</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasArtefact</class>
 
-        <class>org.ow2.jonas.jpaas.sr.model.Environment</class>
-        <class>org.ow2.jonas.jpaas.sr.model.TopologyTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.NodeTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.RouterNodeTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.ContainerNodeTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.DatabaseNodeTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.IaasComputeNodeTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.RelationshipTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.ConnectorTemplate</class>
-        <class>org.ow2.jonas.jpaas.sr.model.DatasourceTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Environment</class>
+    <class>org.ow2.jonas.jpaas.sr.model.TopologyTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.NodeTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.RouterNodeTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.ContainerNodeTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.DatabaseNodeTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.IaasComputeNodeTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.RelationshipTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.ConnectorTemplate</class>
+    <class>org.ow2.jonas.jpaas.sr.model.DatasourceTemplate</class>
 
-        <class>org.ow2.jonas.jpaas.sr.model.Entity</class>
-        <class>org.ow2.jonas.jpaas.sr.model.IaasEntity</class>
-        <class>org.ow2.jonas.jpaas.sr.model.IaasResource</class>
-        <class>org.ow2.jonas.jpaas.sr.model.IaasCompute</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasEntity</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasAgent</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasResource</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasContainer</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasRouter</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasDatabase</class>
-        <class>org.ow2.jonas.jpaas.sr.model.PaasFrontend</class>
-        <class>org.ow2.jonas.jpaas.sr.model.VirtualHost</class>
-        <class>org.ow2.jonas.jpaas.sr.model.ApacheJk</class>
-        <class>org.ow2.jonas.jpaas.sr.model.LoadBalancer</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Worker</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Jonas</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Connector</class>
-        <class>org.ow2.jonas.jpaas.sr.model.Datasource</class>
-        <class>org.ow2.jonas.jpaas.sr.model.ExternalDatabase</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Entity</class>
+    <class>org.ow2.jonas.jpaas.sr.model.IaasEntity</class>
+    <class>org.ow2.jonas.jpaas.sr.model.IaasResource</class>
+    <class>org.ow2.jonas.jpaas.sr.model.IaasCompute</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasEntity</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasAgent</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasResource</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasContainer</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasRouter</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasDatabase</class>
+    <class>org.ow2.jonas.jpaas.sr.model.PaasFrontend</class>
+    <class>org.ow2.jonas.jpaas.sr.model.VirtualHost</class>
+    <class>org.ow2.jonas.jpaas.sr.model.ApacheJk</class>
+    <class>org.ow2.jonas.jpaas.sr.model.LoadBalancer</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Worker</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Jonas</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Connector</class>
+    <class>org.ow2.jonas.jpaas.sr.model.Datasource</class>
+    <class>org.ow2.jonas.jpaas.sr.model.ExternalDatabase</class>
 
-        <class>org.ow2.jonas.jpaas.sr.sequence.Sequence</class>
+    <class>org.ow2.jonas.jpaas.sr.sequence.IdGenerator</class>
 
-        <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-            <property name="eclipselink.target-database" value="HSQL"/>
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
-            <property name="toplink.target-database" value="HSQL"/>
-            <property name="toplink.ddl-generation" value="drop-and-create-tables"/>
-            <property name="toplink.ddl-generation.output-mode" value="database"/>
-            <property name="openjpa.jdbc.DBDictionary" value="hsql"/>
-            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-        </properties>
-    </persistence-unit>
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+      <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
+      <property name="toplink.target-database" value="oracle.toplink.essentials.platform.database.H2Platform"/>
+      <property name="toplink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="toplink.ddl-generation.output-mode" value="database"/>
+      <property name="openjpa.jdbc.DBDictionary" value="org.apache.openjpa.jdbc.sql.H2Dictionary"/>
+      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+    </properties>
+  </persistence-unit>
 </persistence>
 
 

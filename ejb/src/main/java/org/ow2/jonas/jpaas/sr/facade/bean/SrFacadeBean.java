@@ -89,7 +89,7 @@ import org.ow2.jonas.jpaas.sr.model.TopologyTemplate;
 import org.ow2.jonas.jpaas.sr.model.User;
 import org.ow2.jonas.jpaas.sr.model.VirtualHost;
 import org.ow2.jonas.jpaas.sr.model.Worker;
-import org.ow2.jonas.jpaas.sr.sequence.Sequence;
+import org.ow2.jonas.jpaas.sr.sequence.IdGenerator;
 
 
 import javax.ejb.Local;
@@ -151,16 +151,16 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     private final String frontendSequence = "frontend";
 
     private String getNextSequence(String type) {
-        Sequence sequence = entityManager.find(Sequence.class, type);
-        if (sequence == null) {
-            sequence = new Sequence();
-            sequence.setType(type);
-            sequence.setNextSequence(1L);
-            entityManager.persist(sequence);
+        IdGenerator idGenerator = entityManager.find(IdGenerator.class, type);
+        if (idGenerator == null) {
+            idGenerator = new IdGenerator();
+            idGenerator.setType(type);
+            idGenerator.setNextSequence(1L);
+            entityManager.persist(idGenerator);
         }
-        long nextUserSequence = sequence.getNextSequence();
-        sequence.setNextSequence(nextUserSequence + 1);
-        entityManager.merge(sequence);
+        long nextUserSequence = idGenerator.getNextSequence();
+        idGenerator.setNextSequence(nextUserSequence + 1);
+        entityManager.merge(idGenerator);
         return String.valueOf(nextUserSequence);
     }
 
