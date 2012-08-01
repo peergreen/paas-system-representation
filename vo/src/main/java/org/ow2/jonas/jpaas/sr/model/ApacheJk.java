@@ -101,6 +101,17 @@ public class ApacheJk extends PaasRouter implements java.io.Serializable {
         this.workerList = workerList;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ApacheJk[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", apacheVersion=").append(getApacheVersion())
+                .append(", jkVersion=").append(getJkVersion())
+                .append("]");
+        return sb.toString();
+    }
+
     public ApacheJkVO createApacheJkVO() {
         ApacheJkVO apacheJkVO = new ApacheJkVO(getId(), getName(), getState(),
                 new LinkedList<String>(getCapabilities()), isMultitenant(), isReusable(),

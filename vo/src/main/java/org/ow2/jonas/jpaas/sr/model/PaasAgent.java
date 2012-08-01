@@ -74,12 +74,13 @@ public class PaasAgent extends PaasEntity implements java.io.Serializable {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("NodeTemplate[apiUrl=").append(getApiUrl())
-                .append(", paasResourceList=").append(getPaasResourceList().toString())
+        sb.append("PaasAgent[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", apiUrl=").append(getApiUrl())
                 .append("]");
         return sb.toString();
     }
-
     public PaasAgentVO createPaasAgentVO() {
         return new PaasAgentVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), apiUrl);

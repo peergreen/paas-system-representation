@@ -72,6 +72,11 @@
       <version>${easybeans.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ow2.bundles</groupId>
+      <artifactId>ow2-util-log</artifactId>
+      <version>${ow2-bundles.version}</version>
+    </dependency>
   </dependencies>
 
 

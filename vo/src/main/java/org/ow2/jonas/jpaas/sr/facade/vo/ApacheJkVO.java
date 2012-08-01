@@ -61,6 +61,8 @@ public class ApacheJkVO extends PaasRouterVO implements java.io.Serializable {
 
     public ApacheJkVO() {
         super();
+        this.loadBalancerList = new LinkedList<LoadBalancerVO>();
+        this.workerList = new LinkedList<WorkerVO>();
     }
 
     public ApacheJkVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
@@ -68,6 +70,8 @@ public class ApacheJkVO extends PaasRouterVO implements java.io.Serializable {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
         this.apacheVersion = apacheVersion;
         this.jkVersion = jkVersion;
+        this.loadBalancerList = new LinkedList<LoadBalancerVO>();
+        this.workerList = new LinkedList<WorkerVO>();
     }
 
     public ApacheJkVO(String name, String state, List<String> capabilities, boolean multitenant,
@@ -75,6 +79,8 @@ public class ApacheJkVO extends PaasRouterVO implements java.io.Serializable {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
         this.apacheVersion = apacheVersion;
         this.jkVersion = jkVersion;
+        this.loadBalancerList = new LinkedList<LoadBalancerVO>();
+        this.workerList = new LinkedList<WorkerVO>();
     }
 
     public String getApacheVersion() {
@@ -142,5 +148,16 @@ public class ApacheJkVO extends PaasRouterVO implements java.io.Serializable {
 
     public void setWorkerList(List<WorkerVO> workerList) {
         this.workerList = workerList;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ApacheJkVO[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", apacheVersion=").append(getApacheVersion())
+                .append(", jkVersion=").append(getJkVersion())
+                .append("]");
+        return sb.toString();
     }
 }

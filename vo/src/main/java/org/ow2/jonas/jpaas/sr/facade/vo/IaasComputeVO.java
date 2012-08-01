@@ -114,7 +114,10 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("IaasCompute[ipAddress=").append(getIpAddress())
+        sb.append("IaasComputeVO[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", ipAddress=").append(getIpAddress())
                 .append(", hostname=").append(getHostname())
                 .append(", conf=").append(getConf())
                 .append(", roles=").append(getRoles().toString())

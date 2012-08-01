@@ -106,7 +106,10 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("IaasCompute[ipAddress=").append(getIpAddress())
+        sb.append("IaasCompute[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", ipAddress=").append(getIpAddress())
                 .append(", hostname=").append(getHostname())
                 .append(", conf=").append(getConf())
                 .append(", roles=").append(getRoles().toString())

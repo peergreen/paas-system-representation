@@ -73,6 +73,10 @@ public class ApplicationVersionInstanceVO implements java.io.Serializable {
      */
     private String versionId;
 
+    public ApplicationVersionInstanceVO() {
+        this.deployableList = new LinkedList<DeployableVO>();
+        this.paasArtefactList = new LinkedList<PaasArtefactVO>();
+    }
 
     public ApplicationVersionInstanceVO(String id, String name, String state) {
         this.id = id;

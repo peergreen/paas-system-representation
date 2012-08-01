@@ -71,6 +71,8 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
 
     public JonasVO() {
         super();
+        this.connectorList = new LinkedList<ConnectorVO>();
+        this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
     public JonasVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
@@ -81,6 +83,8 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
         this.profile = profile;
         this.jdkVersion = jdkVersion;
         this.domain = domain;
+        this.connectorList = new LinkedList<ConnectorVO>();
+        this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
     public JonasVO(String name, String state, List<String> capabilities, boolean multitenant,
@@ -91,6 +95,8 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
         this.profile = profile;
         this.jdkVersion = jdkVersion;
         this.domain = domain;
+        this.connectorList = new LinkedList<ConnectorVO>();
+        this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
     public String getJonasVersion() {
@@ -123,6 +129,19 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("JonasVO[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", jonasVersion=").append(getJonasVersion())
+                .append(", profile=").append(getProfile())
+                .append(", jdkVersion=").append(getJdkVersion())
+                .append(", domain=").append(getDomain())
+                .append("]");
+        return sb.toString();
     }
 
     /**

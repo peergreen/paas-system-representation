@@ -71,6 +71,10 @@ public class NodeTemplateVO implements java.io.Serializable {
      */
     private int currentSize;
 
+    public NodeTemplateVO() {
+        this.requirements = new LinkedList<String>();
+        this.slaEnforcement = new LinkedList<String>();
+    }
 
     public NodeTemplateVO(String id, String name, List<String> requirements, List<String> slaEnforcement, int minSize, int maxSize, int currentSize) {
         this.id = id;

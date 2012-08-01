@@ -90,7 +90,8 @@ import org.ow2.jonas.jpaas.sr.model.User;
 import org.ow2.jonas.jpaas.sr.model.VirtualHost;
 import org.ow2.jonas.jpaas.sr.model.Worker;
 import org.ow2.jonas.jpaas.sr.sequence.IdGenerator;
-
+import org.ow2.util.log.Log;
+import org.ow2.util.log.LogFactory;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
@@ -125,6 +126,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         ISrIaasComputeFacade, ISrPaasFrontendFacade, ISrPaasRouterPaasContainerLink, ISrPaasContainerPaasDatabaseLink,
         ISrPaasResourcePaasAgentLink, ISrPaasResourceIaasComputeLink, ISrPaasRouterFrontendLink {
 
+
+    /**
+     * The logger
+     */
+    private Log logger = LogFactory.getLog(SrFacadeBean.class);
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -150,7 +157,13 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
 
     private final String frontendSequence = "frontend";
 
+    /**
+     * Get the next available ID for a specific Entity type
+     * @param type Sequence type
+     * @return a String ID
+     */
     private String getNextSequence(String type) {
+        logger.debug("getNextSequence(" + type + ")");
         IdGenerator idGenerator = entityManager.find(IdGenerator.class, type);
         if (idGenerator == null) {
             idGenerator = new IdGenerator();
@@ -172,6 +185,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public UserVO createUser(UserVO userVO) {
+        logger.debug("createUser(" + userVO.toString() + ")");
         User user = userVO.createBean();
         user.setId(getNextSequence(userSequence));
         entityManager.persist(user);
@@ -186,6 +200,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public UserVO updateUser(UserVO userVO) {
+        logger.debug("updateUser(" + userVO.toString() + ")");
         User user = getUserBean(userVO.getId());
         user.mergeUserVO(userVO);
         user = entityManager.merge(user);
@@ -199,6 +214,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteUser(String userId) {
+        logger.debug("deleteUser(" + userId + ")");
         entityManager.remove(getUserBean(userId));
     }
 
@@ -210,6 +226,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the user
      */
     private User getUserBean(String userId) {
+        logger.debug("getUserBean(" + userId + ")");
         Query q = entityManager.createQuery("SELECT user FROM User user WHERE user.id=:userId");
         q.setParameter("userId",userId);
         return (User) q.getSingleResult();
@@ -223,6 +240,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public UserVO getUser(String userId) {
+        logger.debug("getUser(" + userId + ")");
         User user = getUserBean(userId);
         if (user != null) {
             return user.createUserVO();
@@ -240,6 +258,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<UserVO> findUsers(String name) {
+        logger.debug("findUsers(" + name + ")");
         Query q = entityManager.createQuery("SELECT user FROM User user WHERE user.name=:name");
         q.setParameter("name",name);
         List<User> userList = (List<User>) q.getResultList();
@@ -257,6 +276,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<UserVO> findUsers() {
+        logger.debug("findUsers()");
         Query q = entityManager.createQuery("SELECT user FROM User user");
         List<User> userList = (List<User>) q.getResultList();
         List<UserVO> resultList = new LinkedList<UserVO>();
@@ -275,6 +295,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApplicationVO createApplication(String userId, ApplicationVO applicationVO) {
+        logger.debug("createApplication(" + userId + ", " + applicationVO.toString() + ")");
         Application application = applicationVO.createBean();
         User user = getUserBean(userId);
         application.setUser(user);
@@ -291,6 +312,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApplicationVO updateApplication(ApplicationVO applicationVO) {
+        logger.debug("updateApplication(" + applicationVO.toString() + ")");
         Application application = getApplicationBean(applicationVO.getId());
         application.mergeApplicationVO(applicationVO);
         application = entityManager.merge(application);
@@ -304,6 +326,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteApplication(String appId) {
+        logger.debug("deleteApplication(" + appId + ")");
         entityManager.remove(getApplicationBean(appId));
     }
 
@@ -315,6 +338,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the application entity
      */
     private Application getApplicationBean(String appId) {
+        logger.debug("getApplicationBean(" + appId + ")");
         Query q = entityManager.createQuery("SELECT Application FROM Application application WHERE" +
                 " application.id=:appId");
         q.setParameter("appId",appId);
@@ -330,6 +354,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApplicationVO getApplication(String appId) {
+        logger.debug("getApplication(" + appId + ")");
         Application application = getApplicationBean(appId);
         if (application != null) {
             return application.createApplicationVO();
@@ -346,6 +371,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApplicationVO> findApplications(String userId) {
+        logger.debug("findApplications(" + userId + ")");
         User user = getUserBean(userId);
         List<Application> applicationList = user.getApplicationList();
         List<ApplicationVO> resultList = new LinkedList<ApplicationVO>();
@@ -364,6 +390,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApplicationVO> findApplications(String userId, String appName) {
+        logger.debug("findApplications(" + userId + ", " + appName + ")");
         List<ApplicationVO> list = findApplications(userId);
         for (ListIterator<ApplicationVO> iterator = list.listIterator(); iterator.hasNext();) {
             ApplicationVO tmp = iterator.next();
@@ -381,6 +408,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the deployable entity
      */
     private Deployable getDeployableBean(String deployableId) {
+        logger.debug("getDeployableBean(" + deployableId + ")");
         Query q = entityManager.createQuery("SELECT Deployable FROM Deployable deployable WHERE" +
                 " deployable.id=:deployableId");
         q.setParameter("deployableId",deployableId);
@@ -396,6 +424,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApplicationVersionVO createApplicationVersion(String appId, ApplicationVersionVO applicationVersionVO) {
+        logger.debug("createApplicationVersion(" + appId + ", " + applicationVersionVO.toString() + ")");
         ApplicationVersion applicationVersion = applicationVersionVO.createBean();
         Application application = getApplicationBean(appId);
         applicationVersion.setApplication(application);
@@ -421,6 +450,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApplicationVersionVO updateApplicationVersion(String appId, ApplicationVersionVO applicationVersionVO) {
+        logger.debug("updateApplicationVersion(" + appId + ", " + applicationVersionVO.toString() + ")");
         ApplicationVersion applicationVersion = getApplicationVersionBean(appId, applicationVersionVO.getVersionId());
         applicationVersion.mergeApplicationVersionVO(applicationVersionVO);
         if (applicationVersion.getDeployableList() != null) {
@@ -443,6 +473,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteApplicationVersion(String appId, String appVersionId) {
+        logger.debug("deleteApplicationVersion(" + appId + ", " + appVersionId + ")");
         entityManager.remove(getApplicationVersionBean(appId, appVersionId));
     }
 
@@ -455,6 +486,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the ApplicationVersion entity
      */
     private ApplicationVersion getApplicationVersionBean(String appId, String appVersionId) {
+        logger.debug("getApplicationVersionBean(" + appId + ", " + appVersionId + ")");
         Query q = entityManager.createQuery("SELECT ApplicationVersion FROM ApplicationVersion applicationVersion " +
                 "WHERE applicationVersion.id=:appVersionId and applicationVersion.application.id=:appId");
         q.setParameter("appVersionId",appVersionId);
@@ -471,6 +503,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApplicationVersionVO getApplicationVersion(String appId, String appVersionId) {
+        logger.debug("getApplicationVersion(" + appId + ", " + appVersionId + ")");
         ApplicationVersion applicationVersion = getApplicationVersionBean(appId, appVersionId);
         if (applicationVersion != null) {
             return applicationVersion.createApplicationVersionVO();
@@ -487,6 +520,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApplicationVersionVO> findApplicationVersions(String appId) {
+        logger.debug("findApplicationVersions(" + appId + ")");
         Application application = getApplicationBean(appId);
         List<ApplicationVersion> applicationVersionList = application.getApplicationVersionList();
         List<ApplicationVersionVO> resultList = new LinkedList<ApplicationVersionVO>();
@@ -505,6 +539,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApplicationVersionVO> findApplicationVersions(String appId, String versionLabel) {
+        logger.debug("findApplicationVersions(" + appId + ")");
         List<ApplicationVersionVO> list = findApplicationVersions(appId);
         for (ListIterator<ApplicationVersionVO> iterator = list.listIterator(); iterator.hasNext();) {
             ApplicationVersionVO tmp = iterator.next();
@@ -526,6 +561,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public ApplicationVersionInstanceVO createApplicationVersionInstance(String appId, String appVersionId,
             ApplicationVersionInstanceVO applicationVersionInstanceVO) {
+        logger.debug("createApplicationVersionInstance(" + appId + ", " + appVersionId + ", " +
+                applicationVersionInstanceVO.toString() + ")");
         ApplicationVersionInstance applicationVersionInstance = applicationVersionInstanceVO.createBean();
         ApplicationVersion applicationVersion = getApplicationVersionBean(appId, appVersionId);
         applicationVersionInstance.setApplicationVersion(applicationVersion);
@@ -559,6 +596,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public ApplicationVersionInstanceVO updateApplicationVersionInstance(String appId, String appVersionId,
             ApplicationVersionInstanceVO applicationVersionInstanceVO) {
+        logger.debug("updateApplicationVersionInstance(" + appId + ", " + appVersionId + ", " +
+                applicationVersionInstanceVO.toString() + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 applicationVersionInstanceVO.getId());
         applicationVersionInstance.mergeApplicationVersionInstanceVO(applicationVersionInstanceVO);
@@ -593,6 +632,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteApplicationVersionInstance(String appId, String appVersionId, String appVersionInstanceId) {
+        logger.debug("deleteApplicationVersionInstance(" + appId + ", " + appVersionId + ", " +
+                appVersionInstanceId + ")");
         entityManager.remove(getApplicationVersionInstanceBean(appId, appVersionId, appVersionInstanceId));
     }
 
@@ -606,6 +647,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     private ApplicationVersionInstance getApplicationVersionInstanceBean(String appId, String appVersionId,
             String appVersionInstanceId) {
+        logger.debug("getApplicationVersionInstanceBean(" + appId + ", " + appVersionId + ", " +
+                appVersionInstanceId + ")");
         Query q = entityManager.createQuery("SELECT ApplicationVersionInstance FROM ApplicationVersionInstance" +
                 " applicationVersionInstance WHERE applicationVersionInstance.id=:appVersionInstanceId and" +
                 " applicationVersionInstance.applicationVersion.id=:appVersionId and" +
@@ -628,6 +671,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public ApplicationVersionInstanceVO getApplicationVersionInstance(String appId, String appVersionId,
             String appVersionInstanceId) {
+        logger.debug("getApplicationVersionInstance(" + appId + ", " + appVersionId + ", " +
+                appVersionInstanceId + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
         if (applicationVersionInstance != null) {
@@ -646,6 +691,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApplicationVersionInstanceVO> findApplicationVersionInstances(String appId, String appVersionId) {
+        logger.debug("findApplicationVersionInstances(" + appId + ", " + appVersionId + ", " + appVersionId + ")");
         ApplicationVersion applicationVersion = getApplicationVersionBean(appId, appVersionId);
         List<ApplicationVersionInstance> applicationVersionInstanceList =
                 applicationVersion.getApplicationVersionInstanceList();
@@ -667,6 +713,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public List<ApplicationVersionInstanceVO> findApplicationVersionInstances(String appId, String appVersionId,
             String instanceName) {
+        logger.debug("findApplicationVersionInstances(" + appId + ", " + appVersionId + ", " + instanceName + ")");
         List<ApplicationVersionInstanceVO> list = findApplicationVersionInstances(appId, appVersionId);
         for (ListIterator<ApplicationVersionInstanceVO> iterator = list.listIterator(); iterator.hasNext();) {
             ApplicationVersionInstanceVO tmp = iterator.next();
@@ -686,6 +733,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public EnvironmentVO createEnvironment(String userId, EnvironmentVO environmentVO) {
+        logger.debug("createEnvironment(" + userId + ", " + environmentVO.toString() + ")");
         Environment environment = environmentVO.createBean();
         User user = getUserBean(userId);
         environment.setUser(user);
@@ -718,6 +766,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public EnvironmentVO updateEnvironment(EnvironmentVO environmentVO) {
+        logger.debug("updateEnvironment(" + environmentVO.toString() + ")");
         Environment environment = getEnvironmentBean(environmentVO.getId());
         environment.mergeEnvironmentVO(environmentVO);
         TopologyTemplate topologyTemplate = environment.getTopologyTemplate();
@@ -750,6 +799,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteEnvironment(String envId) {
+        logger.debug("deleteEnvironment(" + envId + ")");
         entityManager.remove(getEnvironmentBean(envId));
     }
 
@@ -760,6 +810,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the environment entity
      */
     private Environment getEnvironmentBean(String envId) {
+        logger.debug("getEnvironmentBean(" + envId + ")");
         Query q = entityManager.createQuery("SELECT Environment FROM Environment environment WHERE environment.id=:envId");
         q.setParameter("envId",envId);
         return (Environment) q.getSingleResult();
@@ -773,6 +824,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public EnvironmentVO getEnvironment(String envId) {
+        logger.debug("getEnvironment(" + envId + ")");
         Environment environment = getEnvironmentBean(envId);
         if (environment != null) {
             return environment.createEnvironmentVO();
@@ -789,6 +841,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<EnvironmentVO> findEnvironments(String userId) {
+        logger.debug("findEnvironments(" + userId + ")");
         User user = getUserBean(userId);
         List<Environment> environmentList = user.getEnvironmentList();
         List<EnvironmentVO> resultList = new LinkedList<EnvironmentVO>();
@@ -807,6 +860,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<EnvironmentVO> findEnvironments(String userId, String envName) {
+        logger.debug("findEnvironments(" + userId + ", " + envName + ")");
         List<EnvironmentVO> list = findEnvironments(userId);
         for (ListIterator<EnvironmentVO> iterator = list.listIterator(); iterator.hasNext();) {
             EnvironmentVO tmp = iterator.next();
@@ -828,6 +882,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public void addApplicationDeploymentLink(String appId, String appVersionId, String appVersionInstanceId,
             String envId) {
+        logger.debug("addApplicationDeploymentLink(" + appId + ", " + appVersionId + ", " + appVersionInstanceId + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
         Environment environment = getEnvironmentBean(envId);
@@ -844,6 +899,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeApplicationDeploymentLink(String appId, String appVersionId, String appVersionInstanceId) {
+        logger.debug("removeApplicationDeploymentLink(" + appId + ", " + appVersionId + ", " +
+                appVersionInstanceId + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
         applicationVersionInstance.setEnvironment(null);
@@ -858,6 +915,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApplicationVersionInstanceVO> findApplicationVersionInstancesByEnv(String envId) {
+        logger.debug("findApplicationVersionInstancesByEnv(" + envId + ")");
         Environment environment = getEnvironmentBean(envId);
         List<ApplicationVersionInstance> applicationVersionInstanceList =
                 environment.getApplicationVersionInstanceList();
@@ -879,6 +937,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public EnvironmentVO getEnvByApplicationVersionInstance(String appId, String appVersionId,
             String appVersionInstanceId) {
+        logger.debug("getEnvByApplicationVersionInstance(" + appId + ", " + appVersionId + ", " +
+                        appVersionInstanceId + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
         Environment environment = applicationVersionInstance.getEnvironment();
@@ -897,6 +957,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public JonasVO createJonasContainer(JonasVO jonasVO) {
+        logger.debug("createJonasContainer(" + jonasVO.toString() + ")");
         Jonas jonas = jonasVO.createBean();
         jonas.setId(getNextSequence(entitySequence));
         if (jonas.getConnectorList() != null) {
@@ -920,6 +981,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteJonasContainer(String paasResourceId) {
+        logger.debug("deleteJonasContainer(" + paasResourceId + ")");
         entityManager.remove(getJonasContainerBean(paasResourceId));
     }
 
@@ -931,6 +993,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public JonasVO updateJonasContainer(JonasVO jonasVO) {
+        logger.debug("updateJonasContainer(" + jonasVO.toString() + ")");
         Jonas jonas = getJonasContainerBean(jonasVO.getId());
         jonas.mergeJonasVO(jonasVO);
         if (jonas.getConnectorList() != null) {
@@ -954,6 +1017,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the Jonas entity
      */
     private Jonas getJonasContainerBean(String paasResourceId) {
+        logger.debug("getJonasContainerBean(" + paasResourceId + ")");
         Query q = entityManager.createQuery("SELECT jonas FROM Jonas jonas WHERE jonas.id=:paasResourceId");
         q.setParameter("paasResourceId",paasResourceId);
         return (Jonas) q.getSingleResult();
@@ -967,6 +1031,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public JonasVO getJonasContainer(String paasResourceId) {
+        logger.debug("getJonasContainer(" + paasResourceId + ")");
         Jonas paasJonasContainer = getJonasContainerBean(paasResourceId);
         if (paasJonasContainer != null) {
             return paasJonasContainer.createJonasVO();
@@ -982,6 +1047,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<JonasVO> findJonasContainers() {
+        logger.debug("getJonasContainer()");
         Query q = entityManager.createQuery("SELECT jonas FROM Jonas jonas");
         List<Jonas> containerList = (List<Jonas>) q.getResultList();
         List<JonasVO> resultList = new LinkedList<JonasVO>();
@@ -1000,6 +1066,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addConnector(String paasResourceId, String name, int port) {
+        logger.debug("addConnector(" + paasResourceId + ", " + name + ", " + port + ")");
         Connector connector = new Connector();
         connector.setName(name);
         connector.setPort(port);
@@ -1015,11 +1082,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeConnector(String paasResourceId, String name) {
+        logger.debug("removeConnector(" + paasResourceId + ", " + name + ")");
         Jonas jonas = getJonasContainerBean(paasResourceId);
         List<Connector> list = jonas.getConnectorList();
         for (ListIterator<Connector> iterator = list.listIterator(); iterator.hasNext();) {
             Connector tmp = iterator.next();
-            if (!tmp.getName().equals(name)) {
+            if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
@@ -1034,6 +1102,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ConnectorVO> getConnectors(String paasResourceId) {
+        logger.debug("getConnectors(" + paasResourceId + ")");
         Jonas jonas = getJonasContainerBean(paasResourceId);
         List<ConnectorVO> resultList = new LinkedList<ConnectorVO>();
         for (Connector tmp : jonas.getConnectorList()) {
@@ -1052,6 +1121,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addDatasource(String paasResourceId, String name, String url, String className) {
+        logger.debug("addDatasource(" + paasResourceId + ", " + name + ", " + url + ", " + className + ")");
         Datasource datasource = new Datasource();
         datasource.setName(name);
         datasource.setUrl(url);
@@ -1069,11 +1139,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeDatasource(String paasResourceId, String name) {
+        logger.debug("removeDatasource(" + paasResourceId + ", " + name + ")");
         Jonas jonas = getJonasContainerBean(paasResourceId);
         List<Datasource> list = jonas.getDatasourceList();
         for (ListIterator<Datasource> iterator = list.listIterator(); iterator.hasNext();) {
             Datasource tmp = iterator.next();
-            if (!tmp.getName().equals(name)) {
+            if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
@@ -1088,6 +1159,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<DatasourceVO> getDatasources(String paasResourceId) {
+        logger.debug("getDatasources(" + paasResourceId + ")");
         Jonas jonas = getJonasContainerBean(paasResourceId);
         List<DatasourceVO> resultList = new LinkedList<DatasourceVO>();
         for (Datasource tmp : jonas.getDatasourceList()) {
@@ -1104,6 +1176,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasResource entity
      */
     private PaasResource getPaasResourceBean(String paasResourceId) {
+        logger.debug("getPaasResourceBean(" + paasResourceId + ")");
         Query q = entityManager.createQuery("SELECT paasResource FROM PaasResource paasResource WHERE " +
                 "paasResource.id=:paasResourceId");
         q.setParameter("paasResourceId",paasResourceId);
@@ -1117,6 +1190,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the NodeTemplate entity
      */
     private NodeTemplate getNodeTemplateBean(String nodeTemplateId) {
+        logger.debug("getNodeTemplateBean(" + nodeTemplateId + ")");
         Query q = entityManager.createQuery("SELECT nodeTemplate FROM NodeTemplate nodeTemplate WHERE " +
                 "nodeTemplate.id=:nodeTemplateId");
         q.setParameter("nodeTemplateId",nodeTemplateId);
@@ -1132,6 +1206,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addPaasResourceNodeLink(String nodeId, String paasResourceId) {
+        logger.debug("addPaasResourceNodeLink(" + nodeId + ", " + paasResourceId + ")");
         NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         paasResource.getNodeTemplateList().add(nodeTemplate);
@@ -1147,6 +1222,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removePaasResourceNodeLink(String nodeId, String paasResourceId) {
+        logger.debug("removePaasResourceNodeLink(" + nodeId + ", " + paasResourceId + ")");
         NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         paasResource.getNodeTemplateList().remove(nodeTemplate);
@@ -1162,6 +1238,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasResourceVO> findPaasResourcesByNode(String nodeId) {
+        logger.debug("findPaasResourcesByNode(" + nodeId + ")");
         NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
         List<PaasResourceVO> resultList = new LinkedList<PaasResourceVO>();
         PaasResource paasResource;
@@ -1182,6 +1259,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<NodeTemplateVO> findNodesByPaasResource(String paasResourceId) {
+        logger.debug("findNodesByPaasResource(" + paasResourceId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         List<NodeTemplateVO> resultList = new LinkedList<NodeTemplateVO>();
         for (NodeTemplate tmp : paasResource.getNodeTemplateList()) {
@@ -1199,6 +1277,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApacheJkVO createApacheJkRouter(ApacheJkVO apacheJkVO) {
+        logger.debug("createApacheJkRouter(" + apacheJkVO.toString() + ")");
         ApacheJk apacheJk = apacheJkVO.createBean();
         apacheJk.setId(getNextSequence(entitySequence));
         if (apacheJk.getWorkerList() != null) {
@@ -1222,6 +1301,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteApacheJkRouter(String paasResourceId) {
+        logger.debug("deleteApacheJkRouter(" + paasResourceId + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         if (apacheJk.getPaasContainerList() != null) {
             for (PaasContainer tmp : apacheJk.getPaasContainerList()) {
@@ -1239,6 +1319,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApacheJkVO updateApacheJkRouter(ApacheJkVO apacheJkVO) {
+        logger.debug("updateApacheJkRouter(" + apacheJkVO.toString() + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(apacheJkVO.getId());
         apacheJk.mergeApacheJkVO(apacheJkVO);
         if (apacheJk.getLoadBalancerList() != null) {
@@ -1262,6 +1343,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasRouter entity
      */
     private ApacheJk getApacheJkRouterBean(String paasResourceId) {
+        logger.debug("getApacheJkRouterBean(" + paasResourceId + ")");
         Query q = entityManager.createQuery("SELECT apache FROM ApacheJk apache WHERE " +
                 "apache.id=:paasResourceId");
         q.setParameter("paasResourceId",paasResourceId);
@@ -1276,6 +1358,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public ApacheJkVO getApacheJkRouter(String paasResourceId) {
+        logger.debug("getApacheJkRouter(" + paasResourceId + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         if (apacheJk != null) {
             return apacheJk.createApacheJkVO();
@@ -1291,6 +1374,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<ApacheJkVO> findApacheJkRouters() {
+        logger.debug("findApacheJkRouters()");
         Query q = entityManager.createQuery("SELECT apacheJk FROM ApacheJk apacheJk");
         List<ApacheJk> apacheList = (List<ApacheJk>) q.getResultList();
         List<ApacheJkVO> resultList = new LinkedList<ApacheJkVO>();
@@ -1310,6 +1394,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addWorker(String paasResourceId, String name, String host, int port) {
+        logger.debug("addWorker(" + paasResourceId + ", " + name + ", " + host + ", " + port + ")");
         Worker worker = new Worker();
         worker.setName(name);
         worker.setHost(host);
@@ -1327,11 +1412,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeWorker(String paasResourceId, String name) {
+        logger.debug("removeWorker(" + paasResourceId + ", " + name + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         List<Worker> list = apacheJk.getWorkerList();
         for (ListIterator<Worker> iterator = list.listIterator(); iterator.hasNext();) {
             Worker tmp = iterator.next();
-            if (!tmp.getName().equals(name)) {
+            if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
@@ -1346,6 +1432,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<WorkerVO> getWorkers(String paasResourceId) {
+        logger.debug("getWorkers(" + paasResourceId + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         List<WorkerVO> resultList = new LinkedList<WorkerVO>();
         for (Worker tmp : apacheJk.getWorkerList()) {
@@ -1364,6 +1451,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addLoadBalancer(String paasResourceId, String name, List<String> mountPoints, List<String> workers) {
+        logger.debug("addLoadBalancer(" + paasResourceId + ", " + name + ", " + mountPoints.toString() +
+                ", " + workers.toString() + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         LoadBalancer loadBalancer = new LoadBalancer();
         loadBalancer.setName(name);
@@ -1381,11 +1470,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeLoadBalancer(String paasResourceId, String name) {
+        logger.debug("removeLoadBalancer(" + paasResourceId + ", " + name + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         List<LoadBalancer> list = apacheJk.getLoadBalancerList();
         for (ListIterator<LoadBalancer> iterator = list.listIterator(); iterator.hasNext();) {
             LoadBalancer tmp = iterator.next();
-            if (!tmp.getName().equals(name)) {
+            if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
@@ -1400,6 +1490,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<LoadBalancerVO> getLoadBalancers(String paasResourceId) {
+        logger.debug("getLoadBalancers(" + paasResourceId + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         List<LoadBalancerVO> resultList = new LinkedList<LoadBalancerVO>();
         for (LoadBalancer tmp : apacheJk.getLoadBalancerList()) {
@@ -1416,6 +1507,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasDatabaseVO createDatabase(PaasDatabaseVO paasDatabaseVO) {
+        logger.debug("createDatabase(" + paasDatabaseVO.toString() + ")");
         PaasDatabase paasDatabase = paasDatabaseVO.createBean();
         paasDatabase.setId(getNextSequence(entitySequence));
         entityManager.persist(paasDatabase);
@@ -1429,6 +1521,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteDatabase(String paasResourceId) {
+        logger.debug("deleteDatabase(" + paasResourceId + ")");
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasResourceId);
         if (paasDatabase.getPaasContainerList() != null) {
             for (PaasContainer tmp : paasDatabase.getPaasContainerList()) {
@@ -1446,6 +1539,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasDatabaseVO updateDatabase(PaasDatabaseVO paasDatabaseVO) {
+        logger.debug("updateDatabase(" + paasDatabaseVO.toString() + ")");
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseVO.getId());
         paasDatabase.mergePaasDatabaseVO(paasDatabaseVO);
         paasDatabase = entityManager.merge(paasDatabase);
@@ -1459,6 +1553,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasDatabase entity
      */
     private PaasDatabase getPaasDatabaseBean(String paasDatabaseId) {
+        logger.debug("getPaasDatabaseBean(" + paasDatabaseId + ")");
         Query q = entityManager.createQuery("SELECT paasDatabase FROM PaasDatabase paasDatabase WHERE " +
                 "paasDatabase.id=:paasDatabaseId");
         q.setParameter("paasDatabaseId",paasDatabaseId);
@@ -1473,6 +1568,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasDatabaseVO getDatabase(String paasResourceId) {
+        logger.debug("getDatabase(" + paasResourceId + ")");
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasResourceId);
         if (paasDatabase != null) {
             return paasDatabase.createPaasDatabaseVO();
@@ -1488,6 +1584,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasDatabaseVO> findDatabases() {
+        logger.debug("findDatabases()");
         Query q = entityManager.createQuery("SELECT paasDatabase FROM PaasDatabase paasDatabase");
         List<PaasDatabase> list = (List<PaasDatabase>) q.getResultList();
         List<PaasDatabaseVO> resultList = new LinkedList<PaasDatabaseVO>();
@@ -1505,6 +1602,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public IaasComputeVO createIaasCompute(IaasComputeVO iaasComputeVO) {
+        logger.debug("createIaasCompute(" + iaasComputeVO.toString() + ")");
         IaasCompute iaasCompute = iaasComputeVO.createBean();
         iaasCompute.setId(getNextSequence(entitySequence));
         entityManager.persist(iaasCompute);
@@ -1518,6 +1616,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteIaasCompute(String iaasComputeId) {
+        logger.debug("deleteIaasCompute(" + iaasComputeId + ")");
         entityManager.remove(getIaasComputeBean(iaasComputeId));
     }
 
@@ -1529,6 +1628,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public IaasComputeVO updateIaasCompute(IaasComputeVO iaasComputeVO) {
+        logger.debug("updateIaasCompute(" + iaasComputeVO.toString() + ")");
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeVO.getId());
         iaasCompute.mergeIaasComputeVO(iaasComputeVO);
         iaasCompute = entityManager.merge(iaasCompute);
@@ -1542,6 +1642,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the IaasCompute entity
      */
     private IaasCompute getIaasComputeBean(String iaasComputeId) {
+        logger.debug("getIaasComputeBean(" + iaasComputeId + ")");
         Query q = entityManager.createQuery("SELECT iaasCompute FROM IaasCompute iaasCompute WHERE " +
                 "iaasCompute.id=:iaasComputeId");
         q.setParameter("iaasComputeId",iaasComputeId);
@@ -1556,6 +1657,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public IaasComputeVO getIaasCompute(String iaasComputeId) {
+        logger.debug("getIaasCompute(" + iaasComputeId + ")");
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
         if (iaasCompute != null) {
             return iaasCompute.createIaasComputeVO();
@@ -1571,6 +1673,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<IaasComputeVO> findIaasComputes() {
+        logger.debug("findIaasComputes()");
         Query q = entityManager.createQuery("SELECT iaasCompute FROM IaasCompute iaasCompute");
         List<IaasCompute> list = (List<IaasCompute>) q.getResultList();
         List<IaasComputeVO> resultList = new LinkedList<IaasComputeVO>();
@@ -1588,6 +1691,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasAgentVO createAgent(PaasAgentVO paasAgentVO) {
+        logger.debug("createAgent(" + paasAgentVO.toString() + ")");
         PaasAgent paasAgent = paasAgentVO.createBean();
         paasAgent.setId(getNextSequence(entitySequence));
         entityManager.persist(paasAgent);
@@ -1601,6 +1705,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteAgent(String paasResourceId) {
+        logger.debug("deleteAgent(" + paasResourceId + ")");
         entityManager.remove(getPaasAgentBean(paasResourceId));
     }
 
@@ -1612,6 +1717,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasAgentVO updateAgent(PaasAgentVO paasAgentVO) {
+        logger.debug("updateAgent(" + paasAgentVO.toString() + ")");
         PaasAgent paasAgent = getPaasAgentBean(paasAgentVO.getId());
         paasAgent.mergePaasAgentVO(paasAgentVO);
         paasAgent = entityManager.merge(paasAgent);
@@ -1625,6 +1731,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasAgent entity
      */
     private PaasAgent getPaasAgentBean(String paasAgentId) {
+        logger.debug("getPaasAgentBean(" + paasAgentId + ")");
         Query q = entityManager.createQuery("SELECT paasAgent FROM PaasAgent paasAgent WHERE " +
                 "paasAgent.id=:paasAgentId");
         q.setParameter("paasAgentId",paasAgentId);
@@ -1639,6 +1746,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasAgentVO getAgent(String paasResourceId) {
+        logger.debug("getAgent(" + paasResourceId + ")");
         PaasAgent paasAgent = getPaasAgentBean(paasResourceId);
         if (paasAgent != null) {
             return paasAgent.createPaasAgentVO();
@@ -1654,6 +1762,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasAgentVO> findAgents() {
+        logger.debug("findAgents()");
         Query q = entityManager.createQuery("SELECT paasAgent FROM PaasAgent paasAgent");
         List<PaasAgent> list = (List<PaasAgent>) q.getResultList();
         List<PaasAgentVO> resultList = new LinkedList<PaasAgentVO>();
@@ -1671,6 +1780,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasFrontendVO createFrontend(PaasFrontendVO paasFrontendVO) {
+        logger.debug("createFrontend(" + paasFrontendVO.toString() + ")");
         PaasFrontend paasFrontend = paasFrontendVO.createBean();
         paasFrontend.setId(getNextSequence(frontendSequence));
         if (paasFrontend.getVirtualHosts() != null) {
@@ -1689,6 +1799,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void deleteFrontend(String paasResourceId) {
+        logger.debug("deleteFrontend(" + paasResourceId + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasResourceId);
         if (paasFrontend.getPaasRouterList() != null) {
             for (PaasRouter tmp : paasFrontend.getPaasRouterList()) {
@@ -1706,6 +1817,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasFrontendVO updateFrontend(PaasFrontendVO paasFrontendVO) {
+        logger.debug("updateFrontend(" + paasFrontendVO.toString() + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendVO.getId());
         paasFrontend.mergePaasFrontendVO(paasFrontendVO);
         if (paasFrontend.getVirtualHosts() != null) {
@@ -1724,6 +1836,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasFrontend entity
      */
     private PaasFrontend getPaasFrontendBean(String paasFrontendId) {
+        logger.debug("deleteFrontend(" + paasFrontendId + ")");
         Query q = entityManager.createQuery("SELECT paasFrontend FROM PaasFrontend paasFrontend WHERE " +
                 "paasFrontend.id=:paasFrontendId");
         q.setParameter("paasFrontendId",paasFrontendId);
@@ -1738,6 +1851,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasFrontendVO getFrontend(String paasResourceId) {
+        logger.debug("getFrontend(" + paasResourceId + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasResourceId);
         if (paasFrontend != null) {
             return paasFrontend.createPaasFrontendVO();
@@ -1753,6 +1867,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasFrontendVO> findFrontends() {
+        logger.debug("findFrontends()");
         Query q = entityManager.createQuery("SELECT paasFrontend FROM PaasFrontend paasFrontend");
         List<PaasFrontend> list = (List<PaasFrontend>) q.getResultList();
         List<PaasFrontendVO> resultList = new LinkedList<PaasFrontendVO>();
@@ -1770,6 +1885,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addVirtualHost(String paasFrontendId, String name) {
+        logger.debug("addVirtualHost(" + paasFrontendId + ", " + name + ")");
         VirtualHost virtualHost = new VirtualHost();
         virtualHost.setName(name);
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
@@ -1784,11 +1900,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeVirtualHost(String paasFrontendId, String name) {
+        logger.debug("removeVirtualHost(" + paasFrontendId + ", " + name + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         List<VirtualHost> list = paasFrontend.getVirtualHosts();
         for (ListIterator<VirtualHost> iterator = list.listIterator(); iterator.hasNext();) {
             VirtualHost tmp = iterator.next();
-            if (!tmp.getName().equals(name)) {
+            if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
@@ -1803,6 +1920,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<VirtualHostVO> getVirtualHosts(String paasFrontendId) {
+        logger.debug("getVirtualHosts(" + paasFrontendId + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         List<VirtualHostVO> resultList = new LinkedList<VirtualHostVO>();
         for (VirtualHost tmp : paasFrontend.getVirtualHosts()) {
@@ -1818,6 +1936,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasContainer entity
      */
     private PaasContainer getPaasContainerBean(String paasContainerId) {
+        logger.debug("getPaasContainerBean(" + paasContainerId + ")");
         Query q = entityManager.createQuery("SELECT paasContainer FROM PaasContainer paasContainer WHERE " +
                 "paasContainer.id=:paasContainerId");
         q.setParameter("paasContainerId",paasContainerId);
@@ -1832,6 +1951,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addContainerDatabaseLink(String paasContainerId, String paasDatabaseId) {
+        logger.debug("addContainerDatabaseLink(" + paasContainerId + ", " + paasDatabaseId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseId);
         paasDatabase.getPaasContainerList().add(paasContainer);
@@ -1847,6 +1967,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeContainerDatabaseLink(String paasContainerId, String paasDatabaseId) {
+        logger.debug("removeContainerDatabaseLink(" + paasContainerId + ", " + paasDatabaseId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseId);
         paasDatabase.getPaasContainerList().remove(paasContainer);
@@ -1861,6 +1982,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasContainerVO> findContainersByDatabase(String paasDatabaseId) {
+        logger.debug("findContainersByDatabase(" + paasDatabaseId + ")");
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseId);
         List<PaasContainerVO> resultList = new LinkedList<PaasContainerVO>();
         for (PaasContainer tmp : paasDatabase.getPaasContainerList()) {
@@ -1876,6 +1998,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasDatabaseVO> findDatabasesByContainer(String paasContainerId) {
+        logger.debug("findDatabasesByContainer(" + paasContainerId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
         List<PaasDatabaseVO> resultList = new LinkedList<PaasDatabaseVO>();
         for (PaasDatabase tmp : paasContainer.getPaasDatabaseList()) {
@@ -1892,6 +2015,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addRouterContainerLink(String paasRouterId, String paasContainerId) {
+        logger.debug("addRouterContainerLink(" + paasRouterId + ", " + paasContainerId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         paasRouter.getPaasContainerList().add(paasContainer);
@@ -1907,6 +2031,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removeRouterContainerLink(String paasRouterId, String paasContainerId) {
+        logger.debug("removeRouterContainerLink(" + paasRouterId + ", " + paasContainerId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         paasRouter.getPaasContainerList().remove(paasContainer);
@@ -1921,6 +2046,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasRouterVO> findRoutersByContainer(String paasContainerId) {
+        logger.debug("findRoutersByContainer(" + paasContainerId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
         List<PaasRouterVO> resultList = new LinkedList<PaasRouterVO>();
         for (PaasRouter tmp : paasContainer.getPaasRouterList()) {
@@ -1937,6 +2063,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasRouter entity
      */
     private PaasRouter getPaasRouterBean(String paasRouterId) {
+        logger.debug("getPaasRouterBean(" + paasRouterId + ")");
         Query q = entityManager.createQuery("SELECT paasRouter FROM PaasRouter paasRouter WHERE " +
                 "paasRouter.id=:paasRouterId");
         q.setParameter("paasRouterId",paasRouterId);
@@ -1950,6 +2077,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasContainerVO> findContainersByRouter(String paasRouterId) {
+        logger.debug("findContainersByRouter(" + paasRouterId + ")");
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         List<PaasContainerVO> resultList = new LinkedList<PaasContainerVO>();
         for (PaasContainer tmp : paasRouter.getPaasContainerList()) {
@@ -1966,6 +2094,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addPaasResourceAgentLink(String paasResourceId, String paasAgentId) {
+        logger.debug("addPaasResourceAgentLink(" + paasResourceId + ", " + paasAgentId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         PaasAgent paasAgent = getPaasAgentBean(paasAgentId);
         paasResource.setPaasAgent(paasAgent);
@@ -1980,6 +2109,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removePaasResourceAgentLink(String paasResourceId, String paasAgentId) {
+        logger.debug("removePaasResourceAgentLink(" + paasResourceId + ", " + paasAgentId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         paasResource.setPaasAgent(null);
         entityManager.merge(paasResource);
@@ -1992,6 +2122,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasResourceVO> findPaasResourcesByAgent(String paasAgentId) {
+        logger.debug("findPaasResourcesByAgent(" + paasAgentId + ")");
         PaasAgent paasAgent = getPaasAgentBean(paasAgentId);
         List<PaasResourceVO> resultList = new LinkedList<PaasResourceVO>();
         for (PaasResource tmp : paasAgent.getPaasResourceList()) {
@@ -2007,6 +2138,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasAgentVO findAgentByPaasResource(String paasResourceId) {
+        logger.debug("findAgentByPaasResource(" + paasResourceId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         PaasAgent paasAgent = paasResource.getPaasAgent();
         if (paasAgent != null) {
@@ -2025,6 +2157,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addPaasResourceIaasComputeLink(String paasResourceId, String iaasComputeId) {
+        logger.debug("addPaasResourceIaasComputeLink(" + paasResourceId + ", " + iaasComputeId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
         paasResource.setIaasCompute(iaasCompute);
@@ -2039,6 +2172,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removePaasResourceIaasComputeLink(String paasResourceId, String iaasComputeId) {
+        logger.debug("removePaasResourceIaasComputeLink(" + paasResourceId + ", " + iaasComputeId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         paasResource.setIaasCompute(null);
         entityManager.merge(paasResource);
@@ -2051,6 +2185,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasResourceVO> findPaasResourcesByIaasCompute(String iaasComputeId) {
+        logger.debug("findPaasResourcesByIaasCompute(" + iaasComputeId + ")");
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
         List<PaasResourceVO> resultList = new LinkedList<PaasResourceVO>();
         PaasResource paasResource;
@@ -2070,6 +2205,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public IaasComputeVO findIaasComputeByPaasResource(String paasResourceId) {
+        logger.debug("findIaasComputeByPaasResource(" + paasResourceId + ")");
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         IaasCompute iaasCompute = paasResource.getIaasCompute();
         if (iaasCompute != null) {
@@ -2087,6 +2223,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addPaasRouterFrontendLink(String paasRouterId, String paasFrontendId) {
+        logger.debug("addPaasRouterFrontendLink(" + paasRouterId + ", " + paasFrontendId + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         paasRouter.setPaasFrontend(paasFrontend);
@@ -2102,6 +2239,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void removePaasRouterFrontendLink(String paasRouterId, String paasFrontendId) {
+        logger.debug("removePaasRouterFrontendLink(" + paasRouterId + ", " + paasFrontendId + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         paasRouter.setPaasFrontend(null);
@@ -2117,6 +2255,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public List<PaasRouterVO> findPaasRoutersByFrontend(String paasFrontendId) {
+        logger.debug("findPaasRoutersByFrontend(" + paasFrontendId + ")");
         PaasFrontend paasFrontend = getPaasFrontendBean(paasFrontendId);
         List<PaasRouterVO> resultList = new LinkedList<PaasRouterVO>();
         for (PaasRouter tmp : paasFrontend.getPaasRouterList()) {
@@ -2133,6 +2272,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public PaasFrontendVO findFrontendByPaasRouter(String paasRouterId) {
+        logger.debug("findFrontendByPaasRouter(" + paasRouterId + ")");
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         PaasFrontend paasFrontend = paasRouter.getPaasFrontend();
         if (paasFrontend != null) {

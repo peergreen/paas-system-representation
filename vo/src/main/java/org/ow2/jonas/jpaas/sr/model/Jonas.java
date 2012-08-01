@@ -145,6 +145,19 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
         return jonasVO;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Jonas[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", jonasVersion=").append(getJonasVersion())
+                .append(", profile=").append(getProfile())
+                .append(", jdkVersion=").append(getJdkVersion())
+                .append(", domain=").append(getDomain())
+                .append("]");
+        return sb.toString();
+    }
+
     public void mergeJonasVO(JonasVO jonasVO) {
         setName(jonasVO.getName());
         setState(jonasVO.getState());

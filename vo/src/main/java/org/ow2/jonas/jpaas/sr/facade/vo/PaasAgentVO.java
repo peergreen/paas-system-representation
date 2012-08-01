@@ -64,6 +64,16 @@ public class PaasAgentVO extends PaasEntityVO implements java.io.Serializable {
         this.apiUrl = apiUrl;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PaasAgentVO[Id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", state=").append(getState())
+                .append(", apiUrl=").append(getApiUrl())
+                .append("]");
+        return sb.toString();
+    }
+
     /**
      * Change a PaasAgent Value Object into an Entity object
      * @return a PaasAgent Entity
