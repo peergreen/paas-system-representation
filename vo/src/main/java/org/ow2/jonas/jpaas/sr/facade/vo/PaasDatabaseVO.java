@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 import org.ow2.jonas.jpaas.sr.model.PaasDatabase;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define a PaasDatabase Value Object
@@ -39,12 +40,12 @@ public class PaasDatabaseVO extends PaasResourceVO implements java.io.Serializab
         super();
     }
 
-    public PaasDatabaseVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasDatabaseVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
     }
 
-    public PaasDatabaseVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasDatabaseVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
     }

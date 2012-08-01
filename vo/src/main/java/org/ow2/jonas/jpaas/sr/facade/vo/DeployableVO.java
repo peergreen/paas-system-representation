@@ -29,6 +29,7 @@ import org.ow2.jonas.jpaas.sr.model.Deployable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Define a Deployable Value Object
@@ -59,7 +60,7 @@ public class DeployableVO implements java.io.Serializable {
     /**
      * SlaEnforcement of the deployable.
      */
-    private List<String> slaEnforcement;
+    private List<Properties> slaEnforcement;
 
     /**
      * ID of the ApplicationVersion of the deployable.
@@ -74,11 +75,11 @@ public class DeployableVO implements java.io.Serializable {
 
     public DeployableVO() {
         requirements = new LinkedList<String>();
-        slaEnforcement = new LinkedList<String>();
+        slaEnforcement = new LinkedList<Properties>();
     }
 
     public DeployableVO(String id, String url, boolean uploaded, List<String> requirements,
-            List<String> slaEnforcement) {
+            List<Properties> slaEnforcement) {
         this.id = id;
         this.url = url;
         isUploaded = uploaded;
@@ -86,7 +87,7 @@ public class DeployableVO implements java.io.Serializable {
         this.slaEnforcement = slaEnforcement;
     }
 
-    public DeployableVO(String url, boolean uploaded, List<String> requirements, List<String> slaEnforcement) {
+    public DeployableVO(String url, boolean uploaded, List<String> requirements, List<Properties> slaEnforcement) {
         this.id = null;
         this.url = url;
         isUploaded = uploaded;
@@ -126,11 +127,11 @@ public class DeployableVO implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<String> getSlaEnforcement() {
+    public List<Properties> getSlaEnforcement() {
         return slaEnforcement;
     }
 
-    public void setSlaEnforcement(List<String> slaEnforcement) {
+    public void setSlaEnforcement(List<Properties> slaEnforcement) {
         this.slaEnforcement = slaEnforcement;
     }
 

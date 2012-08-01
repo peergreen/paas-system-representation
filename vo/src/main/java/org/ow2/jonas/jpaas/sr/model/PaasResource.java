@@ -33,6 +33,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import java.util.LinkedList;
+import java.util.HashMap;
 
 
 /**
@@ -58,7 +59,7 @@ public class PaasResource extends PaasEntity implements java.io.Serializable {
     }
 
     public PaasResourceVO createPaasResourceVO() {
-        return new PaasResourceVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        return new PaasResourceVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }
 

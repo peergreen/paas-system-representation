@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 import org.ow2.jonas.jpaas.sr.model.PaasRouter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define a PaasRouter Value Object
@@ -39,12 +40,12 @@ public class PaasRouterVO extends PaasResourceVO implements java.io.Serializable
         super();
     }
 
-    public PaasRouterVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasRouterVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
     }
 
-    public PaasRouterVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasRouterVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
     }

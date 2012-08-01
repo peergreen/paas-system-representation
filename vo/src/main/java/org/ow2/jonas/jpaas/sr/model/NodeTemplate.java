@@ -35,6 +35,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Define a Node
@@ -71,7 +72,7 @@ public class NodeTemplate implements java.io.Serializable {
      * SlaEnforcement of the Node.
      */
     @ElementCollection
-    private List<String> slaEnforcement;
+    private List<Properties> slaEnforcement;
 
     /**
      * Minimum size of the Node.
@@ -133,11 +134,11 @@ public class NodeTemplate implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<String> getSlaEnforcement() {
+    public List<Properties> getSlaEnforcement() {
         return slaEnforcement;
     }
 
-    public void setSlaEnforcement(List<String> slaEnforcement) {
+    public void setSlaEnforcement(List<Properties> slaEnforcement) {
         this.slaEnforcement = slaEnforcement;
     }
 

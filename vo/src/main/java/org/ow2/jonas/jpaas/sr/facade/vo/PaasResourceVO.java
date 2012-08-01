@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 import org.ow2.jonas.jpaas.sr.model.PaasResource;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define a PaasResource Value Object
@@ -39,12 +40,12 @@ public class PaasResourceVO extends PaasEntityVO implements java.io.Serializable
         super();
     }
 
-    public PaasResourceVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasResourceVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
     }
 
-    public PaasResourceVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasResourceVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
     }

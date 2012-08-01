@@ -39,8 +39,11 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * ApplicationVersion Facade test case
@@ -121,9 +124,9 @@ public class TestApplicationVersionFacade {
         this.userID = user1.getId();
 
         //Create Application
-        List<String> capabilitiesList = new LinkedList<String>();
-        capabilitiesList.add("capability 1");
-        capabilitiesList.add("capability 2");
+        Map<String,String> capabilitiesList = new HashMap<String,String>();
+        capabilitiesList.put("capability 1", "value");
+        capabilitiesList.put("capability 2", "value");
         requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
         requirementsList.add("requirement 2");
@@ -207,8 +210,8 @@ public class TestApplicationVersionFacade {
 
     @Test(dependsOnMethods = "testDeleteApplicationVersion")
     public void testDeployable() {
-        DeployableVO deployable1 = new DeployableVO("url", true, requirementsList, new LinkedList<String>());
-        DeployableVO deployable2 = new DeployableVO("url2", true, requirementsList, new LinkedList<String>());
+        DeployableVO deployable1 = new DeployableVO("url", true, requirementsList, new LinkedList<Properties>());
+        DeployableVO deployable2 = new DeployableVO("url2", true, requirementsList, new LinkedList<Properties>());
         appVersion1.getDeployableList().add(deployable1);
         appVersion1.getDeployableList().add(deployable2);
         ApplicationVersionVO tmpAppVersion1;
@@ -217,7 +220,7 @@ public class TestApplicationVersionFacade {
                 tmpAppVersion1.getDeployableList().get(0).getUrl(), "Test Deployable creation");
         //Test update
         tmpAppVersion1.getDeployableList().get(1).setUrl("updateUrl2");
-        DeployableVO deployable3 = new DeployableVO("url3", true, requirementsList, new LinkedList<String>());
+        DeployableVO deployable3 = new DeployableVO("url3", true, requirementsList, new LinkedList<Properties>());
         tmpAppVersion1.getDeployableList().add(deployable3);
         tmpAppVersion1.getDeployableList().remove(0);
         ApplicationVersionVO updateAppVersion1 = iSrApplicationVersionFacade.updateApplicationVersion(applicationID,

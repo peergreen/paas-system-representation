@@ -42,8 +42,11 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * EnvironmentPaasResourceLink test case
@@ -138,9 +141,9 @@ public class TestEnvironmentPaasResourceLink {
         user1 = iSrUserFacade.createUser(user1);
         this.userID = user1.getId();
 
-        List<String> capabilitiesList = new LinkedList<String>();
-        capabilitiesList.add("capability 1");
-        capabilitiesList.add("capability 2");
+        Map<String,String> capabilitiesList = new HashMap<String,String>();
+        capabilitiesList.put("capability 1", "value");
+        capabilitiesList.put("capability 2", "value");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);
@@ -154,9 +157,9 @@ public class TestEnvironmentPaasResourceLink {
                 "jdkVersion", "domain");
         env1 =  new EnvironmentVO("env1", "testDescription", "testState");
         nodeTemplate1 = new NodeTemplateVO("nodeTemplate1", new LinkedList<String>(),
-                new LinkedList<String>(), 1, 5, 3);
+                new LinkedList<Properties>(), 1, 5, 3);
         nodeTemplate2 = new NodeTemplateVO("nodeTemplate2", new LinkedList<String>(),
-                new LinkedList<String>(), 1, 5, 3);
+                new LinkedList<Properties>(), 1, 5, 3);
         TopologyTemplateVO topologyTemplateVO = new TopologyTemplateVO();
         topologyTemplateVO.getNodeTemplateList().add(nodeTemplate1);
         topologyTemplateVO.getNodeTemplateList().add(nodeTemplate2);

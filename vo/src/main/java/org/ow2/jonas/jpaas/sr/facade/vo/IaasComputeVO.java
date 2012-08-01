@@ -29,6 +29,7 @@ import org.ow2.jonas.jpaas.sr.model.IaasCompute;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an IaasCompute Value Object
@@ -60,7 +61,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         roles = new LinkedList<String>();
     }
 
-    public IaasComputeVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public IaasComputeVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String ipAddress, String hostname, String conf,
             List<String> roles) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
@@ -70,7 +71,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         this.roles = roles;
     }
 
-    public IaasComputeVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public IaasComputeVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String ipAddress, String hostname, String conf,
             List<String> roles) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);

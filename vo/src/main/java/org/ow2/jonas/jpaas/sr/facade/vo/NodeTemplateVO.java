@@ -29,6 +29,7 @@ import org.ow2.jonas.jpaas.sr.model.NodeTemplate;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Define a NodeTemplate Value Object
@@ -54,7 +55,7 @@ public class NodeTemplateVO implements java.io.Serializable {
     /**
      * SlaEnforcement of the Node.
      */
-    private List<String> slaEnforcement = new LinkedList<String>();
+    private List<Properties> slaEnforcement = new LinkedList<Properties>();
 
     /**
      * Minimum size of the Node.
@@ -73,10 +74,11 @@ public class NodeTemplateVO implements java.io.Serializable {
 
     public NodeTemplateVO() {
         this.requirements = new LinkedList<String>();
-        this.slaEnforcement = new LinkedList<String>();
+        this.slaEnforcement = new LinkedList<Properties>();
     }
 
-    public NodeTemplateVO(String id, String name, List<String> requirements, List<String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+    public NodeTemplateVO(String id, String name, List<String> requirements, List<Properties> slaEnforcement,
+            int minSize, int maxSize, int currentSize) {
         this.id = id;
         this.name = name;
         this.requirements = requirements;
@@ -86,8 +88,8 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.currentSize = currentSize;
     }
 
-    public NodeTemplateVO(String name, List<String> requirements, List<String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-            this.id = id;
+    public NodeTemplateVO(String name, List<String> requirements, List<Properties> slaEnforcement,
+            int minSize, int maxSize, int currentSize) {
             this.name = name;
             this.requirements = requirements;
             this.slaEnforcement = slaEnforcement;
@@ -121,11 +123,11 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<String> getSlaEnforcement() {
+    public List<Properties> getSlaEnforcement() {
         return slaEnforcement;
     }
 
-    public void setSlaEnforcement(List<String> slaEnforcement) {
+    public void setSlaEnforcement(List<Properties> slaEnforcement) {
         this.slaEnforcement = slaEnforcement;
     }
 

@@ -36,8 +36,10 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Application Facade test case
@@ -63,7 +65,7 @@ public class TestApplicationFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitiesList;
+    private Map<String,String> capabilitiesList;
 
     /**
      * Requirements list
@@ -90,9 +92,9 @@ public class TestApplicationFacade {
         getBean();
         initDatabase();
 
-        capabilitiesList = new LinkedList<String>();
-        capabilitiesList.add("capability 1");
-        capabilitiesList.add("capability 2");
+        capabilitiesList = new HashMap<String,String>();
+        capabilitiesList.put("capability 1", "value");
+        capabilitiesList.put("capability 2", "value");
 
         requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
@@ -155,7 +157,7 @@ public class TestApplicationFacade {
         List<String> updateRequirementsList = new LinkedList<String>(requirementsList);
         updateRequirementsList.add("capability 3");
         app1.setRequirements(updateRequirementsList);
-        List<String> updateCapabilitiesList = new LinkedList<String>(capabilitiesList);
+        Map<String,String> updateCapabilitiesList = new HashMap<String,String>(capabilitiesList);
         updateCapabilitiesList.remove(1);
         app1.setCapabilities(updateCapabilitiesList);
         ApplicationVO tmpApp1 = iSrApplicationFacade.updateApplication(app1);

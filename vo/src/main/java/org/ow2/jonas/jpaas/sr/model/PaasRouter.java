@@ -34,8 +34,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.HashMap;
 
 
 /**
@@ -68,7 +70,7 @@ public class PaasRouter extends PaasResource implements java.io.Serializable {
     }
 
     public PaasRouterVO createPaasRouterVO() {
-        return new PaasRouterVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        return new PaasRouterVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }
 

@@ -39,8 +39,10 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * PaasRouterPaasContainerLink test case
@@ -109,9 +111,9 @@ public class TestPaasRouterPaasContainerLink {
     }
 
     private void initRouter() {
-        List<String> capabilitiesList = new LinkedList<String>();
-        capabilitiesList.add("capability 1");
-        capabilitiesList.add("capability 2");
+        Map<String,String> capabilitiesList = new HashMap<String,String>();
+        capabilitiesList.put("capability 1", "value");
+        capabilitiesList.put("capability 2", "value");
 
         List<Integer> usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);

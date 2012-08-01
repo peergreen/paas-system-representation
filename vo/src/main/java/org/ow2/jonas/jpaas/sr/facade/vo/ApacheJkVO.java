@@ -31,6 +31,7 @@ import org.ow2.jonas.jpaas.sr.model.Worker;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an ApacheJkVO Value Object
@@ -65,7 +66,7 @@ public class ApacheJkVO extends PaasRouterVO implements java.io.Serializable {
         this.workerList = new LinkedList<WorkerVO>();
     }
 
-    public ApacheJkVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public ApacheJkVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String apacheVersion, String jkVersion) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
         this.apacheVersion = apacheVersion;
@@ -74,7 +75,7 @@ public class ApacheJkVO extends PaasRouterVO implements java.io.Serializable {
         this.workerList = new LinkedList<WorkerVO>();
     }
 
-    public ApacheJkVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public ApacheJkVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String apacheVersion, String jkVersion) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
         this.apacheVersion = apacheVersion;

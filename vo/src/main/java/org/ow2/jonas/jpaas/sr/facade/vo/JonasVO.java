@@ -31,6 +31,7 @@ import org.ow2.jonas.jpaas.sr.model.Jonas;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define a Jonas Value Object
@@ -75,7 +76,7 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
         this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
-    public JonasVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public JonasVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String jonasVersion, String profile,
             String jdkVersion, String domain) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
@@ -87,7 +88,7 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
         this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
-    public JonasVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public JonasVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String jonasVersion, String profile,
             String jdkVersion, String domain) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);

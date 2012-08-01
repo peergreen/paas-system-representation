@@ -42,8 +42,11 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * ApplicationVersionInstance Facade test case
@@ -132,9 +135,9 @@ public class TestApplicationVersionInstanceFacade {
         this.userID = user1.getId();
 
         //Create Application
-        List<String> capabilitiesList = new LinkedList<String>();
-        capabilitiesList.add("capability 1");
-        capabilitiesList.add("capability 2");
+        Map<String,String> capabilitiesList = new HashMap<String,String>();
+        capabilitiesList.put("capability 1", "value");
+        capabilitiesList.put("capability 2", "value");
         List<String> requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
         requirementsList.add("requirement 2");
@@ -230,10 +233,10 @@ public class TestApplicationVersionInstanceFacade {
 
     @Test(dependsOnMethods = "testDeleteApplicationVersion")
     public void testDeployable() {
-        DeployableVO deployable1 = new DeployableVO("url", true, new LinkedList<String>(), new LinkedList<String>());
+        DeployableVO deployable1 = new DeployableVO("url", true, new LinkedList<String>(), new LinkedList<Properties>());
         ApplicationVersionInstanceVO appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1",
                 "testState");
-        DeployableVO deployable2 = new DeployableVO("url2", true, new LinkedList<String>(), new LinkedList<String>());
+        DeployableVO deployable2 = new DeployableVO("url2", true, new LinkedList<String>(), new LinkedList<Properties>());
         appVersionInstance1.getDeployableList().add(deployable1);
         appVersionInstance1.getDeployableList().add(deployable2);
         ApplicationVersionInstanceVO tmpInstanceVO;
@@ -246,7 +249,7 @@ public class TestApplicationVersionInstanceFacade {
 
         //Test update
         tmpInstanceVO.getDeployableList().get(1).setUrl("updateUrl2");
-        DeployableVO deployable3 = new DeployableVO("url3", true, new LinkedList<String>(), new LinkedList<String>());
+        DeployableVO deployable3 = new DeployableVO("url3", true, new LinkedList<String>(), new LinkedList<Properties>());
         tmpInstanceVO.getDeployableList().add(deployable3);
         tmpInstanceVO.getDeployableList().remove(0);
         ApplicationVersionInstanceVO updateInstanceVO =
@@ -269,8 +272,8 @@ public class TestApplicationVersionInstanceFacade {
                 "testState");
         appVersionInstance1.getPaasArtefactList().add(paasArtefactVO);
 
-        DeployableVO deployable1 = new DeployableVO("url", true, new LinkedList<String>(), new LinkedList<String>());
-        DeployableVO deployable2 = new DeployableVO("url2", true, new LinkedList<String>(), new LinkedList<String>());
+        DeployableVO deployable1 = new DeployableVO("url", true, new LinkedList<String>(), new LinkedList<Properties>());
+        DeployableVO deployable2 = new DeployableVO("url2", true, new LinkedList<String>(), new LinkedList<Properties>());
         appVersionInstance1.getDeployableList().add(deployable1);
         appVersionInstance1.getDeployableList().add(deployable2);
 

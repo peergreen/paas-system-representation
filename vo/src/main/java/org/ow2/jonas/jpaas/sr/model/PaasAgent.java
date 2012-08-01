@@ -33,6 +33,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -82,7 +83,7 @@ public class PaasAgent extends PaasEntity implements java.io.Serializable {
         return sb.toString();
     }
     public PaasAgentVO createPaasAgentVO() {
-        return new PaasAgentVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        return new PaasAgentVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), apiUrl);
     }
 

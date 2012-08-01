@@ -27,8 +27,10 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 import org.ow2.jonas.jpaas.sr.model.Entity;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an Entity Value Object
@@ -53,7 +55,7 @@ public class EntityVO implements java.io.Serializable {
     /**
      * Capabilities of the Entity.
      */
-    private List<String> capabilities;
+    private Map<String,String> capabilities;
 
     /**
      * True if the Entity is multitenant.
@@ -71,11 +73,11 @@ public class EntityVO implements java.io.Serializable {
     private List<Integer> usedPorts;
 
     public EntityVO() {
-        capabilities = new LinkedList<String>();
+        capabilities = new HashMap<String,String>();
         usedPorts = new LinkedList<Integer>();
     }
 
-    public EntityVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public EntityVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         this.id = id;
         this.name = name;
@@ -86,7 +88,7 @@ public class EntityVO implements java.io.Serializable {
         this.usedPorts = usedPorts;
     }
 
-    public EntityVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public EntityVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         this.id = null;
         this.name = name;
@@ -121,11 +123,11 @@ public class EntityVO implements java.io.Serializable {
         this.state = state;
     }
 
-    public List<String> getCapabilities() {
+    public Map<String,String> getCapabilities() {
         return capabilities;
     }
 
-    public void setCapabilities(List<String> capabilities) {
+    public void setCapabilities(Map<String,String> capabilities) {
         this.capabilities = capabilities;
     }
 

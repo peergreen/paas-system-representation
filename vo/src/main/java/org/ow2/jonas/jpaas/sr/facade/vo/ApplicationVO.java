@@ -30,6 +30,7 @@ import org.ow2.jonas.jpaas.sr.model.Application;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an Application Value Object
@@ -60,7 +61,7 @@ public class ApplicationVO implements java.io.Serializable {
     /**
      * Capabilities of the application.
      */
-    private List<String> capabilities;
+    private Map<String,String> capabilities;
 
     /**
      * ApplicationVersion of the Application.
@@ -68,7 +69,8 @@ public class ApplicationVO implements java.io.Serializable {
     private List<ApplicationVersionVO> applicationVersionList;
 
 
-    public ApplicationVO(String id, String name, String description, List<String> requirements, List<String> capabilities) {
+    public ApplicationVO(String id, String name, String description, List<String> requirements,
+            Map<String,String> capabilities) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -77,7 +79,8 @@ public class ApplicationVO implements java.io.Serializable {
         this.applicationVersionList = new LinkedList<ApplicationVersionVO>();
     }
 
-    public ApplicationVO(String name, String description, List<String> requirements, List<String> capabilities) {
+    public ApplicationVO(String name, String description, List<String> requirements,
+            Map<String,String> capabilities) {
         this.id = null;
         this.name = name;
         this.description = description;
@@ -119,11 +122,11 @@ public class ApplicationVO implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<String> getCapabilities() {
+    public Map<String,String> getCapabilities() {
         return capabilities;
     }
 
-    public void setCapabilities(List<String> capabilities) {
+    public void setCapabilities(Map<String,String> capabilities) {
         this.capabilities = capabilities;
     }
 

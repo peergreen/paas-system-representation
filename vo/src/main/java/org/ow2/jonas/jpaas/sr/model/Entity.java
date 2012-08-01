@@ -33,8 +33,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an Entity
@@ -71,7 +73,7 @@ public class Entity implements java.io.Serializable {
      * Capabilities of the Entity.
      */
     @ElementCollection
-    private List<String> capabilities = new LinkedList<String>();
+    private Map<String,String> capabilities = new HashMap<String,String>();
 
     /**
      * True if the Entity is multitenant.
@@ -127,11 +129,11 @@ public class Entity implements java.io.Serializable {
         this.state = state;
     }
 
-    public List<String> getCapabilities() {
+    public Map<String,String> getCapabilities() {
         return capabilities;
     }
 
-    public void setCapabilities(List<String> capabilities) {
+    public void setCapabilities(Map<String,String> capabilities) {
         this.capabilities = capabilities;
     }
 

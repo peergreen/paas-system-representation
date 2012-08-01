@@ -35,6 +35,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -129,7 +130,7 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
     }
 
     public JonasVO createJonasVO() {
-        JonasVO jonasVO = new JonasVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        JonasVO jonasVO = new JonasVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), jonasVersion, profile,
                 jdkVersion, domain);
         if (connectorList != null) {

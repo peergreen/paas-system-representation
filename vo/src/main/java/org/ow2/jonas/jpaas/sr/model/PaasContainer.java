@@ -35,6 +35,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class PaasContainer extends PaasResource implements java.io.Serializable 
     }
 
     public PaasContainerVO createPaasContainerVO() {
-        return new PaasContainerVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        return new PaasContainerVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }
 

@@ -33,8 +33,10 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * PaasAgent Facade test case
@@ -50,7 +52,7 @@ public class TestPaasAgentFacade {
     /**
      * Capabilities list
      */
-    private List<String> capabilitiesList;
+    private Map<String,String> capabilitiesList;
 
     /**
      * usedPorts list
@@ -77,9 +79,9 @@ public class TestPaasAgentFacade {
     public void init() throws NamingException {
         getBean();
 
-        capabilitiesList = new LinkedList<String>();
-        capabilitiesList.add("capability 1");
-        capabilitiesList.add("capability 2");
+        capabilitiesList = new HashMap<String,String>();
+        capabilitiesList.put("capability 1", "value");
+        capabilitiesList.put("capability 2", "value");
 
         usedPorts = new LinkedList<Integer>();
         usedPorts.add(1);

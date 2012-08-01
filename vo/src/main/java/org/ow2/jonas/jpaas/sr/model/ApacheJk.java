@@ -35,6 +35,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -114,7 +115,7 @@ public class ApacheJk extends PaasRouter implements java.io.Serializable {
 
     public ApacheJkVO createApacheJkVO() {
         ApacheJkVO apacheJkVO = new ApacheJkVO(getId(), getName(), getState(),
-                new LinkedList<String>(getCapabilities()), isMultitenant(), isReusable(),
+                new HashMap<String,String>(getCapabilities()), isMultitenant(), isReusable(),
                 new LinkedList<Integer>(getUsedPorts()), apacheVersion, jkVersion);
         if (workerList != null) {
             for (Worker tmp : workerList) {

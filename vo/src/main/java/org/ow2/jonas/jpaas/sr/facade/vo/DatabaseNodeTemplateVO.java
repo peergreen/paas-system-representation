@@ -27,6 +27,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Define a DatabaseNodeTemplate Value Object
@@ -34,12 +35,12 @@ import java.util.List;
  */
 public class DatabaseNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
-    public DatabaseNodeTemplateVO(String id, String name, List<String> requirements, List<String> slaEnforcement,
+    public DatabaseNodeTemplateVO(String id, String name, List<String> requirements, List<Properties> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         super(id, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public DatabaseNodeTemplateVO(String name, List<String> requirements, List<String> slaEnforcement, int minSize,
+    public DatabaseNodeTemplateVO(String name, List<String> requirements, List<Properties> slaEnforcement, int minSize,
             int maxSize, int currentSize) {
         super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }

@@ -28,6 +28,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 import org.ow2.jonas.jpaas.sr.model.PaasAgent;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define a PaasAgent Value Object
@@ -44,13 +45,13 @@ public class PaasAgentVO extends PaasEntityVO implements java.io.Serializable {
         super();
     }
 
-    public PaasAgentVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasAgentVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
                        boolean reusable, List<Integer> usedPorts, String apiUrl) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
         this.apiUrl = apiUrl;
     }
 
-    public PaasAgentVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public PaasAgentVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
                            boolean reusable, List<Integer> usedPorts, String apiUrl) {
             super(name, state, capabilities, multitenant, reusable, usedPorts);
             this.apiUrl = apiUrl;

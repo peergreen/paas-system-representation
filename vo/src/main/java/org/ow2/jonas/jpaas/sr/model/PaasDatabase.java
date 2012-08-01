@@ -35,6 +35,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.HashMap;
 
 
 /**
@@ -52,7 +53,7 @@ public class PaasDatabase extends PaasResource implements java.io.Serializable {
     private List<PaasContainer> paasContainerList;
 
     public PaasDatabaseVO createPaasDatabaseVO() {
-        return new PaasDatabaseVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        return new PaasDatabaseVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }
 

@@ -37,8 +37,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an Application
@@ -81,7 +83,7 @@ public class Application implements java.io.Serializable {
      * Capabilities of the application.
      */
     @ElementCollection
-    private List<String> capabilities;
+    private Map<String,String> capabilities;
 
     /**
      * User of the application.
@@ -135,11 +137,11 @@ public class Application implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<String> getCapabilities() {
+    public Map<String,String> getCapabilities() {
         return capabilities;
     }
 
-    public void setCapabilities(List<String> capabilities) {
+    public void setCapabilities(Map<String,String> capabilities) {
         this.capabilities = capabilities;
     }
 
@@ -165,7 +167,7 @@ public class Application implements java.io.Serializable {
 
     public ApplicationVO createApplicationVO() {
         ApplicationVO applicationVO = new ApplicationVO(id,name,description,new LinkedList<String>(requirements),
-                new LinkedList<String>(capabilities));
+                new HashMap<String,String>(capabilities));
         if (applicationVersionList != null) {
             for (ApplicationVersion tmp : applicationVersionList) {
                 applicationVO.getApplicationVersionList().add(tmp.createApplicationVersionVO());

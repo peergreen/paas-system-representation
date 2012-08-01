@@ -33,6 +33,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
     }
 
     public IaasComputeVO createIaasComputeVO() {
-        return new IaasComputeVO(getId(), getName(), getState(), new LinkedList<String>(getCapabilities()),
+        return new IaasComputeVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), ipAddress, hostname,
                 conf, new LinkedList<String>(getRoles()));
     }

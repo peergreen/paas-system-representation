@@ -26,6 +26,7 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Define an IaasEntity Value Object
@@ -37,12 +38,12 @@ public class IaasEntityVO extends EntityVO implements java.io.Serializable {
         super();
     }
 
-    public IaasEntityVO(String id, String name, String state, List<String> capabilities, boolean multitenant,
+    public IaasEntityVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
     }
 
-    public IaasEntityVO(String name, String state, List<String> capabilities, boolean multitenant,
+    public IaasEntityVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
     }
