@@ -33,6 +33,7 @@ import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentIaasComputeLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerPaasDatabaseLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasDatabaseFacade;
@@ -124,7 +125,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         ISrApplicationVersionInstanceFacade, ISrEnvironmentFacade, ISrApplicationEnvLink, ISrPaasJonasContainerFacade,
         ISrEnvironmentPaasResourceLink, ISrPaasApacheJkRouterFacade, ISrPaasDatabaseFacade, ISrPaasAgentFacade,
         ISrIaasComputeFacade, ISrPaasFrontendFacade, ISrPaasRouterPaasContainerLink, ISrPaasContainerPaasDatabaseLink,
-        ISrPaasResourcePaasAgentLink, ISrPaasResourceIaasComputeLink, ISrPaasRouterFrontendLink {
+        ISrPaasResourcePaasAgentLink, ISrPaasResourceIaasComputeLink, ISrPaasRouterFrontendLink,
+        ISrPaasAgentIaasComputeLink {
 
 
     /**
@@ -2281,4 +2283,70 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             return null;
         }
     }
+
+    /**
+       * Add a link between a PaasAgent and a IaasCompute
+       *
+       * @param paasAgentId Id of the PaasAgent
+       * @param iaasComputeId  Id of the IaasCompute
+       */
+      @Override
+      public void addPaasAgentIaasComputeLink(String paasAgentId, String iaasComputeId) {
+          logger.debug("addPaasAgentIaasComputeLink(" + paasAgentId + ", " + iaasComputeId + ")");
+          PaasAgent paasAgent = getPaasAgentBean(paasAgentId);
+          IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
+          paasAgent.setIaasCompute(iaasCompute);
+          entityManager.merge(paasAgent);
+      }
+  
+      /**
+       * Remove a link between a PaasAgent and a IaasCompute
+       *
+       * @param paasAgentId Id of the PaasAgent
+       * @param iaasComputeId  Id of the IaasCompute
+       */
+      @Override
+      public void removePaasAgentIaasComputeLink(String paasAgentId, String iaasComputeId) {
+          logger.debug("removePaasAgentIaasComputeLink(" + paasAgentId + ", " + iaasComputeId + ")");
+          PaasAgent paasAgent = getPaasAgentBean(paasAgentId);
+          paasAgent.setIaasCompute(null);
+          entityManager.merge(paasAgent);
+      }
+  
+      /**
+       * Get the PaasAgents of a IaasCompute
+       *
+       * @param iaasComputeId Id of the IaasCompute
+       */
+      @Override
+      public List<PaasAgentVO> findPaasAgentsByIaasCompute(String iaasComputeId) {
+          logger.debug("findPaasAgentsByIaasCompute(" + iaasComputeId + ")");
+          IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
+          List<PaasAgentVO> resultList = new LinkedList<PaasAgentVO>();
+          PaasAgent paasAgent;
+          for (PaasEntity tmp : iaasCompute.getPaasEntityList()) {
+              if (tmp instanceof PaasAgent) {
+                  paasAgent = (PaasAgent) tmp;
+                  resultList.add(paasAgent.createPaasAgentVO());
+              }
+          }
+          return resultList;
+      }
+  
+      /**
+       * Get the IaasCompute of a PaasAgent
+       *
+       * @param paasAgentId Id of the PaasAgent
+       */
+      @Override
+      public IaasComputeVO findIaasComputeByPaasAgent(String paasAgentId) {
+          logger.debug("findIaasComputeByPaasAgent(" + paasAgentId + ")");
+          PaasAgent paasAgent = getPaasAgentBean(paasAgentId);
+          IaasCompute iaasCompute = paasAgent.getIaasCompute();
+          if (iaasCompute != null) {
+              return iaasCompute.createIaasComputeVO();
+          } else {
+              return null;
+          }
+      } 
 }
