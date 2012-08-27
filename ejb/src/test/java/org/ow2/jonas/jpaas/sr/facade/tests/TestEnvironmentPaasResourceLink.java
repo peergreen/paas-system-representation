@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * EnvironmentPaasResourceLink test case
@@ -157,9 +156,9 @@ public class TestEnvironmentPaasResourceLink {
                 "jdkVersion", "domain");
         env1 =  new EnvironmentVO("env1", "testDescription", "testState");
         nodeTemplate1 = new NodeTemplateVO("nodeTemplate1", new LinkedList<String>(),
-                new LinkedList<Properties>(), 1, 5, 3);
+                new HashMap<String, String>(), 1, 5, 3);
         nodeTemplate2 = new NodeTemplateVO("nodeTemplate2", new LinkedList<String>(),
-                new LinkedList<Properties>(), 1, 5, 3);
+                new HashMap<String, String>(), 1, 5, 3);
         TopologyTemplateVO topologyTemplateVO = new TopologyTemplateVO();
         topologyTemplateVO.getNodeTemplateList().add(nodeTemplate1);
         topologyTemplateVO.getNodeTemplateList().add(nodeTemplate2);

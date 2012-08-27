@@ -44,9 +44,9 @@ import org.testng.annotations.Test;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Environment Facade test case
@@ -178,15 +178,15 @@ public class TestEnvironmentFacade {
         ConnectorTemplateVO connectorTemplate1 = new ConnectorTemplateVO("connectorTemplate1");
         DatasourceTemplateVO datasourceTemplate1 = new DatasourceTemplateVO("datasourceTemplate1");
         NodeTemplateVO nodeTemplate1 = new NodeTemplateVO("nodeTemplate1", new LinkedList<String>(),
-                new LinkedList<Properties>(), 1, 5, 3);
+                new HashMap<String, String>(), 1, 5, 3);
         RouterNodeTemplateVO routerNodeTemplate1 = new RouterNodeTemplateVO("routerNodeTemplate1",
-                new LinkedList<String>(), new LinkedList<Properties>(), 1, 5, 3);
+                new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
         ContainerNodeTemplateVO containerNodeTemplate1 = new ContainerNodeTemplateVO("containerNodeTemplate1",
-                new LinkedList<String>(), new LinkedList<Properties>(), 1, 5, 3);
+                new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
         DatabaseNodeTemplateVO databaseNodeTemplate1 = new DatabaseNodeTemplateVO("databaseNodeTemplate1",
-                new LinkedList<String>(), new LinkedList<Properties>(), 1, 5, 3);
+                new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
         IaasComputeNodeTemplateVO iaasComputeNodeTemplate1 = new IaasComputeNodeTemplateVO("iaasComputeNodeTemplate1",
-                new LinkedList<String>(), new LinkedList<Properties>(), 1, 5, 3);
+                new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
         TopologyTemplateVO topologyTemplateVO = new TopologyTemplateVO();
         topologyTemplateVO.getRelationshipTemplateList().add(connectorTemplate1);
         topologyTemplateVO.getRelationshipTemplateList().add(datasourceTemplate1);
@@ -220,7 +220,7 @@ public class TestEnvironmentFacade {
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().remove(1);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().get(0).setName("updateName");
         NodeTemplateVO nodeTemplate2 = new NodeTemplateVO("nodeTemplate2", new LinkedList<String>(),
-                new LinkedList<Properties>(), 1, 5, 3);
+                new HashMap<String, String>(), 1, 5, 3);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().add(nodeTemplate2);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().remove(1);
         EnvironmentVO updateEnv = iSrEnvironmentFacade.updateEnvironment(tmpEnv1);

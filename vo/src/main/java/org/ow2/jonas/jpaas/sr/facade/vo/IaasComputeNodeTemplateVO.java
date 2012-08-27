@@ -27,7 +27,7 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * Define a DatabaseNodeTemplate Value Object
@@ -36,11 +36,11 @@ import java.util.Properties;
 public class IaasComputeNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
     public IaasComputeNodeTemplateVO(String id, String name, List<String> requirements,
-            List<Properties> slaEnforcement, int minSize, int maxSize, int currentSize) {
+            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
         super(id, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public IaasComputeNodeTemplateVO(String name, List<String> requirements, List<Properties> slaEnforcement,
+    public IaasComputeNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }

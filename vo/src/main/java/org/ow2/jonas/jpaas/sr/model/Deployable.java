@@ -34,7 +34,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * Define a Deployable
@@ -76,7 +76,7 @@ public class Deployable implements java.io.Serializable {
      * SlaEnforcement of the deployable.
      */
     @ElementCollection
-    private List<Properties> slaEnforcement;
+    private Map<String,String> slaEnforcement;
 
     /**
      * ApplicationVersion of the deployable.
@@ -137,11 +137,11 @@ public class Deployable implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<Properties> getSlaEnforcement() {
+    public Map<String,String> getSlaEnforcement() {
         return slaEnforcement;
     }
 
-    public void setSlaEnforcement(List<Properties> slaEnforcement) {
+    public void setSlaEnforcement(Map<String,String> slaEnforcement) {
         this.slaEnforcement = slaEnforcement;
     }
 

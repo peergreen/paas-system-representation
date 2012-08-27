@@ -27,9 +27,10 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 import org.ow2.jonas.jpaas.sr.model.NodeTemplate;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * Define a NodeTemplate Value Object
@@ -55,7 +56,7 @@ public class NodeTemplateVO implements java.io.Serializable {
     /**
      * SlaEnforcement of the Node.
      */
-    private List<Properties> slaEnforcement = new LinkedList<Properties>();
+    private Map<String,String> slaEnforcement = new HashMap<String, String>();
 
     /**
      * Minimum size of the Node.
@@ -74,10 +75,10 @@ public class NodeTemplateVO implements java.io.Serializable {
 
     public NodeTemplateVO() {
         this.requirements = new LinkedList<String>();
-        this.slaEnforcement = new LinkedList<Properties>();
+        this.slaEnforcement = new HashMap<String, String>();
     }
 
-    public NodeTemplateVO(String id, String name, List<String> requirements, List<Properties> slaEnforcement,
+    public NodeTemplateVO(String id, String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         this.id = id;
         this.name = name;
@@ -88,7 +89,7 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.currentSize = currentSize;
     }
 
-    public NodeTemplateVO(String name, List<String> requirements, List<Properties> slaEnforcement,
+    public NodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
             this.name = name;
             this.requirements = requirements;
@@ -123,11 +124,11 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<Properties> getSlaEnforcement() {
+    public Map<String,String> getSlaEnforcement() {
         return slaEnforcement;
     }
 
-    public void setSlaEnforcement(List<Properties> slaEnforcement) {
+    public void setSlaEnforcement(Map<String,String> slaEnforcement) {
         this.slaEnforcement = slaEnforcement;
     }
 

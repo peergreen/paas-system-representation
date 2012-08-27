@@ -27,9 +27,10 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 import org.ow2.jonas.jpaas.sr.model.Deployable;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * Define a Deployable Value Object
@@ -60,7 +61,7 @@ public class DeployableVO implements java.io.Serializable {
     /**
      * SlaEnforcement of the deployable.
      */
-    private List<Properties> slaEnforcement;
+    private Map<String,String> slaEnforcement;
 
     /**
      * ID of the ApplicationVersion of the deployable.
@@ -75,11 +76,11 @@ public class DeployableVO implements java.io.Serializable {
 
     public DeployableVO() {
         requirements = new LinkedList<String>();
-        slaEnforcement = new LinkedList<Properties>();
+        slaEnforcement = new HashMap<String, String>();
     }
 
     public DeployableVO(String id, String url, boolean uploaded, List<String> requirements,
-            List<Properties> slaEnforcement) {
+            Map<String,String> slaEnforcement) {
         this.id = id;
         this.url = url;
         isUploaded = uploaded;
@@ -87,7 +88,7 @@ public class DeployableVO implements java.io.Serializable {
         this.slaEnforcement = slaEnforcement;
     }
 
-    public DeployableVO(String url, boolean uploaded, List<String> requirements, List<Properties> slaEnforcement) {
+    public DeployableVO(String url, boolean uploaded, List<String> requirements, Map<String,String> slaEnforcement) {
         this.id = null;
         this.url = url;
         isUploaded = uploaded;
@@ -127,11 +128,11 @@ public class DeployableVO implements java.io.Serializable {
         this.requirements = requirements;
     }
 
-    public List<Properties> getSlaEnforcement() {
+    public Map<String,String> getSlaEnforcement() {
         return slaEnforcement;
     }
 
-    public void setSlaEnforcement(List<Properties> slaEnforcement) {
+    public void setSlaEnforcement(Map<String,String> slaEnforcement) {
         this.slaEnforcement = slaEnforcement;
     }
 
