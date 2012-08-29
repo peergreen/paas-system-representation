@@ -114,13 +114,15 @@ import java.util.ListIterator;
         ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
         ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
         ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
-        ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class})
+        ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class,
+        ISrPaasAgentIaasComputeLink.class})
 @Remote({ISrUserFacade.class, ISrApplicationFacade.class, ISrApplicationVersionFacade.class,
         ISrApplicationVersionInstanceFacade.class, ISrEnvironmentFacade.class, ISrApplicationEnvLink.class,
         ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
         ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
         ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
-        ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class})
+        ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class,
+        ISrPaasAgentIaasComputeLink.class})
 public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApplicationVersionFacade,
         ISrApplicationVersionInstanceFacade, ISrEnvironmentFacade, ISrApplicationEnvLink, ISrPaasJonasContainerFacade,
         ISrEnvironmentPaasResourceLink, ISrPaasApacheJkRouterFacade, ISrPaasDatabaseFacade, ISrPaasAgentFacade,
