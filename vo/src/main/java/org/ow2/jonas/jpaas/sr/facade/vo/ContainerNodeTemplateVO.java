@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
+import org.ow2.jonas.jpaas.sr.model.ContainerNodeTemplate;
+
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +45,22 @@ public class ContainerNodeTemplateVO extends NodeTemplateVO implements java.io.S
     public ContainerNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    }
+
+    /**
+     * Change a ContainerNodeTemplate Value Object into an Entity object
+     * @return a ContainerNodeTemplate Entity
+     */
+    public ContainerNodeTemplate createBean() {
+        ContainerNodeTemplate containerNodeTemplate = new ContainerNodeTemplate();
+        containerNodeTemplate.setId(getId());
+        containerNodeTemplate.setName(getName());
+        containerNodeTemplate.setRequirements(getRequirements());
+        containerNodeTemplate.setSlaEnforcement(getSlaEnforcement());
+        containerNodeTemplate.setMinSize(getMinSize());
+        containerNodeTemplate.setMaxSize(getMaxSize());
+        containerNodeTemplate.setCurrentSize(getCurrentSize());
+        return containerNodeTemplate;
     }
 
 }

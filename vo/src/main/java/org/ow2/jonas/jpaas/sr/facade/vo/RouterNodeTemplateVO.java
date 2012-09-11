@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
+import org.ow2.jonas.jpaas.sr.model.RouterNodeTemplate;
+
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +45,22 @@ public class RouterNodeTemplateVO extends NodeTemplateVO implements java.io.Seri
     public RouterNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    }
+
+    /**
+     * Change a RouterNodeTemplate Value Object into an Entity object
+     * @return a RouterNodeTemplate Entity
+     */
+    public RouterNodeTemplate createBean() {
+        RouterNodeTemplate routerNodeTemplate = new RouterNodeTemplate();
+        routerNodeTemplate.setId(getId());
+        routerNodeTemplate.setName(getName());
+        routerNodeTemplate.setRequirements(getRequirements());
+        routerNodeTemplate.setSlaEnforcement(getSlaEnforcement());
+        routerNodeTemplate.setMinSize(getMinSize());
+        routerNodeTemplate.setMaxSize(getMaxSize());
+        routerNodeTemplate.setCurrentSize(getCurrentSize());
+        return routerNodeTemplate;
     }
 
 }

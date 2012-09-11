@@ -127,6 +127,41 @@ public class TopologyTemplate implements java.io.Serializable {
         return topologyTemplateVO;
     }
 
+/*    private NodeTemplateVO createNodeTemplateInheritance(NodeTemplate nodeTemplate) {
+        NodeTemplateVO result = null;
+        if (nodeTemplate instanceof ContainerNodeTemplate) {
+            ContainerNodeTemplate containerNodeTemplate = (ContainerNodeTemplate) nodeTemplate;
+            result = containerNodeTemplate.createNodeTemplateVO();
+        } else if (nodeTemplate instanceof RouterNodeTemplate) {
+            RouterNodeTemplate routerNodeTemplate = (RouterNodeTemplate) nodeTemplate;
+            result = routerNodeTemplate.createNodeTemplateVO();
+        } else if (nodeTemplate instanceof DatabaseNodeTemplate) {
+            DatabaseNodeTemplate databaseNodeTemplate = (DatabaseNodeTemplate) nodeTemplate;
+            result = databaseNodeTemplate.createNodeTemplateVO();
+        }
+        else if (nodeTemplate instanceof IaasComputeNodeTemplate) {
+            IaasComputeNodeTemplate iaasComputeNodeTemplate = (IaasComputeNodeTemplate) nodeTemplate;
+            result = iaasComputeNodeTemplate.createNodeTemplateVO();
+        } else {
+            result = nodeTemplate.createNodeTemplateVO();
+        }
+        return result;
+    }
+
+    private RelationshipTemplateVO createRelationshipTemplateInheritance(RelationshipTemplate relationshipTemplate) {
+        RelationshipTemplateVO result = null;
+            if (relationshipTemplate instanceof ConnectorTemplate) {
+                ConnectorTemplate connectorTemplate = (ConnectorTemplate) relationshipTemplate;
+                result = connectorTemplate.createRelationshipTemplateVO();
+            } else if (relationshipTemplate instanceof DatasourceTemplate) {
+                DatasourceTemplate datasourceTemplate = (DatasourceTemplate) relationshipTemplate;
+                result = datasourceTemplate.createRelationshipTemplateVO();
+            } else {
+                result = relationshipTemplate.createRelationshipTemplateVO();
+            }
+            return result;
+        }*/
+
     public void mergeTopologyTemplateVO(TopologyTemplateVO topologyTemplateVO) {
         if (topologyTemplateVO.getNodeTemplateList() != null) {
             LinkedList<NodeTemplate> originalNodeTemplateList = new LinkedList<NodeTemplate>(nodeTemplateList);

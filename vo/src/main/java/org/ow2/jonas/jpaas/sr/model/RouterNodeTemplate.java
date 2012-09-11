@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.model;
 
 
+import org.ow2.jonas.jpaas.sr.facade.vo.RouterNodeTemplateVO;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -38,5 +40,10 @@ import javax.persistence.InheritanceType;
 @Entity
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class RouterNodeTemplate extends NodeTemplate implements java.io.Serializable {
+
+    public RouterNodeTemplateVO createNodeTemplateVO() {
+        return new RouterNodeTemplateVO(getId(),getName(),getRequirements(),getSlaEnforcement(), getMinSize(),
+                getMaxSize(), getCurrentSize());
+    }
 
 }

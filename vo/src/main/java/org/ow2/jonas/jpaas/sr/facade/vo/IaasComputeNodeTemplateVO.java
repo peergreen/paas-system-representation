@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
+import org.ow2.jonas.jpaas.sr.model.IaasComputeNodeTemplate;
+
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +45,22 @@ public class IaasComputeNodeTemplateVO extends NodeTemplateVO implements java.io
     public IaasComputeNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    }
+
+    /**
+     * Change a IaasComputeNodeTemplate Value Object into an Entity object
+     * @return a IaasComputeNodeTemplate Entity
+     */
+    public IaasComputeNodeTemplate createBean() {
+        IaasComputeNodeTemplate iaasComputeNodeTemplate = new IaasComputeNodeTemplate();
+        iaasComputeNodeTemplate.setId(getId());
+        iaasComputeNodeTemplate.setName(getName());
+        iaasComputeNodeTemplate.setRequirements(getRequirements());
+        iaasComputeNodeTemplate.setSlaEnforcement(getSlaEnforcement());
+        iaasComputeNodeTemplate.setMinSize(getMinSize());
+        iaasComputeNodeTemplate.setMaxSize(getMaxSize());
+        iaasComputeNodeTemplate.setCurrentSize(getCurrentSize());
+        return iaasComputeNodeTemplate;
     }
 
 }

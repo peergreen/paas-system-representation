@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.model;
 
 
+import org.ow2.jonas.jpaas.sr.facade.vo.DatasourceTemplateVO;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -39,4 +41,7 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class DatasourceTemplate extends RelationshipTemplate implements java.io.Serializable {
 
+    public DatasourceTemplateVO createRelationshipTemplateVO() {
+        return new DatasourceTemplateVO(getId(),getName());
+    }
 }

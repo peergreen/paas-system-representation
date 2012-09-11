@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
+import org.ow2.jonas.jpaas.sr.model.DatasourceTemplate;
+
 /**
  * Define a DatasourceTemplate Value Object
  * @author David Richard
@@ -42,6 +44,16 @@ public class DatasourceTemplateVO extends RelationshipTemplateVO implements java
 
     public DatasourceTemplateVO(String name) {
         super(name);
+    }
+
+    /**
+     * Change a DatasourceTemplate Value Object into an EntityBean object
+     * @return a DatasourceTemplate EntityBean
+     */
+    public DatasourceTemplate createBean() {
+        DatasourceTemplate datasourceTemplate = new DatasourceTemplate();
+        datasourceTemplate.setName(getName());
+        return datasourceTemplate;
     }
 
 }

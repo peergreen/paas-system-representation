@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
+import org.ow2.jonas.jpaas.sr.model.ConnectorTemplate;
+
 /**
  * Define a ConnectorTemplate Value Object
  * @author David Richard
@@ -44,4 +46,13 @@ public class ConnectorTemplateVO extends RelationshipTemplateVO implements java.
         super(name);
     }
 
+    /**
+     * Change a ConnectorTemplate Value Object into an EntityBean object
+     * @return a ConnectorTemplate EntityBean
+     */
+    public ConnectorTemplate createBean() {
+        ConnectorTemplate connectorTemplate = new ConnectorTemplate();
+        connectorTemplate.setName(getName());
+        return connectorTemplate;
+    }
 }

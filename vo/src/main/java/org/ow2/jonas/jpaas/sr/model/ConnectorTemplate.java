@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.model;
 
 
+import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorTemplateVO;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -39,4 +41,7 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class ConnectorTemplate extends RelationshipTemplate implements java.io.Serializable {
 
+    public ConnectorTemplateVO createRelationshipTemplateVO() {
+        return new ConnectorTemplateVO(getId(),getName());
+    }
 }

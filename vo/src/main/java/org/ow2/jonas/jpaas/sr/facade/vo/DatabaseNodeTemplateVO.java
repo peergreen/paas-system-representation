@@ -26,6 +26,8 @@
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
 
+import org.ow2.jonas.jpaas.sr.model.DatabaseNodeTemplate;
+
 import java.util.List;
 import java.util.Map;
 
@@ -45,4 +47,19 @@ public class DatabaseNodeTemplateVO extends NodeTemplateVO implements java.io.Se
         super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
+    /**
+     * Change a DatabaseNodeTemplate Value Object into an Entity object
+     * @return a DatabaseNodeTemplate Entity
+     */
+    public DatabaseNodeTemplate createBean() {
+        DatabaseNodeTemplate databaseNodeTemplate = new DatabaseNodeTemplate();
+        databaseNodeTemplate.setId(getId());
+        databaseNodeTemplate.setName(getName());
+        databaseNodeTemplate.setRequirements(getRequirements());
+        databaseNodeTemplate.setSlaEnforcement(getSlaEnforcement());
+        databaseNodeTemplate.setMinSize(getMinSize());
+        databaseNodeTemplate.setMaxSize(getMaxSize());
+        databaseNodeTemplate.setCurrentSize(getCurrentSize());
+        return databaseNodeTemplate;
+    }
 }
