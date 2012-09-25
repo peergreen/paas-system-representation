@@ -27,7 +27,6 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;
 
-import javax.ejb.Remote;
 import java.util.List;
 
 /**

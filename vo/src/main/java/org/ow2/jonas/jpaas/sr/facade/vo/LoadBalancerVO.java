@@ -60,8 +60,8 @@ public class LoadBalancerVO implements java.io.Serializable {
 
     public LoadBalancerVO(String name, List<String> mountPoints, List<String> workers) {
         this.name = name;
-        this.mountPoints = mountPoints;
-        this.workers = workers;
+        this.mountPoints = new LinkedList<String>(mountPoints);
+        this.workers = new LinkedList<String>(workers);
     }
 
     public String getLoadBalancerName() {

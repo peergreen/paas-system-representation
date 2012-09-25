@@ -84,16 +84,16 @@ public class DeployableVO implements java.io.Serializable {
         this.id = id;
         this.url = url;
         isUploaded = uploaded;
-        this.requirements = requirements;
-        this.slaEnforcement = slaEnforcement;
+        this.requirements = new LinkedList<String>(requirements);
+        this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
     }
 
     public DeployableVO(String url, boolean uploaded, List<String> requirements, Map<String,String> slaEnforcement) {
         this.id = null;
         this.url = url;
         isUploaded = uploaded;
-        this.requirements = requirements;
-        this.slaEnforcement = slaEnforcement;
+        this.requirements = new LinkedList<String>(requirements);
+        this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
     }
 
     public String getId() {

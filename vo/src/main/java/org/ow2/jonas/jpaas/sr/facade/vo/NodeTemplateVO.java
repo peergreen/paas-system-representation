@@ -82,8 +82,8 @@ public class NodeTemplateVO implements java.io.Serializable {
             int minSize, int maxSize, int currentSize) {
         this.id = id;
         this.name = name;
-        this.requirements = requirements;
-        this.slaEnforcement = slaEnforcement;
+        this.requirements = new LinkedList<String>(requirements);
+        this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.currentSize = currentSize;
@@ -91,13 +91,13 @@ public class NodeTemplateVO implements java.io.Serializable {
 
     public NodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
-            this.name = name;
-            this.requirements = requirements;
-            this.slaEnforcement = slaEnforcement;
-            this.minSize = minSize;
-            this.maxSize = maxSize;
-            this.currentSize = currentSize;
-        }
+        this.name = name;
+        this.requirements = new LinkedList<String>(requirements);
+        this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
+        this.minSize = minSize;
+        this.maxSize = maxSize;
+        this.currentSize = currentSize;
+    }
 
     public String getId() {
         return id;
