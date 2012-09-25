@@ -232,11 +232,11 @@ public class TestApplicationVersionInstanceFacade {
 
     @Test(dependsOnMethods = "testDeleteApplicationVersion")
     public void testDeployable() {
-        DeployableVO deployable1 = new DeployableVO("url", true, new LinkedList<String>(),
+        DeployableVO deployable1 = new DeployableVO("deployable1", "url", true, new LinkedList<String>(),
                 new HashMap<String, String>());
         ApplicationVersionInstanceVO appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1",
                 "testState");
-        DeployableVO deployable2 = new DeployableVO("url2", true, new LinkedList<String>(),
+        DeployableVO deployable2 = new DeployableVO("deployable2", "url2", true, new LinkedList<String>(),
                 new HashMap<String, String>());
         appVersionInstance1.getDeployableList().add(deployable1);
         appVersionInstance1.getDeployableList().add(deployable2);
@@ -250,7 +250,7 @@ public class TestApplicationVersionInstanceFacade {
 
         //Test update
         tmpInstanceVO.getDeployableList().get(1).setUrl("updateUrl2");
-        DeployableVO deployable3 = new DeployableVO("url3", true, new LinkedList<String>(),
+        DeployableVO deployable3 = new DeployableVO("deployable3", "url3", true, new LinkedList<String>(),
                 new HashMap<String, String>());
         tmpInstanceVO.getDeployableList().add(deployable3);
         tmpInstanceVO.getDeployableList().remove(0);
@@ -274,9 +274,9 @@ public class TestApplicationVersionInstanceFacade {
                 "testState");
         appVersionInstance1.getPaasArtefactList().add(paasArtefactVO);
 
-        DeployableVO deployable1 = new DeployableVO("url", true, new LinkedList<String>(),
+        DeployableVO deployable1 = new DeployableVO("deployable1", "url", true, new LinkedList<String>(),
                 new HashMap<String, String>());
-        DeployableVO deployable2 = new DeployableVO("url2", true, new LinkedList<String>(),
+        DeployableVO deployable2 = new DeployableVO("deployable2", "url2", true, new LinkedList<String>(),
                 new HashMap<String, String>());
         appVersionInstance1.getDeployableList().add(deployable1);
         appVersionInstance1.getDeployableList().add(deployable2);

@@ -209,8 +209,10 @@ public class TestApplicationVersionFacade {
 
     @Test(dependsOnMethods = "testDeleteApplicationVersion")
     public void testDeployable() {
-        DeployableVO deployable1 = new DeployableVO("url", true, requirementsList, new HashMap<String, String>());
-        DeployableVO deployable2 = new DeployableVO("url2", true, requirementsList, new HashMap<String, String>());
+        DeployableVO deployable1 = new DeployableVO("deployable1", "url", true, requirementsList,
+                new HashMap<String, String>());
+        DeployableVO deployable2 = new DeployableVO("deployable2", "url2", true, requirementsList,
+                new HashMap<String, String>());
         appVersion1.getDeployableList().add(deployable1);
         appVersion1.getDeployableList().add(deployable2);
         ApplicationVersionVO tmpAppVersion1;
@@ -219,7 +221,8 @@ public class TestApplicationVersionFacade {
                 tmpAppVersion1.getDeployableList().get(0).getUrl(), "Test Deployable creation");
         //Test update
         tmpAppVersion1.getDeployableList().get(1).setUrl("updateUrl2");
-        DeployableVO deployable3 = new DeployableVO("url3", true, requirementsList, new HashMap<String, String>());
+        DeployableVO deployable3 = new DeployableVO("deployable3", "url3", true, requirementsList,
+                new HashMap<String, String>());
         tmpAppVersion1.getDeployableList().add(deployable3);
         tmpAppVersion1.getDeployableList().remove(0);
         ApplicationVersionVO updateAppVersion1 = iSrApplicationVersionFacade.updateApplicationVersion(applicationID,

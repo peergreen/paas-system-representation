@@ -57,6 +57,11 @@ public class Deployable implements java.io.Serializable {
     private String id;
 
     /**
+     * Name of the deployable.
+     */
+    private String name;
+
+    /**
      * Url of the deployable.
      */
     private String url;
@@ -113,6 +118,14 @@ public class Deployable implements java.io.Serializable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -148,6 +161,7 @@ public class Deployable implements java.io.Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Deployable[id=").append(getId())
+                .append(", name=").append(getName())
                 .append(", url=").append(getUrl())
                 .append(", isUploaded=").append(isUploaded())
                 .append(", requirements=").append(getRequirements().toString())
@@ -181,7 +195,7 @@ public class Deployable implements java.io.Serializable {
     }
 
     public DeployableVO createDeployableVO() {
-        DeployableVO deployableVO = new DeployableVO(id, url, isUploaded, requirements, slaEnforcement);
+        DeployableVO deployableVO = new DeployableVO(id, name, url, isUploaded, requirements, slaEnforcement);
         deployableVO.setInstanceId(applicationVersion.getId());
         deployableVO.setVersionId(applicationVersion.getId());
           return deployableVO;
@@ -189,6 +203,7 @@ public class Deployable implements java.io.Serializable {
 
       public void mergeDeployableVO(DeployableVO deployableVO) {
           this.url = deployableVO.getUrl();
+          this.name = deployableVO.getName();
           this.isUploaded = deployableVO.isUploaded();
           this.requirements = deployableVO.getRequirements();
           this.slaEnforcement = deployableVO.getSlaEnforcement();

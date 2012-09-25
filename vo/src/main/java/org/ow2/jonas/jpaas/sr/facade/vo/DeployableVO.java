@@ -44,6 +44,11 @@ public class DeployableVO implements java.io.Serializable {
     private String id;
 
     /**
+     * Name of the deployable.
+     */
+    private String name;
+
+    /**
      * Url of the deployable.
      */
     private String url;
@@ -79,17 +84,19 @@ public class DeployableVO implements java.io.Serializable {
         slaEnforcement = new HashMap<String, String>();
     }
 
-    public DeployableVO(String id, String url, boolean uploaded, List<String> requirements,
+    public DeployableVO(String id, String name, String url, boolean uploaded, List<String> requirements,
             Map<String,String> slaEnforcement) {
         this.id = id;
+        this.name = name;
         this.url = url;
         isUploaded = uploaded;
         this.requirements = new LinkedList<String>(requirements);
         this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
     }
 
-    public DeployableVO(String url, boolean uploaded, List<String> requirements, Map<String,String> slaEnforcement) {
+    public DeployableVO(String name, String url, boolean uploaded, List<String> requirements, Map<String,String> slaEnforcement) {
         this.id = null;
+        this.name = name;
         this.url = url;
         isUploaded = uploaded;
         this.requirements = new LinkedList<String>(requirements);
@@ -102,6 +109,14 @@ public class DeployableVO implements java.io.Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUrl() {
@@ -139,6 +154,7 @@ public class DeployableVO implements java.io.Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Deployable[id=").append(getId())
+                .append(", name=").append(getName())
                 .append(", url=").append(getUrl())
                 .append(", isUploaded=").append(isUploaded())
                 .append(", requirements=").append(getRequirements().toString())
@@ -170,6 +186,7 @@ public class DeployableVO implements java.io.Serializable {
     public Deployable createBean() {
         Deployable deployable = new Deployable();
         deployable.setId(id);
+        deployable.setName(name);
         deployable.setUrl(url);
         deployable.setUploaded(isUploaded);
         deployable.setRequirements(requirements);
