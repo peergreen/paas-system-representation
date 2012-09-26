@@ -44,7 +44,7 @@ public interface ISrApplicationEnvLink {
      * @param appVersionInstanceId Id of the ApplicationVersionInstance
      * @param envId Id of the Environment
      */
-    public void addApplicationDeploymentLink(String appId, String appVersionId, String appVersionInstanceId,
+    public void addApplicationEnvLink(String appId, String appVersionId, String appVersionInstanceId,
             String envId);
 
     /**
@@ -54,7 +54,7 @@ public interface ISrApplicationEnvLink {
      * @param appVersionId                 Id of the ApplicationVersion
      * @param appVersionInstanceId Id of the ApplicationVersionInstance
      */
-    public void removeApplicationDeploymentLink(String appId, String appVersionId, String appVersionInstanceId);
+    public void removeApplicationEnvLink(String appId, String appVersionId, String appVersionInstanceId);
 
     /**
      * Get the ApplicationVersionInstances of an Environment

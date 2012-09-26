@@ -201,15 +201,15 @@ public class TestApplicationEnvLink {
     }
 
     @Test
-    public void testApplicationDeploymentLink() {
-        iSrApplicationEnvLink.addApplicationDeploymentLink(applicationID, applicationVersionID, appVersionInstance1ID,
+    public void testApplicationEnvLink() {
+        iSrApplicationEnvLink.addApplicationEnvLink(applicationID, applicationVersionID, appVersionInstance1ID,
                 envID);
 
-        iSrApplicationEnvLink.addApplicationDeploymentLink(applicationID, applicationVersionID, appVersionInstance2ID,
+        iSrApplicationEnvLink.addApplicationEnvLink(applicationID, applicationVersionID, appVersionInstance2ID,
                 envID);
     }
 
-    @Test(dependsOnMethods = "testApplicationDeploymentLink")
+    @Test(dependsOnMethods = "testApplicationEnvLink")
     public void testFindApplicationVersionInstancesByEnv() {
         List<ApplicationVersionInstanceVO> applicationVersionInstanceVOList =
                 iSrApplicationEnvLink.findApplicationVersionInstancesByEnv(envID);
@@ -218,7 +218,7 @@ public class TestApplicationEnvLink {
         Assert.assertEquals(applicationVersionInstanceVOList.get(1).getId(), appVersionInstance2ID);
     }
 
-    @Test(dependsOnMethods = "testApplicationDeploymentLink")
+    @Test(dependsOnMethods = "testApplicationEnvLink")
     public void testGetEnvByApplicationVersionInstance() {
         EnvironmentVO environmentVO = iSrApplicationEnvLink.getEnvByApplicationVersionInstance(applicationID,
                 applicationVersionID, appVersionInstance1ID);
@@ -228,16 +228,16 @@ public class TestApplicationEnvLink {
         Assert.assertEquals(environmentVO.toString(), environment2VO.toString());
     }
 
-    @Test(dependsOnMethods = { "testApplicationDeploymentLink", "testFindApplicationVersionInstancesByEnv",
+    @Test(dependsOnMethods = { "testApplicationEnvLink", "testFindApplicationVersionInstancesByEnv",
             "testGetEnvByApplicationVersionInstance" })
-    public void testRemoveApplicationDeploymentLink() {
-        iSrApplicationEnvLink.removeApplicationDeploymentLink(applicationID,
+    public void testRemoveApplicationEnvLink() {
+        iSrApplicationEnvLink.removeApplicationEnvLink(applicationID,
                 applicationVersionID, appVersionInstance1ID);
         List<ApplicationVersionInstanceVO> applicationVersionInstanceVOList =
                 iSrApplicationEnvLink.findApplicationVersionInstancesByEnv(envID);
         Assert.assertEquals(applicationVersionInstanceVOList.size(), 1);
 
-        iSrApplicationEnvLink.removeApplicationDeploymentLink(applicationID,
+        iSrApplicationEnvLink.removeApplicationEnvLink(applicationID,
                 applicationVersionID, appVersionInstance2ID);
         applicationVersionInstanceVOList =
                 iSrApplicationEnvLink.findApplicationVersionInstancesByEnv(envID);

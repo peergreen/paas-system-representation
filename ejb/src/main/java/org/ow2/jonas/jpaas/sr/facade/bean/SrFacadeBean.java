@@ -896,9 +896,9 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @param envId Id of the Environment
      */
     @Override
-    public void addApplicationDeploymentLink(String appId, String appVersionId, String appVersionInstanceId,
+    public void addApplicationEnvLink(String appId, String appVersionId, String appVersionInstanceId,
             String envId) {
-        logger.debug("addApplicationDeploymentLink(" + appId + ", " + appVersionId + ", " + appVersionInstanceId + ")");
+        logger.debug("addApplicationEnvLink(" + appId + ", " + appVersionId + ", " + appVersionInstanceId + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
         Environment environment = getEnvironmentBean(envId);
@@ -914,8 +914,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @param appVersionInstanceId Id of the ApplicationVersionInstance
      */
     @Override
-    public void removeApplicationDeploymentLink(String appId, String appVersionId, String appVersionInstanceId) {
-        logger.debug("removeApplicationDeploymentLink(" + appId + ", " + appVersionId + ", " +
+    public void removeApplicationEnvLink(String appId, String appVersionId, String appVersionInstanceId) {
+        logger.debug("removeApplicationEnvLink(" + appId + ", " + appVersionId + ", " +
                 appVersionInstanceId + ")");
         ApplicationVersionInstance applicationVersionInstance = getApplicationVersionInstanceBean(appId, appVersionId,
                 appVersionInstanceId);
