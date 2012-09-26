@@ -33,6 +33,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,12 @@ public class NodeTemplate implements java.io.Serializable {
      */
     @ManyToMany(mappedBy="nodeTemplateList",  cascade = CascadeType.MERGE)
     private List<Entity> entityList;
+
+    /**
+     * Deployable of the Node.
+     */
+    @OneToMany(mappedBy="nodeTemplate", cascade = CascadeType.ALL)
+    private List<Deployable> deployableList;
 
     public long getKey() {
         return key;
@@ -207,5 +214,13 @@ public class NodeTemplate implements java.io.Serializable {
 
     public void setEntityList(List<Entity> entityList) {
         this.entityList = entityList;
+    }
+
+    public List<Deployable> getDeployableList() {
+        return deployableList;
+    }
+
+    public void setDeployableList(List<Deployable> deployableList) {
+        this.deployableList = deployableList;
     }
 }

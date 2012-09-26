@@ -101,6 +101,12 @@ public class Deployable implements java.io.Serializable {
     @ManyToOne(optional=true)
     private PaasArtefact paasArtefact;
 
+    /**
+     * NodeTemplate of the deployable.
+     */
+    @ManyToOne
+    private NodeTemplate nodeTemplate;
+
 
     public long getKey() {
         return key;
@@ -192,6 +198,14 @@ public class Deployable implements java.io.Serializable {
 
     public void setApplicationVersionInstance(ApplicationVersionInstance applicationVersionInstance) {
         this.applicationVersionInstance = applicationVersionInstance;
+    }
+
+    public NodeTemplate getNodeTemplate() {
+        return nodeTemplate;
+    }
+
+    public void setNodeTemplate(NodeTemplate nodeTemplate) {
+        this.nodeTemplate = nodeTemplate;
     }
 
     public DeployableVO createDeployableVO() {

@@ -25,45 +25,8 @@
 
 package org.ow2.jonas.jpaas.sr.facade.bean;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationEnvLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentIaasComputeLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerPaasDatabaseLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasDatabaseFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasFrontendFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourcePaasAgentLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourceIaasComputeLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterFrontendLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterPaasContainerLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionInstanceVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.DatasourceVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.EnvironmentVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.NodeTemplateVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasDatabaseVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasFrontendVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasRouterVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
+import org.ow2.jonas.jpaas.sr.facade.api.*;
+import org.ow2.jonas.jpaas.sr.facade.vo.*;
 import org.ow2.jonas.jpaas.sr.model.ApacheJk;
 import org.ow2.jonas.jpaas.sr.model.Application;
 import org.ow2.jonas.jpaas.sr.model.ApplicationVersion;
@@ -115,20 +78,20 @@ import java.util.ListIterator;
         ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
         ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
         ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class,
-        ISrPaasAgentIaasComputeLink.class})
+        ISrPaasAgentIaasComputeLink.class, ISrDeployableNodeLink.class})
 @Remote({ISrUserFacade.class, ISrApplicationFacade.class, ISrApplicationVersionFacade.class,
         ISrApplicationVersionInstanceFacade.class, ISrEnvironmentFacade.class, ISrApplicationEnvLink.class,
         ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
         ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
         ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
         ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class,
-        ISrPaasAgentIaasComputeLink.class})
+        ISrPaasAgentIaasComputeLink.class, ISrDeployableNodeLink.class})
 public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApplicationVersionFacade,
         ISrApplicationVersionInstanceFacade, ISrEnvironmentFacade, ISrApplicationEnvLink, ISrPaasJonasContainerFacade,
         ISrEnvironmentPaasResourceLink, ISrPaasApacheJkRouterFacade, ISrPaasDatabaseFacade, ISrPaasAgentFacade,
         ISrIaasComputeFacade, ISrPaasFrontendFacade, ISrPaasRouterPaasContainerLink, ISrPaasContainerPaasDatabaseLink,
         ISrPaasResourcePaasAgentLink, ISrPaasResourceIaasComputeLink, ISrPaasRouterFrontendLink,
-        ISrPaasAgentIaasComputeLink {
+        ISrPaasAgentIaasComputeLink, ISrDeployableNodeLink {
 
 
     /**
@@ -2393,6 +2356,72 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         IaasCompute iaasCompute = paasAgent.getIaasCompute();
         if (iaasCompute != null) {
             return iaasCompute.createIaasComputeVO();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Add a link between a Deployable and a Node
+     *
+     * @param deployableId Id of the Deployable
+     * @param nodeId       Id of the Node
+     */
+    @Override
+    public void addDeployableNodeLink(String deployableId, String nodeId) {
+        logger.debug("addDeployableNodeLink(" + deployableId + ", " + nodeId + ")");
+        Deployable deployable = getDeployableBean(deployableId);
+        NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
+        deployable.setNodeTemplate(nodeTemplate);
+        entityManager.merge(deployable);
+    }
+
+    /**
+     * Remove a link between a Deployable and a Node
+     *
+     * @param deployableId Id of the Deployable
+     * @param nodeId       Id of the Node
+     */
+    @Override
+    public void removeDeployableNodeLink(String deployableId, String nodeId) {
+        logger.debug("removeDeployableNodeLink(" + deployableId + ", " + nodeId + ")");
+        Deployable deployable = getDeployableBean(deployableId);
+        deployable.setNodeTemplate(null);
+        entityManager.merge(deployable);
+    }
+
+    /**
+     * Get the Deployables of a Node
+     *
+     * @param nodeId ID of the Node
+     * @return a list of Deployable
+     */
+    @Override
+    public List<DeployableVO> findDeployablesByNode(String nodeId) {
+        logger.debug("findDeployablesByNode(" + nodeId + ")");
+        NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
+        List<DeployableVO> resultList = new LinkedList<DeployableVO>();
+        if (nodeTemplate.getDeployableList() != null) {
+            for (Deployable tmp : nodeTemplate.getDeployableList()) {
+                resultList.add(tmp.createDeployableVO());
+            }
+        }
+        return resultList;
+    }
+
+    /**
+     * Get the Node of a Deployable
+     *
+     * @param deployableId Id of the Deployable
+     * @return the NodeTemplate
+     */
+    @Override
+    public NodeTemplateVO getNodeByDeployable(String deployableId) {
+        logger.debug("getNodeByDeployable(" + deployableId + ")");
+        Deployable deployable = getDeployableBean(deployableId);
+        NodeTemplate nodeTemplate = deployable.getNodeTemplate();
+        if (nodeTemplate != null) {
+            return nodeTemplate.createNodeTemplateVO();
         } else {
             return null;
         }
