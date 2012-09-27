@@ -37,14 +37,14 @@ import java.util.Map;
  */
 public class ContainerNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
-    public ContainerNodeTemplateVO(String id, String name, List<String> requirements,
+    public ContainerNodeTemplateVO(String id, String templateId, String name, List<String> requirements,
             Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-        super(id, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+        super(id, templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public ContainerNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
-            int minSize, int maxSize, int currentSize) {
-        super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public ContainerNodeTemplateVO(String templateId, String name, List<String> requirements,
+            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
     /**
@@ -54,6 +54,7 @@ public class ContainerNodeTemplateVO extends NodeTemplateVO implements java.io.S
     public ContainerNodeTemplate createBean() {
         ContainerNodeTemplate containerNodeTemplate = new ContainerNodeTemplate();
         containerNodeTemplate.setId(getId());
+        containerNodeTemplate.setTemplateId(getTemplateId());
         containerNodeTemplate.setName(getName());
         containerNodeTemplate.setRequirements(getRequirements());
         containerNodeTemplate.setSlaEnforcement(getSlaEnforcement());

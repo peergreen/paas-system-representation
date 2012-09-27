@@ -42,8 +42,8 @@ import javax.persistence.InheritanceType;
 public class DatabaseNodeTemplate extends NodeTemplate implements java.io.Serializable {
 
     public DatabaseNodeTemplateVO createNodeTemplateVO() {
-        return new DatabaseNodeTemplateVO(getId(),getName(),getRequirements(),getSlaEnforcement(), getMinSize(),
-                getMaxSize(), getCurrentSize());
+        return new DatabaseNodeTemplateVO(getId(), getTemplateId(),getName(),getRequirements(),getSlaEnforcement(),
+                getMinSize(), getMaxSize(), getCurrentSize());
     }
 
 }

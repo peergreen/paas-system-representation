@@ -59,6 +59,11 @@ public class NodeTemplate implements java.io.Serializable {
     private String id;
 
     /**
+     * TemplateId of the Node : id given in the template descriptor file.
+     */
+    private String templateId;
+
+    /**
      * Name of the Node.
      */
     private String name;
@@ -124,6 +129,14 @@ public class NodeTemplate implements java.io.Serializable {
         this.id = id;
     }
 
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
+    }
+
     public String getName() {
         return name;
     }
@@ -177,6 +190,7 @@ public class NodeTemplate implements java.io.Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("NodeTemplate[key=").append(getKey())
                 .append(", id=").append(getId())
+                .append(", templateId=").append(getTemplateId())
                 .append(", name=").append(getName())
                 .append(", requirements=").append(getRequirements().toString())
                 .append(", slaEnforcement=").append(getSlaEnforcement().toString())
@@ -188,10 +202,11 @@ public class NodeTemplate implements java.io.Serializable {
     }
 
     public NodeTemplateVO createNodeTemplateVO() {
-        return new NodeTemplateVO(id,name,requirements,slaEnforcement, minSize, maxSize, currentSize);
+        return new NodeTemplateVO(id,templateId,name,requirements,slaEnforcement, minSize, maxSize, currentSize);
     }
 
     public void mergeNodeTemplateVO(NodeTemplateVO nodeTemplateVO){
+        this.templateId = nodeTemplateVO.getTemplateId();
         this.name = nodeTemplateVO.getName();
         this.requirements = nodeTemplateVO.getRequirements();
         this.slaEnforcement = nodeTemplateVO.getSlaEnforcement();

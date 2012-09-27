@@ -39,6 +39,11 @@ public class RelationshipTemplateVO implements java.io.Serializable {
     private String id;
 
     /**
+     * TemplateId of the RelationshipTemplate : id given in the template descriptor file.
+     */
+    private String templateId;
+
+    /**
      * Name of the RelationshipTemplate.
      */
     private String name;
@@ -47,15 +52,17 @@ public class RelationshipTemplateVO implements java.io.Serializable {
 
     }
 
-    public RelationshipTemplateVO(String id, String name) {
+    public RelationshipTemplateVO(String id, String templateId, String name) {
         this.id = id;
+        this.templateId = templateId;
         this.name = name;
     }
 
-    public RelationshipTemplateVO(String name) {
-            this.id = null;
-            this.name = name;
-        }
+    public RelationshipTemplateVO(String templateId, String name) {
+        this.id = null;
+        this.templateId = id;
+        this.name = name;
+    }
 
     public String getId() {
         return id;
@@ -63,6 +70,14 @@ public class RelationshipTemplateVO implements java.io.Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
     }
 
     public String getName() {
@@ -80,6 +95,7 @@ public class RelationshipTemplateVO implements java.io.Serializable {
      */
     public RelationshipTemplate createBean() {
         RelationshipTemplate relationshipTemplate = new RelationshipTemplate();
+        relationshipTemplate.setTemplateId(templateId);
         relationshipTemplate.setName(name);
         return relationshipTemplate;
     }

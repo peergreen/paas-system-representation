@@ -38,12 +38,12 @@ public class DatasourceTemplateVO extends RelationshipTemplateVO implements java
         super();
     }
 
-    public DatasourceTemplateVO(String id, String name) {
-        super(id, name);
+    public DatasourceTemplateVO(String id, String templateId, String name) {
+        super(id, templateId, name);
     }
 
-    public DatasourceTemplateVO(String name) {
-        super(name);
+    public DatasourceTemplateVO(String templateId, String name) {
+        super(templateId, name);
     }
 
     /**
@@ -52,6 +52,7 @@ public class DatasourceTemplateVO extends RelationshipTemplateVO implements java
      */
     public DatasourceTemplate createBean() {
         DatasourceTemplate datasourceTemplate = new DatasourceTemplate();
+        datasourceTemplate.setTemplateId(getTemplateId());
         datasourceTemplate.setName(getName());
         return datasourceTemplate;
     }

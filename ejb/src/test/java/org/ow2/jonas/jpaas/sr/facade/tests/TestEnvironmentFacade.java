@@ -175,18 +175,18 @@ public class TestEnvironmentFacade {
 
     @Test(dependsOnMethods = "testDeleteEnvironment")
     public void testComplexEnvironment() {
-        ConnectorTemplateVO connectorTemplate1 = new ConnectorTemplateVO("connectorTemplate1");
-        DatasourceTemplateVO datasourceTemplate1 = new DatasourceTemplateVO("datasourceTemplate1");
-        NodeTemplateVO nodeTemplate1 = new NodeTemplateVO("nodeTemplate1", new LinkedList<String>(),
+        ConnectorTemplateVO connectorTemplate1 = new ConnectorTemplateVO("c1", "connectorTemplate1");
+        DatasourceTemplateVO datasourceTemplate1 = new DatasourceTemplateVO("d1", "datasourceTemplate1");
+        NodeTemplateVO nodeTemplate1 = new NodeTemplateVO("n1", "nodeTemplate1", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
-        RouterNodeTemplateVO routerNodeTemplate1 = new RouterNodeTemplateVO("routerNodeTemplate1",
+        RouterNodeTemplateVO routerNodeTemplate1 = new RouterNodeTemplateVO("r1", "routerNodeTemplate1",
                 new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
-        ContainerNodeTemplateVO containerNodeTemplate1 = new ContainerNodeTemplateVO("containerNodeTemplate1",
+        ContainerNodeTemplateVO containerNodeTemplate1 = new ContainerNodeTemplateVO("c1", "containerNodeTemplate1",
                 new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
-        DatabaseNodeTemplateVO databaseNodeTemplate1 = new DatabaseNodeTemplateVO("databaseNodeTemplate1",
+        DatabaseNodeTemplateVO databaseNodeTemplate1 = new DatabaseNodeTemplateVO("d1", "databaseNodeTemplate1",
                 new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
-        IaasComputeNodeTemplateVO iaasComputeNodeTemplate1 = new IaasComputeNodeTemplateVO("iaasComputeNodeTemplate1",
-                new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
+        IaasComputeNodeTemplateVO iaasComputeNodeTemplate1 = new IaasComputeNodeTemplateVO("i1",
+                "iaasComputeNodeTemplate1", new LinkedList<String>(), new HashMap<String, String>(), 1, 5, 3);
         TopologyTemplateVO topologyTemplateVO = new TopologyTemplateVO();
         topologyTemplateVO.getRelationshipTemplateList().add(connectorTemplate1);
         topologyTemplateVO.getRelationshipTemplateList().add(datasourceTemplate1);
@@ -215,11 +215,11 @@ public class TestEnvironmentFacade {
 
         //Test update
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().get(0).setName("updateName");
-        DatasourceTemplateVO datasourceTemplate2 = new DatasourceTemplateVO("datasourceTemplate2");
+        DatasourceTemplateVO datasourceTemplate2 = new DatasourceTemplateVO("d2", "datasourceTemplate2");
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().add(datasourceTemplate2);
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().remove(1);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().get(0).setName("updateName");
-        NodeTemplateVO nodeTemplate2 = new NodeTemplateVO("nodeTemplate2", new LinkedList<String>(),
+        NodeTemplateVO nodeTemplate2 = new NodeTemplateVO("n2", "nodeTemplate2", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().add(nodeTemplate2);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().remove(1);

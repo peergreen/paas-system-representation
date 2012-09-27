@@ -44,6 +44,11 @@ public class NodeTemplateVO implements java.io.Serializable {
     private String id;
 
     /**
+     * TemplateId of the Node : id given in the template descriptor file.
+     */
+    private String templateId;
+
+    /**
      * Name of the Node.
      */
     private String name;
@@ -78,9 +83,10 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.slaEnforcement = new HashMap<String, String>();
     }
 
-    public NodeTemplateVO(String id, String name, List<String> requirements, Map<String,String> slaEnforcement,
+    public NodeTemplateVO(String id, String templateId, String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         this.id = id;
+        this.templateId = templateId;
         this.name = name;
         this.requirements = new LinkedList<String>(requirements);
         this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
@@ -89,8 +95,9 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.currentSize = currentSize;
     }
 
-    public NodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
+    public NodeTemplateVO(String templateId, String name, List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
+        this.templateId = templateId;
         this.name = name;
         this.requirements = new LinkedList<String>(requirements);
         this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
@@ -105,6 +112,14 @@ public class NodeTemplateVO implements java.io.Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
     }
 
     public String getName() {
@@ -159,6 +174,7 @@ public class NodeTemplateVO implements java.io.Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("NodeTemplate[id=").append(getId())
+                .append(", templateId=").append(getTemplateId())
                 .append(", name=").append(getName())
                 .append(", requirements=").append(getRequirements().toString())
                 .append(", slaEnforcement=").append(getSlaEnforcement().toString())
@@ -176,6 +192,7 @@ public class NodeTemplateVO implements java.io.Serializable {
     public NodeTemplate createBean() {
         NodeTemplate nodeTemplate = new NodeTemplate();
         nodeTemplate.setId(id);
+        nodeTemplate.setTemplateId(templateId);
         nodeTemplate.setName(name);
         nodeTemplate.setRequirements(requirements);
         nodeTemplate.setSlaEnforcement(slaEnforcement);

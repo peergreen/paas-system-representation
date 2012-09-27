@@ -42,8 +42,8 @@ import javax.persistence.InheritanceType;
 public class IaasComputeNodeTemplate extends NodeTemplate implements java.io.Serializable {
 
     public IaasComputeNodeTemplateVO createNodeTemplateVO() {
-        return new IaasComputeNodeTemplateVO(getId(),getName(),getRequirements(),getSlaEnforcement(), getMinSize(),
-                getMaxSize(), getCurrentSize());
+        return new IaasComputeNodeTemplateVO(getId(), getTemplateId(), getName(),getRequirements(),getSlaEnforcement(),
+                getMinSize(), getMaxSize(), getCurrentSize());
     }
 
 }

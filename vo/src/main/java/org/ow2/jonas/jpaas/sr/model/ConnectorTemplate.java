@@ -42,6 +42,6 @@ import javax.persistence.InheritanceType;
 public class ConnectorTemplate extends RelationshipTemplate implements java.io.Serializable {
 
     public ConnectorTemplateVO createRelationshipTemplateVO() {
-        return new ConnectorTemplateVO(getId(),getName());
+        return new ConnectorTemplateVO(getId(), getTemplateId(), getName());
     }
 }

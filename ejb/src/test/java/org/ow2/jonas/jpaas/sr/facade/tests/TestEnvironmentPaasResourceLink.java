@@ -155,9 +155,9 @@ public class TestEnvironmentPaasResourceLink {
         jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
         env1 =  new EnvironmentVO("env1", "testDescription", "testState");
-        nodeTemplate1 = new NodeTemplateVO("nodeTemplate1", new LinkedList<String>(),
+        nodeTemplate1 = new NodeTemplateVO("n1", "nodeTemplate1", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
-        nodeTemplate2 = new NodeTemplateVO("nodeTemplate2", new LinkedList<String>(),
+        nodeTemplate2 = new NodeTemplateVO("n2", "nodeTemplate2", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
         TopologyTemplateVO topologyTemplateVO = new TopologyTemplateVO();
         topologyTemplateVO.getNodeTemplateList().add(nodeTemplate1);

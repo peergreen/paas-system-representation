@@ -37,14 +37,14 @@ import java.util.Map;
  */
 public class DatabaseNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
-    public DatabaseNodeTemplateVO(String id, String name, List<String> requirements, Map<String,String> slaEnforcement,
-            int minSize, int maxSize, int currentSize) {
-        super(id, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public DatabaseNodeTemplateVO(String id, String templateId, String name, List<String> requirements,
+            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(id, templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public DatabaseNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
-            int minSize, int maxSize, int currentSize) {
-        super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public DatabaseNodeTemplateVO(String templateId, String name, List<String> requirements,
+            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
     /**
@@ -54,6 +54,7 @@ public class DatabaseNodeTemplateVO extends NodeTemplateVO implements java.io.Se
     public DatabaseNodeTemplate createBean() {
         DatabaseNodeTemplate databaseNodeTemplate = new DatabaseNodeTemplate();
         databaseNodeTemplate.setId(getId());
+        databaseNodeTemplate.setTemplateId(getTemplateId());
         databaseNodeTemplate.setName(getName());
         databaseNodeTemplate.setRequirements(getRequirements());
         databaseNodeTemplate.setSlaEnforcement(getSlaEnforcement());

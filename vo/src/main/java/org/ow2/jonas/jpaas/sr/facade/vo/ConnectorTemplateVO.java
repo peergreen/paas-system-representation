@@ -38,12 +38,12 @@ public class ConnectorTemplateVO extends RelationshipTemplateVO implements java.
         super();
     }
 
-    public ConnectorTemplateVO(String id, String name) {
-        super(id, name);
+    public ConnectorTemplateVO(String id, String templateId, String name) {
+        super(id, templateId, name);
     }
 
-    public ConnectorTemplateVO(String name) {
-        super(name);
+    public ConnectorTemplateVO(String templateId, String name) {
+        super(templateId, name);
     }
 
     /**
@@ -52,6 +52,7 @@ public class ConnectorTemplateVO extends RelationshipTemplateVO implements java.
      */
     public ConnectorTemplate createBean() {
         ConnectorTemplate connectorTemplate = new ConnectorTemplate();
+        connectorTemplate.setTemplateId(getTemplateId());
         connectorTemplate.setName(getName());
         return connectorTemplate;
     }

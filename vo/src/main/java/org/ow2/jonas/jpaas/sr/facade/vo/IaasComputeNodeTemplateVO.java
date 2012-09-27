@@ -37,14 +37,14 @@ import java.util.Map;
  */
 public class IaasComputeNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
-    public IaasComputeNodeTemplateVO(String id, String name, List<String> requirements,
+    public IaasComputeNodeTemplateVO(String id, String templateId, String name, List<String> requirements,
             Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-        super(id, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+        super(id, templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public IaasComputeNodeTemplateVO(String name, List<String> requirements, Map<String,String> slaEnforcement,
-            int minSize, int maxSize, int currentSize) {
-        super(name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public IaasComputeNodeTemplateVO(String templateId, String name, List<String> requirements,
+            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
     /**
@@ -54,6 +54,7 @@ public class IaasComputeNodeTemplateVO extends NodeTemplateVO implements java.io
     public IaasComputeNodeTemplate createBean() {
         IaasComputeNodeTemplate iaasComputeNodeTemplate = new IaasComputeNodeTemplate();
         iaasComputeNodeTemplate.setId(getId());
+        iaasComputeNodeTemplate.setTemplateId(getTemplateId());
         iaasComputeNodeTemplate.setName(getName());
         iaasComputeNodeTemplate.setRequirements(getRequirements());
         iaasComputeNodeTemplate.setSlaEnforcement(getSlaEnforcement());
