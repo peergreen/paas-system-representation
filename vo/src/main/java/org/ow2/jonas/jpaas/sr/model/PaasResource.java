@@ -58,7 +58,7 @@ public class PaasResource extends PaasEntity implements java.io.Serializable {
         this.paasAgent = paasAgent;
     }
 
-    public PaasResourceVO createPaasResourceVO() {
+    public PaasResourceVO createVO() {
         return new PaasResourceVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }

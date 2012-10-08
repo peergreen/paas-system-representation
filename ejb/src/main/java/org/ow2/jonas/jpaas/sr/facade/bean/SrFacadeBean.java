@@ -952,7 +952,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             }
         }
         entityManager.persist(jonas);
-        return jonas.createJonasVO();
+        return jonas.createVO();
     }
 
     /**
@@ -988,7 +988,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             }
         }
         jonas = entityManager.merge(jonas);
-        return jonas.createJonasVO();
+        return jonas.createVO();
     }
 
     /**
@@ -1015,7 +1015,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         logger.debug("getJonasContainer(" + paasResourceId + ")");
         Jonas paasJonasContainer = getJonasContainerBean(paasResourceId);
         if (paasJonasContainer != null) {
-            return paasJonasContainer.createJonasVO();
+            return paasJonasContainer.createVO();
         } else {
             return null;
         }
@@ -1034,7 +1034,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<JonasVO> resultList = new LinkedList<JonasVO>();
         if (containerList != null) {
             for (Jonas tmp : containerList) {
-                resultList.add(tmp.createJonasVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -1229,7 +1229,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             for (Entity tmp : nodeTemplate.getEntityList()) {
                 if (tmp instanceof PaasResource) {
                     paasResource = (PaasResource) tmp;
-                    resultList.add(paasResource.createPaasResourceVO());
+                    resultList.add(paasResource.createVO());
                 }
             }
         }
@@ -1278,7 +1278,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             }
         }
         entityManager.persist(apacheJk);
-        return apacheJk.createApacheJkVO();
+        return apacheJk.createVO();
     }
 
     /**
@@ -1320,7 +1320,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             }
         }
         apacheJk = entityManager.merge(apacheJk);
-        return apacheJk.createApacheJkVO();
+        return apacheJk.createVO();
     }
 
     /**
@@ -1348,7 +1348,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         logger.debug("getApacheJkRouter(" + paasResourceId + ")");
         ApacheJk apacheJk = getApacheJkRouterBean(paasResourceId);
         if (apacheJk != null) {
-            return apacheJk.createApacheJkVO();
+            return apacheJk.createVO();
         } else {
             return null;
         }
@@ -1367,7 +1367,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<ApacheJkVO> resultList = new LinkedList<ApacheJkVO>();
         if (apacheList != null) {
             for (ApacheJk tmp : apacheList) {
-                resultList.add(tmp.createApacheJkVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -1502,7 +1502,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         PaasDatabase paasDatabase = paasDatabaseVO.createBean();
         paasDatabase.setId(getNextSequence(entitySequence));
         entityManager.persist(paasDatabase);
-        return paasDatabase.createPaasDatabaseVO();
+        return paasDatabase.createVO();
     }
 
     /**
@@ -1534,7 +1534,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseVO.getId());
         paasDatabase.mergePaasDatabaseVO(paasDatabaseVO);
         paasDatabase = entityManager.merge(paasDatabase);
-        return paasDatabase.createPaasDatabaseVO();
+        return paasDatabase.createVO();
     }
 
     /**
@@ -1562,7 +1562,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         logger.debug("getDatabase(" + paasResourceId + ")");
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasResourceId);
         if (paasDatabase != null) {
-            return paasDatabase.createPaasDatabaseVO();
+            return paasDatabase.createVO();
         } else {
             return null;
         }
@@ -1581,7 +1581,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<PaasDatabaseVO> resultList = new LinkedList<PaasDatabaseVO>();
         if (list != null) {
             for (PaasDatabase tmp : list) {
-                resultList.add(tmp.createPaasDatabaseVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -1599,7 +1599,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         IaasCompute iaasCompute = iaasComputeVO.createBean();
         iaasCompute.setId(getNextSequence(entitySequence));
         entityManager.persist(iaasCompute);
-        return iaasCompute.createIaasComputeVO();
+        return iaasCompute.createVO();
     }
 
     /**
@@ -1625,7 +1625,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeVO.getId());
         iaasCompute.mergeIaasComputeVO(iaasComputeVO);
         iaasCompute = entityManager.merge(iaasCompute);
-        return iaasCompute.createIaasComputeVO();
+        return iaasCompute.createVO();
     }
 
     /**
@@ -1653,7 +1653,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         logger.debug("getIaasCompute(" + iaasComputeId + ")");
         IaasCompute iaasCompute = getIaasComputeBean(iaasComputeId);
         if (iaasCompute != null) {
-            return iaasCompute.createIaasComputeVO();
+            return iaasCompute.createVO();
         } else {
             return null;
         }
@@ -1672,7 +1672,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<IaasComputeVO> resultList = new LinkedList<IaasComputeVO>();
         if (list != null) {
             for (IaasCompute tmp : list) {
-                resultList.add(tmp.createIaasComputeVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -2004,7 +2004,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<PaasDatabaseVO> resultList = new LinkedList<PaasDatabaseVO>();
         if (paasContainer.getPaasDatabaseList() != null) {
             for (PaasDatabase tmp : paasContainer.getPaasDatabaseList()) {
-                resultList.add(tmp.createPaasDatabaseVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -2132,7 +2132,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<PaasResourceVO> resultList = new LinkedList<PaasResourceVO>();
         if (paasAgent.getPaasResourceList() != null) {
             for (PaasResource tmp : paasAgent.getPaasResourceList()) {
-                resultList.add(tmp.createPaasResourceVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -2200,7 +2200,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             for (PaasEntity tmp : iaasCompute.getPaasEntityList()) {
                 if (tmp instanceof PaasResource) {
                     paasResource = (PaasResource) tmp;
-                    resultList.add(paasResource.createPaasResourceVO());
+                    resultList.add(paasResource.createVO());
                 }
             }
         }
@@ -2218,7 +2218,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         PaasResource paasResource = getPaasResourceBean(paasResourceId);
         IaasCompute iaasCompute = paasResource.getIaasCompute();
         if (iaasCompute != null) {
-            return iaasCompute.createIaasComputeVO();
+            return iaasCompute.createVO();
         } else {
             return null;
         }
@@ -2355,7 +2355,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         PaasAgent paasAgent = getPaasAgentBean(paasAgentId);
         IaasCompute iaasCompute = paasAgent.getIaasCompute();
         if (iaasCompute != null) {
-            return iaasCompute.createIaasComputeVO();
+            return iaasCompute.createVO();
         } else {
             return null;
         }

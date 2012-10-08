@@ -118,7 +118,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
         return sb.toString();
     }
 
-    public IaasComputeVO createIaasComputeVO() {
+    public IaasComputeVO createVO() {
         return new IaasComputeVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), ipAddress, hostname,
                 conf, new LinkedList<String>(getRoles()));

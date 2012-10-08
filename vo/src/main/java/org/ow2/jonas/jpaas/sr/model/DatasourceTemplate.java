@@ -52,7 +52,7 @@ public class DatasourceTemplate extends RelationshipTemplate implements java.io.
     private String containerId;
 
     public DatasourceTemplateVO createRelationshipTemplateVO() {
-        return new DatasourceTemplateVO(getId(),getName(), databaseId, containerId);
+        return new DatasourceTemplateVO(getId(), getTemplateId(), getName(), databaseId, containerId);
     }
 
     public String getDatabaseId() {

@@ -113,7 +113,7 @@ public class ApacheJk extends PaasRouter implements java.io.Serializable {
         return sb.toString();
     }
 
-    public ApacheJkVO createApacheJkVO() {
+    public ApacheJkVO createVO() {
         ApacheJkVO apacheJkVO = new ApacheJkVO(getId(), getName(), getState(),
                 new HashMap<String,String>(getCapabilities()), isMultitenant(), isReusable(),
                 new LinkedList<Integer>(getUsedPorts()), apacheVersion, jkVersion);

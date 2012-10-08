@@ -129,7 +129,7 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
         this.datasourceList = datasourceList;
     }
 
-    public JonasVO createJonasVO() {
+    public JonasVO createVO() {
         JonasVO jonasVO = new JonasVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), jonasVersion, profile,
                 jdkVersion, domain);

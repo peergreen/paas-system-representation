@@ -52,7 +52,7 @@ public class PaasDatabase extends PaasResource implements java.io.Serializable {
     @ManyToMany(mappedBy = "paasDatabaseList",  cascade = CascadeType.MERGE)
     private List<PaasContainer> paasContainerList;
 
-    public PaasDatabaseVO createPaasDatabaseVO() {
+    public PaasDatabaseVO createVO() {
         return new PaasDatabaseVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }
