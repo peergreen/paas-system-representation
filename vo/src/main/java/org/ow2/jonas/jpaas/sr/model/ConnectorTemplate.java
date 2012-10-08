@@ -41,7 +41,33 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class ConnectorTemplate extends RelationshipTemplate implements java.io.Serializable {
 
+    /**
+     * Router Id of the Connector.
+     */
+    private String routerId;
+
+    /**
+     * Container Id of the Connector.
+     */
+    private String containerId;
+
     public ConnectorTemplateVO createRelationshipTemplateVO() {
-        return new ConnectorTemplateVO(getId(), getTemplateId(), getName());
+        return new ConnectorTemplateVO(getId(), getTemplateId(), getName(), routerId, containerId);
+    }
+
+    public String getRouterId() {
+        return routerId;
+    }
+
+    public void setRouterId(String routerId) {
+        this.routerId = routerId;
+    }
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
     }
 }

@@ -41,7 +41,33 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class DatasourceTemplate extends RelationshipTemplate implements java.io.Serializable {
 
+    /**
+     * Database Id of the Connector.
+     */
+    private String databaseId;
+
+    /**
+     * Container Id of the Connector.
+     */
+    private String containerId;
+
     public DatasourceTemplateVO createRelationshipTemplateVO() {
-        return new DatasourceTemplateVO(getId(),getName());
+        return new DatasourceTemplateVO(getId(),getName(), databaseId, containerId);
+    }
+
+    public String getDatabaseId() {
+        return databaseId;
+    }
+
+    public void setDatabaseId(String databaseId) {
+        this.databaseId = databaseId;
+    }
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
     }
 }

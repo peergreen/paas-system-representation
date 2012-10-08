@@ -175,8 +175,8 @@ public class TestEnvironmentFacade {
 
     @Test(dependsOnMethods = "testDeleteEnvironment")
     public void testComplexEnvironment() {
-        ConnectorTemplateVO connectorTemplate1 = new ConnectorTemplateVO("c1", "connectorTemplate1");
-        DatasourceTemplateVO datasourceTemplate1 = new DatasourceTemplateVO("d1", "datasourceTemplate1");
+        ConnectorTemplateVO connectorTemplate1 = new ConnectorTemplateVO("c1", "connectorTemplate1", "r1", "c1");
+        DatasourceTemplateVO datasourceTemplate1 = new DatasourceTemplateVO("d1", "datasourceTemplate1", "d1", "c1");
         NodeTemplateVO nodeTemplate1 = new NodeTemplateVO("n1", "nodeTemplate1", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
         RouterNodeTemplateVO routerNodeTemplate1 = new RouterNodeTemplateVO("r1", "routerNodeTemplate1",
@@ -215,7 +215,7 @@ public class TestEnvironmentFacade {
 
         //Test update
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().get(0).setName("updateName");
-        DatasourceTemplateVO datasourceTemplate2 = new DatasourceTemplateVO("d2", "datasourceTemplate2");
+        DatasourceTemplateVO datasourceTemplate2 = new DatasourceTemplateVO("d2", "datasourceTemplate2", "d1", "c1");
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().add(datasourceTemplate2);
         tmpEnv1.getTopologyTemplate().getRelationshipTemplateList().remove(1);
         tmpEnv1.getTopologyTemplate().getNodeTemplateList().get(0).setName("updateName");

@@ -60,7 +60,7 @@ public class RelationshipTemplateVO implements java.io.Serializable {
 
     public RelationshipTemplateVO(String templateId, String name) {
         this.id = null;
-        this.templateId = id;
+        this.templateId = templateId;
         this.name = name;
     }
 

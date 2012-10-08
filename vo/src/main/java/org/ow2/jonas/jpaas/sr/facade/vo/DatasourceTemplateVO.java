@@ -34,16 +34,47 @@ import org.ow2.jonas.jpaas.sr.model.DatasourceTemplate;
  */
 public class DatasourceTemplateVO extends RelationshipTemplateVO implements java.io.Serializable {
 
+    /**
+     * Database Id of the Connector.
+     */
+    private String databaseId;
+
+    /**
+     * Container Id of the Connector.
+     */
+    private String containerId;
+
     public DatasourceTemplateVO() {
         super();
     }
 
-    public DatasourceTemplateVO(String id, String templateId, String name) {
+    public DatasourceTemplateVO(String id, String templateId, String name, String databaseId, String containerId) {
         super(id, templateId, name);
+        this.databaseId = databaseId;
+        this.containerId = containerId;
     }
 
-    public DatasourceTemplateVO(String templateId, String name) {
+    public DatasourceTemplateVO(String templateId, String name, String databaseId, String containerId) {
         super(templateId, name);
+        this.databaseId = databaseId;
+        this.containerId = containerId;
+    }
+
+
+    public String getDatabaseId() {
+        return databaseId;
+    }
+
+    public void setDatabaseId(String databaseId) {
+        this.databaseId = databaseId;
+    }
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
     }
 
     /**
@@ -54,6 +85,8 @@ public class DatasourceTemplateVO extends RelationshipTemplateVO implements java
         DatasourceTemplate datasourceTemplate = new DatasourceTemplate();
         datasourceTemplate.setTemplateId(getTemplateId());
         datasourceTemplate.setName(getName());
+        datasourceTemplate.setContainerId(getContainerId());
+        datasourceTemplate.setDatabaseId(getDatabaseId());
         return datasourceTemplate;
     }
 

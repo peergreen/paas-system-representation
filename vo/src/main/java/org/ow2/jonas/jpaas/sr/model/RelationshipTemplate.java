@@ -127,5 +127,6 @@ public class RelationshipTemplate implements java.io.Serializable  {
 
     public void mergeRelationshipTemplateVO(RelationshipTemplateVO relationshipTemplateVO){
         this.name = relationshipTemplateVO.getName();
+        this.templateId = relationshipTemplateVO.getTemplateId();
     }
 }

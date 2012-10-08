@@ -34,17 +34,48 @@ import org.ow2.jonas.jpaas.sr.model.ConnectorTemplate;
  */
 public class ConnectorTemplateVO extends RelationshipTemplateVO implements java.io.Serializable {
 
+    /**
+     * Router Id of the Connector.
+     */
+    private String routerId;
+
+    /**
+     * Container Id of the Connector.
+     */
+    private String containerId;
+
     public ConnectorTemplateVO() {
         super();
     }
 
-    public ConnectorTemplateVO(String id, String templateId, String name) {
+    public ConnectorTemplateVO(String id, String templateId, String name, String routerId, String containerId) {
         super(id, templateId, name);
+        this.routerId = routerId;
+        this.containerId = containerId;
     }
 
-    public ConnectorTemplateVO(String templateId, String name) {
+    public ConnectorTemplateVO(String templateId, String name, String routerId, String containerId) {
         super(templateId, name);
+        this.routerId = routerId;
+        this.containerId = containerId;
     }
+
+    public String getRouterId() {
+        return routerId;
+    }
+
+    public void setRouterId(String routerId) {
+        this.routerId = routerId;
+    }
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
+    }
+
 
     /**
      * Change a ConnectorTemplate Value Object into an EntityBean object
@@ -54,6 +85,8 @@ public class ConnectorTemplateVO extends RelationshipTemplateVO implements java.
         ConnectorTemplate connectorTemplate = new ConnectorTemplate();
         connectorTemplate.setTemplateId(getTemplateId());
         connectorTemplate.setName(getName());
+        connectorTemplate.setContainerId(getContainerId());
+        connectorTemplate.setRouterId(getRouterId());
         return connectorTemplate;
     }
 }
