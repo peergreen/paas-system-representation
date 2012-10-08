@@ -43,7 +43,7 @@ import java.util.List;
  * @author David Richard
  */
 @Entity
-@Table
+@Table(name="paasuser")
 public class User implements java.io.Serializable {
 
     /**
