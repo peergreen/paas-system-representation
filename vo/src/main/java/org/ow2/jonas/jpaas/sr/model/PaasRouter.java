@@ -69,7 +69,7 @@ public class PaasRouter extends PaasResource implements java.io.Serializable {
         this.paasFrontend = paasFrontend;
     }
 
-    public PaasRouterVO createPaasRouterVO() {
+    public PaasRouterVO createVO() {
         return new PaasRouterVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()));
     }

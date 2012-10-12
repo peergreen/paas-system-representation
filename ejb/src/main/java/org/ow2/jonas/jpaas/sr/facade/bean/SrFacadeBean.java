@@ -2054,7 +2054,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<PaasRouterVO> resultList = new LinkedList<PaasRouterVO>();
         if (paasContainer.getPaasDatabaseList() != null) {
             for (PaasRouter tmp : paasContainer.getPaasRouterList()) {
-                resultList.add(tmp.createPaasRouterVO());
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
@@ -2269,7 +2269,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         List<PaasRouterVO> resultList = new LinkedList<PaasRouterVO>();
         if (paasFrontend.getPaasRouterList() != null) {
             for (PaasRouter tmp : paasFrontend.getPaasRouterList()) {
-                resultList.add(tmp.createPaasRouterVO());
+                resultList.add(tmp.createVO());
             }
         }
         return  resultList;
