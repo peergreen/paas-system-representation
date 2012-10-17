@@ -1833,7 +1833,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      * @return the PaasFrontend entity
      */
     private PaasFrontend getPaasFrontendBean(String paasFrontendId) {
-        logger.debug("deleteFrontend(" + paasFrontendId + ")");
+        logger.debug("getPaasFrontendBean(" + paasFrontendId + ")");
         Query q = entityManager.createQuery("SELECT paasFrontend FROM PaasFrontend paasFrontend WHERE " +
                 "paasFrontend.id=:paasFrontendId");
         q.setParameter("paasFrontendId",paasFrontendId);

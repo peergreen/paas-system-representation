@@ -43,6 +43,16 @@ public class PaasFrontendVO implements java.io.Serializable {
     private String id;
 
     /**
+     * Name of the PaasFrontend
+     */
+    private String name;
+
+    /**
+     * Url of the agent API
+     */
+    private String apiUrl;
+
+    /**
      * VirtualHosts of the PaasFrontend.
      */
     private List<VirtualHostVO> virtualHosts;
@@ -51,13 +61,17 @@ public class PaasFrontendVO implements java.io.Serializable {
         virtualHosts = new LinkedList<VirtualHostVO>();
     }
 
-    public PaasFrontendVO(String id, List<VirtualHostVO> virtualHosts) {
+    public PaasFrontendVO(String id, String name, String apiUrl, List<VirtualHostVO> virtualHosts) {
         this.id = id;
+        this.name = name;
+        this.apiUrl = apiUrl;
         this.virtualHosts = virtualHosts;
     }
 
-    public PaasFrontendVO(List<VirtualHostVO> virtualHosts) {
+    public PaasFrontendVO(String name, String apiUrl, List<VirtualHostVO> virtualHosts) {
         this.id = null;
+        this.name = name;
+        this.apiUrl = apiUrl;
         this.virtualHosts = virtualHosts;
     }
 
@@ -67,6 +81,22 @@ public class PaasFrontendVO implements java.io.Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
     }
 
     public List<VirtualHostVO> getVirtualHosts() {
@@ -83,6 +113,8 @@ public class PaasFrontendVO implements java.io.Serializable {
      */
     public PaasFrontend createBean() {
         PaasFrontend paasFrontend = new PaasFrontend();
+        paasFrontend.setName(getName());
+        paasFrontend.setApiUrl(getApiUrl());
         List<VirtualHost> virtualHostList = new LinkedList<VirtualHost>();
         for (VirtualHostVO tmp : virtualHosts) {
             VirtualHost virtualHost = tmp.createBean();

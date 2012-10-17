@@ -27,6 +27,9 @@ package org.ow2.jonas.jpaas.sr.facade.vo;
 
 import org.ow2.jonas.jpaas.sr.model.VirtualHost;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Define a VirtualHost Value Object
@@ -39,6 +42,33 @@ public class VirtualHostVO implements java.io.Serializable {
      */
     private String name;
 
+    /**
+     * The VirtualHost Id.
+     */
+    private String vhostId;
+
+    /**
+     * ProxyPass directives of the VirtualHost.
+     */
+    private Map<String, String> proxypassDirectives;
+
+
+    public VirtualHostVO() {
+       proxypassDirectives = new HashMap<String, String>();
+    }
+
+    public VirtualHostVO(String name, String vhostId) {
+        this.name = name;
+        this.vhostId = vhostId;
+        proxypassDirectives = new HashMap<String, String>();
+    }
+
+    public VirtualHostVO(String name, String vhostId, Map<String,String> proxypassDirectives) {
+        this.name = name;
+        this.vhostId = vhostId;
+        this.proxypassDirectives = new HashMap<String, String>(proxypassDirectives);
+    }
+
     public String getName() {
         return name;
     }
@@ -47,9 +77,12 @@ public class VirtualHostVO implements java.io.Serializable {
         this.name = name;
     }
 
+    public String getVhostId() {
+        return vhostId;
+    }
 
-    public VirtualHostVO(String name) {
-        this.name = name;
+    public void setVhostId(String vhostId) {
+        this.vhostId = vhostId;
     }
 
     /**
@@ -58,7 +91,17 @@ public class VirtualHostVO implements java.io.Serializable {
      */
     public VirtualHost createBean() {
         VirtualHost virtualHost = new VirtualHost();
+        virtualHost.setVhostId(getVhostId());
         virtualHost.setName(getName());
+        virtualHost.setProxypassDirectives(getProxypassDirectives());
         return virtualHost;
+    }
+
+    public Map<String, String> getProxypassDirectives() {
+        return proxypassDirectives;
+    }
+
+    public void setProxypassDirectives(Map<String, String> proxypassDirectives) {
+        this.proxypassDirectives = proxypassDirectives;
     }
 }

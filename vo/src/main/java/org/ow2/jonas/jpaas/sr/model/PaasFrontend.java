@@ -57,6 +57,16 @@ public class PaasFrontend implements java.io.Serializable {
     private String id;
 
     /**
+     * Name of the PaasFrontend
+     */
+    private String name;
+
+    /**
+     * Url of the agent API
+     */
+    private String apiUrl;
+
+    /**
      * VirtualHosts of the PaasFrontend.
      */
     @OneToMany(mappedBy="paasFrontend", orphanRemoval=true, cascade={CascadeType.ALL})
@@ -85,10 +95,28 @@ public class PaasFrontend implements java.io.Serializable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("PaasFrontend[key=").append(getKey())
                 .append(", id=").append(getId())
+                .append(", name=").append(getName())
+                .append(", apiUrl=").append(getApiUrl())
                 .append("]");
         return sb.toString();
     }
@@ -106,10 +134,12 @@ public class PaasFrontend implements java.io.Serializable {
         for (VirtualHost tmp : virtualHosts) {
             virtualHostVOList.add(tmp.createVirtualHostVO());
         }
-        return new PaasFrontendVO(id, virtualHostVOList);
+        return new PaasFrontendVO(id, name, apiUrl, virtualHostVOList);
     }
 
     public void mergePaasFrontendVO(PaasFrontendVO paasFrontendVO) {
+        this.name = paasFrontendVO.getName();
+        this.apiUrl = paasFrontendVO.getApiUrl();
         if (paasFrontendVO.getVirtualHosts() != null) {
             LinkedList<VirtualHost> originalVirtualHostList = new LinkedList<VirtualHost>(this.virtualHosts);
             this.virtualHosts.clear();

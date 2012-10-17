@@ -27,10 +27,13 @@ package org.ow2.jonas.jpaas.sr.model;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Define a VirtualHost
@@ -53,10 +56,21 @@ public class VirtualHost implements java.io.Serializable {
     private String name;
 
     /**
+     * The VirtualHost Id.
+     */
+    private String vhostId;
+
+    /**
      * PaasFrontend of the VirtualHost.
      */
     @ManyToOne(optional=false)
     private PaasFrontend paasFrontend;
+
+    /**
+     * ProxyPass directives of the VirtualHost.
+     */
+    @ElementCollection
+    private Map<String, String> proxypassDirectives;
 
 
     public long getKey() {
@@ -75,10 +89,19 @@ public class VirtualHost implements java.io.Serializable {
         this.name = name;
     }
 
+    public String getVhostId() {
+        return vhostId;
+    }
+
+    public void setVhostId(String vhostId) {
+        this.vhostId = vhostId;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("VirtualHost[key=").append(getKey())
                 .append(", name=").append(getName())
+                .append(", vhostId=").append(getVhostId())
                 .append("]");
         return sb.toString();
     }
@@ -93,10 +116,20 @@ public class VirtualHost implements java.io.Serializable {
     }
 
     public VirtualHostVO createVirtualHostVO() {
-        return new VirtualHostVO(name);
+        return new VirtualHostVO(name, vhostId, proxypassDirectives);
     }
 
     public void mergeVirtualHostVO(VirtualHostVO virtualHostVO) {
         this.name = virtualHostVO.getName();
+        this.vhostId = virtualHostVO.getVhostId();
+        this.proxypassDirectives = virtualHostVO.getProxypassDirectives();
+    }
+
+    public Map<String, String> getProxypassDirectives() {
+        return proxypassDirectives;
+    }
+
+    public void setProxypassDirectives(Map<String, String> proxypassDirectives) {
+        this.proxypassDirectives = proxypassDirectives;
     }
 }
