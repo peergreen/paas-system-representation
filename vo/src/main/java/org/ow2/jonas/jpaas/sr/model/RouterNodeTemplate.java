@@ -42,8 +42,8 @@ import javax.persistence.InheritanceType;
 public class RouterNodeTemplate extends NodeTemplate implements java.io.Serializable {
 
     public RouterNodeTemplateVO createNodeTemplateVO() {
-        return new RouterNodeTemplateVO(getId(),getTemplateId(),getName(),getRequirements(),getSlaEnforcement(), getMinSize(),
-                getMaxSize(), getCurrentSize());
+        return new RouterNodeTemplateVO(getId(),getTemplateId(),getName(),getConfigurationName(),
+                getRequirements(), getSlaEnforcement(), getMinSize(), getMaxSize(), getCurrentSize());
     }
 
 }

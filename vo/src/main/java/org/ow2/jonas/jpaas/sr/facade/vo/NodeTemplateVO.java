@@ -54,6 +54,11 @@ public class NodeTemplateVO implements java.io.Serializable {
     private String name;
 
     /**
+     * Name of the node's configuration.
+     */
+    private String configurationName;
+
+    /**
      * Requirements of the Node.
      */
     private List<String> requirements = new LinkedList<String>();
@@ -83,11 +88,13 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.slaEnforcement = new HashMap<String, String>();
     }
 
-    public NodeTemplateVO(String id, String templateId, String name, List<String> requirements, Map<String,String> slaEnforcement,
+    public NodeTemplateVO(String id, String templateId, String name, String configurationName,
+            List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         this.id = id;
         this.templateId = templateId;
         this.name = name;
+        this.configurationName = configurationName;
         this.requirements = new LinkedList<String>(requirements);
         this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
         this.minSize = minSize;
@@ -95,10 +102,12 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.currentSize = currentSize;
     }
 
-    public NodeTemplateVO(String templateId, String name, List<String> requirements, Map<String,String> slaEnforcement,
+    public NodeTemplateVO(String templateId, String name, String configurationName,
+            List<String> requirements, Map<String,String> slaEnforcement,
             int minSize, int maxSize, int currentSize) {
         this.templateId = templateId;
         this.name = name;
+        this.configurationName = configurationName;
         this.requirements = new LinkedList<String>(requirements);
         this.slaEnforcement = new HashMap<String, String>(slaEnforcement);
         this.minSize = minSize;
@@ -130,6 +139,13 @@ public class NodeTemplateVO implements java.io.Serializable {
         this.name = name;
     }
 
+    public String getConfigurationName() {
+        return configurationName;
+    }
+
+    public void setConfigurationName(String configurationName) {
+        this.configurationName = configurationName;
+    }
 
     public List<String> getRequirements() {
         return requirements;
@@ -176,6 +192,7 @@ public class NodeTemplateVO implements java.io.Serializable {
         sb.append("NodeTemplate[id=").append(getId())
                 .append(", templateId=").append(getTemplateId())
                 .append(", name=").append(getName())
+                .append(", configurationName=").append(getConfigurationName())
                 .append(", requirements=").append(getRequirements().toString())
                 .append(", slaEnforcement=").append(getSlaEnforcement().toString())
                 .append(", minSize=").append(getMinSize())
@@ -194,6 +211,7 @@ public class NodeTemplateVO implements java.io.Serializable {
         nodeTemplate.setId(id);
         nodeTemplate.setTemplateId(templateId);
         nodeTemplate.setName(name);
+        nodeTemplate.setConfigurationName(configurationName);
         nodeTemplate.setRequirements(requirements);
         nodeTemplate.setSlaEnforcement(slaEnforcement);
         nodeTemplate.setMinSize(minSize);
@@ -201,5 +219,4 @@ public class NodeTemplateVO implements java.io.Serializable {
         nodeTemplate.setCurrentSize(currentSize);
         return nodeTemplate;
     }
-
 }

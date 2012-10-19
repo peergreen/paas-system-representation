@@ -37,14 +37,14 @@ import java.util.Map;
  */
 public class IaasComputeNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
-    public IaasComputeNodeTemplateVO(String id, String templateId, String name, List<String> requirements,
-            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-        super(id, templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public IaasComputeNodeTemplateVO(String id, String templateId, String name, String configurationName,
+            List<String> requirements, Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(id, templateId, name, configurationName, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public IaasComputeNodeTemplateVO(String templateId, String name, List<String> requirements,
-            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-        super(templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public IaasComputeNodeTemplateVO(String templateId, String name, String configurationName,
+            List<String> requirements, Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(templateId, name, configurationName, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
     /**
@@ -56,6 +56,7 @@ public class IaasComputeNodeTemplateVO extends NodeTemplateVO implements java.io
         iaasComputeNodeTemplate.setId(getId());
         iaasComputeNodeTemplate.setTemplateId(getTemplateId());
         iaasComputeNodeTemplate.setName(getName());
+        iaasComputeNodeTemplate.setConfigurationName(getConfigurationName());
         iaasComputeNodeTemplate.setRequirements(getRequirements());
         iaasComputeNodeTemplate.setSlaEnforcement(getSlaEnforcement());
         iaasComputeNodeTemplate.setMinSize(getMinSize());

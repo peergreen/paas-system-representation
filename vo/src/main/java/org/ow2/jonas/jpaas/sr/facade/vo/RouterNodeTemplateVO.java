@@ -37,14 +37,14 @@ import java.util.Map;
  */
 public class RouterNodeTemplateVO extends NodeTemplateVO implements java.io.Serializable {
 
-    public RouterNodeTemplateVO(String id, String templateId, String name, List<String> requirements,
-            Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-        super(id, templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+    public RouterNodeTemplateVO(String id, String templateId, String name, String configurationName,
+            List<String> requirements, Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
+        super(id, templateId, name, configurationName, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
-    public RouterNodeTemplateVO(String templateId, String name, List<String> requirements,
+    public RouterNodeTemplateVO(String templateId, String name, String configurationName, List<String> requirements,
             Map<String,String> slaEnforcement, int minSize, int maxSize, int currentSize) {
-        super(templateId, name, requirements, slaEnforcement, minSize, maxSize, currentSize);
+        super(templateId, name, configurationName, requirements, slaEnforcement, minSize, maxSize, currentSize);
     }
 
     /**
@@ -56,6 +56,7 @@ public class RouterNodeTemplateVO extends NodeTemplateVO implements java.io.Seri
         routerNodeTemplate.setId(getId());
         routerNodeTemplate.setTemplateId(getTemplateId());
         routerNodeTemplate.setName(getName());
+        routerNodeTemplate.setConfigurationName(getConfigurationName());
         routerNodeTemplate.setRequirements(getRequirements());
         routerNodeTemplate.setSlaEnforcement(getSlaEnforcement());
         routerNodeTemplate.setMinSize(getMinSize());

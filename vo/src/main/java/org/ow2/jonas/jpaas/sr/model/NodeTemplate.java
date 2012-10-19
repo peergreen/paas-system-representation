@@ -69,6 +69,11 @@ public class NodeTemplate implements java.io.Serializable {
     private String name;
 
     /**
+     * Name of the node's configuration.
+     */
+    private String configurationName;
+
+    /**
      * Requirements of the Node.
      */
     @ElementCollection
@@ -145,6 +150,13 @@ public class NodeTemplate implements java.io.Serializable {
         this.name = name;
     }
 
+    public String getConfigurationName() {
+        return configurationName;
+    }
+
+    public void setConfigurationName(String configurationName) {
+        this.configurationName = configurationName;
+    }
 
     public List<String> getRequirements() {
         return requirements;
@@ -192,6 +204,7 @@ public class NodeTemplate implements java.io.Serializable {
                 .append(", id=").append(getId())
                 .append(", templateId=").append(getTemplateId())
                 .append(", name=").append(getName())
+                .append(", configurationName=").append(getConfigurationName())
                 .append(", requirements=").append(getRequirements().toString())
                 .append(", slaEnforcement=").append(getSlaEnforcement().toString())
                 .append(", minSize=").append(getMinSize())
@@ -202,12 +215,14 @@ public class NodeTemplate implements java.io.Serializable {
     }
 
     public NodeTemplateVO createNodeTemplateVO() {
-        return new NodeTemplateVO(id,templateId,name,requirements,slaEnforcement, minSize, maxSize, currentSize);
+        return new NodeTemplateVO(id, templateId, name, configurationName, requirements, slaEnforcement, minSize,
+                maxSize, currentSize);
     }
 
     public void mergeNodeTemplateVO(NodeTemplateVO nodeTemplateVO){
         this.templateId = nodeTemplateVO.getTemplateId();
         this.name = nodeTemplateVO.getName();
+        this.configurationName = nodeTemplateVO.getConfigurationName();
         this.requirements = nodeTemplateVO.getRequirements();
         this.slaEnforcement = nodeTemplateVO.getSlaEnforcement();
         this.minSize = nodeTemplateVO.getMinSize();

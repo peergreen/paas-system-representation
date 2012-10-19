@@ -42,8 +42,8 @@ import javax.persistence.InheritanceType;
 public class ContainerNodeTemplate extends NodeTemplate implements java.io.Serializable {
 
     public ContainerNodeTemplateVO createNodeTemplateVO() {
-        return new ContainerNodeTemplateVO(getId(),getTemplateId(),getName(),getRequirements(),getSlaEnforcement(),
-                getMinSize(),getMaxSize(), getCurrentSize());
+        return new ContainerNodeTemplateVO(getId(),getTemplateId(),getName(), getConfigurationName(),
+                getRequirements(), getSlaEnforcement(), getMinSize(),getMaxSize(), getCurrentSize());
     }
 
 }
