@@ -26,14 +26,11 @@
 package org.ow2.jonas.jpaas.sr.model;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
