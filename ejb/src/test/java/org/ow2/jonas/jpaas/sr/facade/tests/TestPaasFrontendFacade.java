@@ -84,8 +84,8 @@ public class TestPaasFrontendFacade {
     public void init() throws NamingException {
         getBean();
 
-        virtualHost1 = new VirtualHostVO("virtualHost1");
-        virtualHost2 = new VirtualHostVO("virtualHost2");
+        virtualHost1 = new VirtualHostVO("virtualHost1", "id1");
+        virtualHost2 = new VirtualHostVO("virtualHost2", "id2");
 
         virtualHostVOList = new LinkedList<VirtualHostVO>();
         virtualHostVOList.add(virtualHost1);

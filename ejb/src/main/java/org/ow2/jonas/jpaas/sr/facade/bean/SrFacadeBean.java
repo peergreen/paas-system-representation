@@ -2369,10 +2369,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
      */
     @Override
     public void addDeployableNodeLink(String deployableId, String nodeId) {
-        logger.debug("addDeployableNodeLink(" + deployableId + ", " + nodeId + ")");
         Deployable deployable = getDeployableBean(deployableId);
         NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
-        deployable.setNodeTemplate(nodeTemplate);
+                logger.debug("TEST NodeTemplate, NodeTemplate size : " + nodeTemplate.getDeployableList().size());
+        deployable.getNodeTemplateList().add(nodeTemplate);
+        nodeTemplate.getDeployableList().add(deployable);
         entityManager.merge(deployable);
     }
 
@@ -2386,7 +2387,9 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     public void removeDeployableNodeLink(String deployableId, String nodeId) {
         logger.debug("removeDeployableNodeLink(" + deployableId + ", " + nodeId + ")");
         Deployable deployable = getDeployableBean(deployableId);
-        deployable.setNodeTemplate(null);
+        NodeTemplate nodeTemplate = getNodeTemplateBean(nodeId);
+        deployable.getNodeTemplateList().remove(nodeTemplate);
+        nodeTemplate.getDeployableList().remove(deployable);
         entityManager.merge(deployable);
     }
 
@@ -2410,20 +2413,21 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     }
 
     /**
-     * Get the Node of a Deployable
+     * Get the Nodes of a Deployable
      *
      * @param deployableId Id of the Deployable
-     * @return the NodeTemplate
+     * @return a list of NodeTemplate
      */
     @Override
-    public NodeTemplateVO getNodeByDeployable(String deployableId) {
-        logger.debug("getNodeByDeployable(" + deployableId + ")");
+    public List<NodeTemplateVO> findNodesByDeployable(String deployableId) {
+        logger.debug("findNodesByDeployable(" + deployableId + ")");
         Deployable deployable = getDeployableBean(deployableId);
-        NodeTemplate nodeTemplate = deployable.getNodeTemplate();
-        if (nodeTemplate != null) {
-            return nodeTemplate.createNodeTemplateVO();
-        } else {
-            return null;
+        List<NodeTemplateVO> resultList = new LinkedList<NodeTemplateVO>();
+        if (deployable.getNodeTemplateList() != null) {
+            for (NodeTemplate tmp : deployable.getNodeTemplateList()) {
+                resultList.add(tmp.createNodeTemplateVO());
+            }
         }
+        return resultList;
     }
 }

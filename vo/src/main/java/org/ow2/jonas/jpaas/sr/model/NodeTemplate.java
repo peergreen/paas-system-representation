@@ -35,6 +35,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,13 +79,13 @@ public class NodeTemplate implements java.io.Serializable {
      * Requirements of the Node.
      */
     @ElementCollection
-    private List<String> requirements;
+    private List<String> requirements = new ArrayList<String>();
 
     /**
      * SlaEnforcement of the Node.
      */
     @ElementCollection
-    private Map<String,String> slaEnforcement;
+    private Map<String,String> slaEnforcement = new HashMap<String,String>();
 
     /**
      * Minimum size of the Node.
@@ -109,14 +111,14 @@ public class NodeTemplate implements java.io.Serializable {
     /**
      * Entities of the Node.
      */
-    @ManyToMany(mappedBy="nodeTemplateList",  cascade = CascadeType.MERGE)
-    private List<Entity> entityList;
+    @ManyToMany(mappedBy="nodeTemplateList", cascade = CascadeType.ALL)
+    private List<Entity> entityList = new ArrayList<Entity>();
 
     /**
      * Deployable of the Node.
      */
-    @OneToMany(mappedBy="nodeTemplate", cascade = CascadeType.ALL)
-    private List<Deployable> deployableList;
+    @ManyToMany(mappedBy="nodeTemplateList")
+    private List<Deployable> deployableList = new ArrayList<Deployable>();
 
     public long getKey() {
         return key;

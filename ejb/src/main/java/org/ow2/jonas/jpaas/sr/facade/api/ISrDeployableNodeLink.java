@@ -61,10 +61,10 @@ public interface ISrDeployableNodeLink {
     public List<DeployableVO> findDeployablesByNode(String nodeId);
 
     /**
-     * Get the Node of a Deployable
+     * Get the Nodes of a Deployable
      *
      * @param deployableId Id of the Deployable
-     * @return the NodeTemplate
+     * @return  a list of NodeTemplate
      */
-    public NodeTemplateVO getNodeByDeployable(String deployableId);
+    public List<NodeTemplateVO> findNodesByDeployable(String deployableId);
 }

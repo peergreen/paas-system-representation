@@ -27,12 +27,15 @@ package org.ow2.jonas.jpaas.sr.model;
 
 import org.ow2.jonas.jpaas.sr.facade.vo.DeployableVO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -104,8 +107,8 @@ public class Deployable implements java.io.Serializable {
     /**
      * NodeTemplate of the deployable.
      */
-    @ManyToOne
-    private NodeTemplate nodeTemplate;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<NodeTemplate> nodeTemplateList = new ArrayList<NodeTemplate>();
 
 
     public long getKey() {
@@ -200,12 +203,12 @@ public class Deployable implements java.io.Serializable {
         this.applicationVersionInstance = applicationVersionInstance;
     }
 
-    public NodeTemplate getNodeTemplate() {
-        return nodeTemplate;
+    public List<NodeTemplate> getNodeTemplateList() {
+        return nodeTemplateList;
     }
 
-    public void setNodeTemplate(NodeTemplate nodeTemplate) {
-        this.nodeTemplate = nodeTemplate;
+    public void setNodeTemplate(List<NodeTemplate> nodeTemplateList) {
+        this.nodeTemplateList = nodeTemplateList;
     }
 
     public DeployableVO createDeployableVO() {
