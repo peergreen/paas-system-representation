@@ -60,6 +60,8 @@ import org.ow2.util.log.LogFactory;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -771,10 +773,11 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
 
     /**
      * Delete an environment.
-     *
+     * (Transaction set to Requires_NEW due to issue in cascading delete of IaasCompute : process DeleteEnvironment)
      * @param envId Id of the environment to delete
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void deleteEnvironment(String envId) {
         logger.debug("deleteEnvironment(" + envId + ")");
         entityManager.remove(getEnvironmentBean(envId));
@@ -1960,11 +1963,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
 
     /**
      * Remove a link between a PaasContainer and a PaasDatabase
-     *
+     * (Transaction set to Requires_NEW due to issue in cascading delete of IaasCompute : process DeleteEnvironment)
      * @param paasContainerId Id of the PaasContainer
      * @param paasDatabaseId  Id of the PaasDatabase
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void removeContainerDatabaseLink(String paasContainerId, String paasDatabaseId) {
         logger.debug("removeContainerDatabaseLink(" + paasContainerId + ", " + paasDatabaseId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
@@ -2028,11 +2032,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
 
     /**
      * Remove a link between a PaasRouter and a PaasContainer
-     *
+     * (Transaction set to Requires_NEW due to issue in cascading delete of IaasCompute : process DeleteEnvironment)
      * @param paasRouterId    Id of the PaasRouter
      * @param paasContainerId Id of the PaasContainer
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void removeRouterContainerLink(String paasRouterId, String paasContainerId) {
         logger.debug("removeRouterContainerLink(" + paasRouterId + ", " + paasContainerId + ")");
         PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
