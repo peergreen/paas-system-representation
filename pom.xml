@@ -58,6 +58,12 @@
     <maven.surefire.plugin.version>2.12</maven.surefire.plugin.version>
   </properties>
 
+  <scm>
+    <connection>scm:git:git://gitorious.ow2.org/ow2-jasmine/jpaas-system-representation.git</connection>
+    <developerConnection>scm:git:git@gitorious.ow2.org:ow2-jasmine/jpaas-system-representation.git</developerConnection>
+    <url>http://gitorious.ow2.org/ow2-jasmine/jpaas-system-representation/trees/master</url>
+  </scm>
+
   <modules>
     <module>vo</module>
     <module>ejb</module>
