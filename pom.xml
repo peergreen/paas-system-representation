@@ -52,7 +52,7 @@
     <easybeans-osgi-version>1.2.4</easybeans-osgi-version>
     <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
     <testng.version>6.4</testng.version>
-    <easybeans.version>2.0.0-M2-SNAPSHOT</easybeans.version>
+    <easybeans.version>2.0.0-M2</easybeans.version>
     <easybeans.config.file>${project.build.directory}/test-classes/easybeans-config.xml</easybeans.config.file>
     <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
     <maven.surefire.plugin.version>2.12</maven.surefire.plugin.version>
