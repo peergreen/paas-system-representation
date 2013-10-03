@@ -123,9 +123,9 @@ public class TestPaasAgentIaasComputeLink {
         agent2 = new PaasAgentVO("agent2", "state", capabilitiesList, true, true, usedPorts, "url2");
         agent3 = new PaasAgentVO("agent3", "state", capabilitiesList, true, true, usedPorts, "url3");
         iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
-                "hostname", "conf", roles);
+                "hostname", "conf", roles, "internalId");
         iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
-                "hostname", "conf", roles);
+                "hostname", "conf", roles, "internalId");
 
         agent1 = iSrPaasAgentFacade.createAgent(agent1);
         agent2 = iSrPaasAgentFacade.createAgent(agent2);

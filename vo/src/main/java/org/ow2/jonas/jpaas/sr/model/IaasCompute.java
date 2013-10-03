@@ -55,6 +55,11 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
     private String conf;
 
     /**
+     * Internal id of the resource into the underlying IaaS
+     */
+    private String internalId;
+
+    /**
      * Roles of the IaasCompute.
      */
     @ElementCollection
@@ -99,6 +104,14 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
         this.roles = roles;
     }
 
+    public String getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(String internalId) {
+        this.internalId = internalId;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("IaasCompute[Id=").append(getId())
@@ -108,6 +121,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
                 .append(", hostname=").append(getHostname())
                 .append(", conf=").append(getConf())
                 .append(", roles=").append(getRoles().toString())
+                .append(", internalId=").append(getInternalId().toString())
                 .append("]");
         return sb.toString();
     }
@@ -115,7 +129,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
     public IaasComputeVO createVO() {
         return new IaasComputeVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), ipAddress, hostname,
-                conf, new LinkedList<String>(getRoles()));
+                conf, new LinkedList<String>(getRoles()),internalId);
     }
 
     public void mergeIaasComputeVO(IaasComputeVO iaasComputeVO) {
@@ -129,6 +143,7 @@ public class IaasCompute extends IaasResource implements java.io.Serializable {
         this.hostname = iaasComputeVO.getHostname();
         this.conf = iaasComputeVO.getConf();
         this.roles = iaasComputeVO.getRoles();
+        this.internalId = iaasComputeVO.getInternalId();
     }
 
     public List<PaasEntity> getPaasEntityList() {

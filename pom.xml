@@ -46,7 +46,7 @@
   <properties>
     <ow2-bundles.version>1.0.32</ow2-bundles.version>
     <jdk.version>1.6</jdk.version>
-    <ow2-spec.version>1.0.10</ow2-spec.version>
+    <ow2-spec.version>1.0.13</ow2-spec.version>
     <easybeans-osgi-version>1.2.4</easybeans-osgi-version>
     <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
     <testng.version>6.4</testng.version>
@@ -64,6 +64,7 @@
 
   <modules>
     <module>vo</module>
+    <module>api</module>
     <module>ejb</module>
   </modules>
 

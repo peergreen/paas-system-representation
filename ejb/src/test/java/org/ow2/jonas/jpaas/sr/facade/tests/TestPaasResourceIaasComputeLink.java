@@ -127,9 +127,9 @@ public class TestPaasResourceIaasComputeLink {
         jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
         iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
-                "hostname", "conf", roles);
+                "hostname", "conf", roles, "internalId");
         iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
-                "hostname", "conf", roles);
+                "hostname", "conf", roles, "internalId");
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
         jonas2 = iSrPaasJonasContainerFacade.createJonasContainer(jonas2);

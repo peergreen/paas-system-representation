@@ -19,9 +19,9 @@
 
 package org.ow2.jonas.jpaas.sr.facade.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourcePaasAgentLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourcePaasAgentLink;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;

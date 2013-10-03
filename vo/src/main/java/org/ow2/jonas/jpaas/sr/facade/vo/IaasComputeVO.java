@@ -41,6 +41,12 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
     private String hostname;
 
     /**
+     * Internal id of the resource in the underlying IaaS.
+     */
+    private String internalId;
+
+
+    /**
      * Conf of the IaasCompute.
      */
     private String conf;
@@ -57,22 +63,24 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
 
     public IaasComputeVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String ipAddress, String hostname, String conf,
-            List<String> roles) {
+            List<String> roles, String internalId) {
         super(id, name, state, capabilities, multitenant, reusable, usedPorts);
         this.ipAddress = ipAddress;
         this.hostname = hostname;
         this.conf = conf;
         this.roles = roles;
+        this.internalId=internalId;
     }
 
     public IaasComputeVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
             boolean reusable, List<Integer> usedPorts, String ipAddress, String hostname, String conf,
-            List<String> roles) {
+            List<String> roles,String internalId) {
         super(name, state, capabilities, multitenant, reusable, usedPorts);
         this.ipAddress = ipAddress;
         this.hostname = hostname;
         this.conf = conf;
         this.roles = roles;
+        this.internalId=internalId;
     }
 
     public String getIpAddress() {
@@ -107,6 +115,15 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         this.roles = roles;
     }
 
+    public String getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(String internalId) {
+        this.internalId = internalId;
+    }
+
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("IaasComputeVO[Id=").append(getId())
@@ -116,6 +133,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
                 .append(", hostname=").append(getHostname())
                 .append(", conf=").append(getConf())
                 .append(", roles=").append(getRoles().toString())
+                .append(", internalId=").append(getInternalId().toString())
                 .append("]");
         return sb.toString();
     }
@@ -136,6 +154,7 @@ public class IaasComputeVO extends IaasResourceVO implements java.io.Serializabl
         iaasCompute.setCapabilities(getCapabilities());
         iaasCompute.setReusable(isReusable());
         iaasCompute.setUsedPorts(getUsedPorts());
+        iaasCompute.setInternalId(getInternalId());
         return iaasCompute;
     }
 }

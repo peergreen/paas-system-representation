@@ -19,12 +19,7 @@
 
 package org.ow2.jonas.jpaas.sr.facade.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationEnvLink;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.*;
 import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionInstanceVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;

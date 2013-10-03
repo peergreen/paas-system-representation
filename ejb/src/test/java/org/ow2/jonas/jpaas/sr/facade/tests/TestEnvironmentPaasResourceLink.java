@@ -19,8 +19,8 @@
 
 package org.ow2.jonas.jpaas.sr.facade.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
 import org.ow2.jonas.jpaas.sr.facade.vo.EnvironmentVO;

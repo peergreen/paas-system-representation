@@ -85,9 +85,9 @@ public class TestIaasComputeFacade {
         roles.add("Jonas");
 
         iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
-                "hostname", "conf", roles);
+                "hostname", "conf", roles, "id");
         iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
-                "hostname", "conf", roles);
+                "hostname", "conf", roles, "id");
     }
 
 
