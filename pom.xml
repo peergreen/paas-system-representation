@@ -54,6 +54,8 @@
     <easybeans.config.file>${project.build.directory}/test-classes/easybeans-config.xml</easybeans.config.file>
     <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
     <maven.surefire.plugin.version>2.12</maven.surefire.plugin.version>
+    <ipojo.version>1.10.1</ipojo.version>
+
   </properties>
 
   <scm>
