@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
@@ -224,7 +224,7 @@ public class TestApplicationVersionInstanceFacade {
         Assert.assertEquals(applicationVersionInstanceVOList.isEmpty(), true);
     }
 
-    @Test(dependsOnMethods = "testDeleteApplicationVersion")
+    @Test(dependsOnMethods = "testDeleteApplicationVersionInstance")
     public void testDeployable() {
         DeployableVO deployable1 = new DeployableVO("deployable1", "url", true, new LinkedList<String>(),
                 new HashMap<String, String>());

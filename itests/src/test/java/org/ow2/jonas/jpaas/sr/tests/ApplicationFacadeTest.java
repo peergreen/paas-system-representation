@@ -35,7 +35,7 @@ import com.peergreen.deployment.*;
 @ExamReactorStrategy(PerClass.class)
 public class ApplicationFacadeTest {
 
-    public static final String PROJECT_VERSION = "1.0.0-M2-SNAPSHOT";
+    public static final String PROJECT_VERSION = "1.0.0-M1-SNAPSHOT";
 
     @Inject
     private static ISrApplicationFacade iSrApplicationFacade;
@@ -83,9 +83,9 @@ public class ApplicationFacadeTest {
 
         return options(systemProperty("org.ops4j.pax.logging.DefaultServiceLog.level").value("WARN"),
                 mavenBundle("org.testng", "testng", "6.3.1"),
-                mavenBundle("org.ow2.jonas.jpaas.system-representation", "system-representation-vo").version(PROJECT_VERSION),
-                mavenBundle("org.ow2.jonas.jpaas.system-representation", "system-representation-api").version(PROJECT_VERSION),
-                mavenBundle("org.ow2.jonas.jpaas.system-representation", "system-representation-ejb").version(PROJECT_VERSION));
+                mavenBundle("com.peergreen.paas", "paas-system-representation-vo").version(PROJECT_VERSION),
+                mavenBundle("com.peergreen.paas", "paas-system-representation-api").version(PROJECT_VERSION),
+                mavenBundle("com.peergreen.paas", "paas-system-representation-ejb").version(PROJECT_VERSION));
     }
 
 
@@ -178,7 +178,7 @@ public class ApplicationFacadeTest {
     }
 
     @Test(dependsOnMethods = "testFindApplication")
-    public void eTestDeleteApplication() {
+    public void testDeleteApplication() {
         //Delete applications
         iSrApplicationFacade.deleteApplication(app1.getId());
         List<ApplicationVO> applicationList = iSrApplicationFacade.findApplications(userID);
