@@ -13,12 +13,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
@@ -29,23 +40,19 @@ import org.ow2.jonas.jpaas.sr.facade.vo.NodeTemplateVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.TopologyTemplateVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * EnvironmentPaasResourceLink test case
  * @author David Richard
  */
-public class TestEnvironmentPaasResourceLink {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestEnvironmentPaasResourceLink extends SetupTest {
+
     /**
      * User ID
      */
@@ -54,22 +61,26 @@ public class TestEnvironmentPaasResourceLink {
     /**
      * User Facade
      */
-    private ISrUserFacade iSrUserFacade = null;
+    @Inject
+    private ISrUserFacade iSrUserFacade;
 
     /**
      * PaasJonasContainer Facade
      */
-    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade = null;
+    @Inject
+    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade;
 
     /**
      * Environment Facade
      */
-    private ISrEnvironmentFacade iSrEnvironmentFacade = null;
+    @Inject
+    private ISrEnvironmentFacade iSrEnvironmentFacade;
 
     /**
      * EnvironmentPaasResourceLink Facade
      */
-    private ISrEnvironmentPaasResourceLink iSrEnvironmentPaasResourceLink = null;
+    @Inject
+    private ISrEnvironmentPaasResourceLink iSrEnvironmentPaasResourceLink;
 
     /**
      * Jonas 1 value object
@@ -101,36 +112,10 @@ public class TestEnvironmentPaasResourceLink {
      */
     private NodeTemplateVO nodeTemplate2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
+    @Test
+    public void initEnvironmentPaasResourceLink() throws NamingException {
 
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        initDatabase();
-    }
-
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-        this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade");
-        this.iSrEnvironmentPaasResourceLink = (ISrEnvironmentPaasResourceLink) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink");
-    }
-
-    private void initDatabase() {
-        UserVO user1 = new UserVO("user1", "testPassword", "testRole");
+        UserVO user1 = new UserVO("user1EnvironmentPaasResourceLink", "testPassword", "testRole");
         user1 = iSrUserFacade.createUser(user1);
         this.userID = user1.getId();
 
@@ -142,16 +127,16 @@ public class TestEnvironmentPaasResourceLink {
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1EnvironmentPaasResourceLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2EnvironmentPaasResourceLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas3 = new JonasVO("jonas3EnvironmentPaasResourceLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        env1 =  new EnvironmentVO("env1", "testDescription", "testState");
-        nodeTemplate1 = new NodeTemplateVO("n1", "nodeTemplate1", "configuration", new LinkedList<String>(),
+        env1 =  new EnvironmentVO("env1EnvironmentPaasResourceLink", "testDescription", "testState");
+        nodeTemplate1 = new NodeTemplateVO("n1EnvironmentPaasResourceLink", "nodeTemplate1", "configuration", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
-        nodeTemplate2 = new NodeTemplateVO("n2", "nodeTemplate2", "configuration", new LinkedList<String>(),
+        nodeTemplate2 = new NodeTemplateVO("n2EnvironmentPaasResourceLink", "nodeTemplate2", "configuration", new LinkedList<String>(),
                 new HashMap<String, String>(), 1, 5, 3);
         TopologyTemplateVO topologyTemplateVO = new TopologyTemplateVO();
         topologyTemplateVO.getNodeTemplateList().add(nodeTemplate1);
@@ -168,16 +153,8 @@ public class TestEnvironmentPaasResourceLink {
 
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas1.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas2.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas3.getId());
-        iSrEnvironmentFacade.deleteEnvironment(env1.getId());
-        iSrUserFacade.deleteUser(userID);
-    }
 
-    @Test
+    @Test(dependsOnMethods="initEnvironmentPaasResourceLink")
     public void testAddPaasResourceNodeLink() {
         iSrEnvironmentPaasResourceLink.addPaasResourceNodeLink(nodeTemplate1.getId(), jonas1.getId());
         iSrEnvironmentPaasResourceLink.addPaasResourceNodeLink(nodeTemplate1.getId(), jonas2.getId());
@@ -219,4 +196,6 @@ public class TestEnvironmentPaasResourceLink {
         nodeTemplateVOList = iSrEnvironmentPaasResourceLink.findNodesByPaasResource(jonas3.getId());
                Assert.assertEquals(nodeTemplateVOList.size(), 1);
     }
+
+
 }

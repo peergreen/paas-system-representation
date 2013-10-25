@@ -13,49 +13,58 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourcePaasAgentLink;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * PaasResourcePaasAgentLink test case
  * @author David Richard
  */
-public class TestPaasResourcePaasAgentLink {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasResourcePaasAgentLink extends SetupTest {
+
     /**
      * PaasJonasContainer Facade
      */
-    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade = null;
+    @Inject
+    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade;
 
     /**
      * PaasAgent Facade
      */
-    private ISrPaasAgentFacade iSrPaasAgentFacade = null;
+    @Inject
+    private ISrPaasAgentFacade iSrPaasAgentFacade;
 
     /**
      * PaasAgent Facade
      */
-    private ISrPaasResourcePaasAgentLink iSrPaasResourcePaasAgentLink = null;
+    @Inject
+    private ISrPaasResourcePaasAgentLink iSrPaasResourcePaasAgentLink;
 
     /**
      * Jonas 1 value object
@@ -82,33 +91,8 @@ public class TestPaasResourcePaasAgentLink {
      */
     private PaasAgentVO paasAgent2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        initDatabase();
-    }
-
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrPaasAgentFacade = (ISrPaasAgentFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade");
-        this.iSrPaasResourcePaasAgentLink = (ISrPaasResourcePaasAgentLink) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourcePaasAgentLink");
-    }
-
-    private void initDatabase() {
+    @Test
+    public void initPaasResourcePaasAgentLink() {
         Map<String,String> capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
         capabilitiesList.put("capability 2", "value");
@@ -117,14 +101,14 @@ public class TestPaasResourcePaasAgentLink {
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1PaasResourcePaasAgentLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2PaasResourcePaasAgentLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas3 = new JonasVO("jonas3PaasResourcePaasAgentLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        paasAgent1 = new PaasAgentVO("paasAgent1", "state", capabilitiesList, true, true, usedPorts, "apiUrl");
-        paasAgent2 = new PaasAgentVO("paasAgent2", "state", capabilitiesList, false, false, usedPorts, "apiUrl2");
+        paasAgent1 = new PaasAgentVO("paasAgent1PaasResourcePaasAgentLink", "state", capabilitiesList, true, true, usedPorts, "apiUrl");
+        paasAgent2 = new PaasAgentVO("paasAgent2PaasResourcePaasAgentLink", "state", capabilitiesList, false, false, usedPorts, "apiUrl2");
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
         jonas2 = iSrPaasJonasContainerFacade.createJonasContainer(jonas2);
@@ -133,16 +117,7 @@ public class TestPaasResourcePaasAgentLink {
         paasAgent2 = iSrPaasAgentFacade.createAgent(paasAgent2);
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas1.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas2.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas3.getId());
-        iSrPaasAgentFacade.deleteAgent(paasAgent1.getId());
-        iSrPaasAgentFacade.deleteAgent(paasAgent2.getId());
-    }
-
-    @Test
+    @Test(dependsOnMethods="initPaasResourcePaasAgentLink")
     public void testAddPaasResourceAgentLink() {
         iSrPaasResourcePaasAgentLink.addPaasResourceAgentLink(jonas1.getId(), paasAgent1.getId());
         iSrPaasResourcePaasAgentLink.addPaasResourceAgentLink(jonas2.getId(), paasAgent1.getId());

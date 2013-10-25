@@ -13,33 +13,42 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.List;
 
 /**
  * UserFacade test case
  * @author David Richard
  */
-public class TestUserFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestUserFacade extends SetupTest {
 
     /**
      * User Facade
      */
-    private ISrUserFacade iSrUserFacade = null;
+    @Inject
+    private ISrUserFacade iSrUserFacade;
 
     /**
      * User 1 value object
@@ -51,26 +60,14 @@ public class TestUserFacade {
      */
     private UserVO user2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        user1 = new UserVO("user1", "testPassword", "testRole");
-        user2 = new UserVO("user2", "testPassword2", "testRole2");
-    }
-
-
-    private void getBean() throws NamingException {
-        this.iSrUserFacade = (ISrUserFacade) new InitialContext().lookup("java:global/" + moduleName +
-                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-    }
-
     @Test
+    public void initUserFacade() throws NamingException {
+        user1 = new UserVO("user1UserFacade", "testPassword", "testRole");
+        user2 = new UserVO("user2UserFacade", "testPassword2", "testRole2");
+    }
+
+
+    @Test(dependsOnMethods="initUserFacade")
     public void testCreateUser() {
         //Create and test a user
         UserVO tmpUser1 = iSrUserFacade.createUser(user1);
@@ -110,7 +107,7 @@ public class TestUserFacade {
     public void testFindUser() {
         //Test find all users
         List<UserVO> userList = iSrUserFacade.findUsers();
-        Assert.assertEquals(userList.size(), 2);
+        assertTrue(userList.size() > 0);
 
         //Test find user by name
         userList = iSrUserFacade.findUsers(user2.getName());
@@ -123,10 +120,10 @@ public class TestUserFacade {
         //Delete users
         iSrUserFacade.deleteUser(user1.getId());
         List<UserVO> userList = iSrUserFacade.findUsers();
-        Assert.assertEquals(userList.size(), 1);
+        int size = userList.size();
         iSrUserFacade.deleteUser(user2.getId());
         userList = iSrUserFacade.findUsers();
-        Assert.assertEquals(userList.isEmpty(), true);
+        Assert.assertEquals(userList.size(), size -1);
     }
 
 }

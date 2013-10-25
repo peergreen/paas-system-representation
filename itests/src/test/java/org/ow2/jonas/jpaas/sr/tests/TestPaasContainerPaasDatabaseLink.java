@@ -13,49 +13,58 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerPaasDatabaseLink;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasDatabaseFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasDatabaseVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * PaasContainerPaasDatabaseLink test case
  * @author David Richard
  */
-public class TestPaasContainerPaasDatabaseLink {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasContainerPaasDatabaseLink extends SetupTest {
+
     /**
      * PaasJonasContainer Facade
      */
-    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade = null;
+    @Inject
+    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade;
 
     /**
      * PaasDatabase Facade
      */
-    private ISrPaasDatabaseFacade iSrPaasDatabaseFacade = null;
+    @Inject
+    private ISrPaasDatabaseFacade iSrPaasDatabaseFacade;
 
     /**
      * PaasDatabase Facade
      */
-    private ISrPaasContainerPaasDatabaseLink iSrPaasContainerPaasDatabaseLink = null;
+    @Inject
+    private ISrPaasContainerPaasDatabaseLink iSrPaasContainerPaasDatabaseLink;
 
     /**
      * Jonas 1 value object
@@ -77,33 +86,8 @@ public class TestPaasContainerPaasDatabaseLink {
      */
     private PaasDatabaseVO paasDatabase2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        initDatabase();
-    }
-
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrPaasDatabaseFacade = (ISrPaasDatabaseFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasDatabaseFacade");
-        this.iSrPaasContainerPaasDatabaseLink = (ISrPaasContainerPaasDatabaseLink) initialContext.lookup("java:global/"
-                + moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerPaasDatabaseLink");
-    }
-
-    private void initDatabase() {
+    @Test
+    public void initPaasContainerPaasDatabaseLink() {
         Map<String,String> capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
         capabilitiesList.put("capability 2", "value");
@@ -112,12 +96,12 @@ public class TestPaasContainerPaasDatabaseLink {
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1PaasContainerPaasDatabaseLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2PaasContainerPaasDatabaseLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        paasDatabase1 = new PaasDatabaseVO("paasDatabase1", "state", capabilitiesList, true, true, usedPorts);
-        paasDatabase2 = new PaasDatabaseVO("paasDatabase2", "state", capabilitiesList, false, false, usedPorts);
+        paasDatabase1 = new PaasDatabaseVO("paasDatabase1PaasContainerPaasDatabaseLink", "state", capabilitiesList, true, true, usedPorts);
+        paasDatabase2 = new PaasDatabaseVO("paasDatabase2PaasContainerPaasDatabaseLink", "state", capabilitiesList, false, false, usedPorts);
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
         jonas2 = iSrPaasJonasContainerFacade.createJonasContainer(jonas2);
@@ -125,15 +109,8 @@ public class TestPaasContainerPaasDatabaseLink {
         paasDatabase2 = iSrPaasDatabaseFacade.createDatabase(paasDatabase2);
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas1.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas2.getId());
-        iSrPaasDatabaseFacade.deleteDatabase(paasDatabase1.getId());
-        iSrPaasDatabaseFacade.deleteDatabase(paasDatabase2.getId());
-    }
 
-    @Test
+    @Test(dependsOnMethods="initPaasContainerPaasDatabaseLink")
     public void testAddContainerDatabaseLink() {
         iSrPaasContainerPaasDatabaseLink.addContainerDatabaseLink(jonas1.getId(), paasDatabase1.getId());
         iSrPaasContainerPaasDatabaseLink.addContainerDatabaseLink(jonas2.getId(), paasDatabase1.getId());

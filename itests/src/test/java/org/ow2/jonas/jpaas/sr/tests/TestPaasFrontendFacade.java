@@ -13,34 +13,42 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasFrontendFacade;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasFrontendVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * PaasFrontend Facade test case
  * @author David Richard
  */
-public class TestPaasFrontendFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasFrontendFacade extends SetupTest {
 
     /**
      * PaasFrontend Facade
      */
-    private ISrPaasFrontendFacade iSrPaasFrontendFacade = null;
+    @Inject
+    private ISrPaasFrontendFacade iSrPaasFrontendFacade;
 
     /**
      * VirtualHostVO list
@@ -68,18 +76,12 @@ public class TestPaasFrontendFacade {
      */
     private VirtualHostVO virtualHost2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
 
+    @Test
+    public void initPaasFrontendFacade() throws NamingException {
 
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-
-        virtualHost1 = new VirtualHostVO("virtualHost1", "id1");
-        virtualHost2 = new VirtualHostVO("virtualHost2", "id2");
+        virtualHost1 = new VirtualHostVO("virtualHost1PaasFrontendFacade", "id1");
+        virtualHost2 = new VirtualHostVO("virtualHost2PaasFrontendFacade", "id2");
 
         virtualHostVOList = new LinkedList<VirtualHostVO>();
         virtualHostVOList.add(virtualHost1);
@@ -90,14 +92,7 @@ public class TestPaasFrontendFacade {
         paasFrontend2 = new PaasFrontendVO();
     }
 
-
-    private void getBean() throws NamingException {
-        this.iSrPaasFrontendFacade = (ISrPaasFrontendFacade) new InitialContext().lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasFrontendFacade");
-    }
-
-    @Test
+    @Test(dependsOnMethods="initPaasFrontendFacade")
     public void testCreateFrontend() {
         PaasFrontendVO tmpPaasFrontend1 = iSrPaasFrontendFacade.createFrontend(paasFrontend1);
         Assert.assertNotEquals(tmpPaasFrontend1.getId(), null);
@@ -119,7 +114,7 @@ public class TestPaasFrontendFacade {
 
     @Test(dependsOnMethods = "testGetFrontend")
     public void testUpdateFrontend() {
-        PaasFrontendVO tmpPaasFrontend1 = iSrPaasFrontendFacade.updateFrontend(paasFrontend1);
+        iSrPaasFrontendFacade.updateFrontend(paasFrontend1);
     }
 
     @Test(dependsOnMethods = "testUpdateFrontend")
@@ -127,7 +122,7 @@ public class TestPaasFrontendFacade {
         List<PaasFrontendVO> jonasList = iSrPaasFrontendFacade.findFrontends();
         Assert.assertEquals(jonasList.size(), 2);
     }
-    
+
     @Test(dependsOnMethods = "testFindFrontend")
     public void testAddVirtualHost() {
         iSrPaasFrontendFacade.addVirtualHost(paasFrontend1.getId(), "virtualHost1");

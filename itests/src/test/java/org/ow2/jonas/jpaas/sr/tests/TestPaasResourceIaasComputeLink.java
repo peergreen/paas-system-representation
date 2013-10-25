@@ -13,49 +13,58 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourceIaasComputeLink;
 import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * PaasResourceIaasComputeLink test case
  * @author David Richard
  */
-public class TestPaasResourceIaasComputeLink {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasResourceIaasComputeLink extends SetupTest {
     /**
      * PaasJonasContainer Facade
      */
-    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade = null;
+    @Inject
+    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade;
 
     /**
      * IaasCompute Facade
      */
-    private ISrIaasComputeFacade iSrIaasComputeFacade = null;
+    @Inject
+    private ISrIaasComputeFacade iSrIaasComputeFacade;
 
     /**
      * IaasCompute Facade
      */
-    private ISrPaasResourceIaasComputeLink iSrPaasResourceIaasComputeLink = null;
+    @Inject
+    private ISrPaasResourceIaasComputeLink iSrPaasResourceIaasComputeLink;
 
     /**
      * Jonas 1 value object
@@ -82,33 +91,8 @@ public class TestPaasResourceIaasComputeLink {
      */
     private IaasComputeVO iaasCompute2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        initDatabase();
-    }
-
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrIaasComputeFacade = (ISrIaasComputeFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade");
-        this.iSrPaasResourceIaasComputeLink = (ISrPaasResourceIaasComputeLink) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourceIaasComputeLink");
-    }
-
-    private void initDatabase() {
+    @Test
+    public void initPaasResourceIaasComputeLink() {
         Map<String,String> capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
         capabilitiesList.put("capability 2", "value");
@@ -120,15 +104,15 @@ public class TestPaasResourceIaasComputeLink {
         List<String> roles = new LinkedList<String>();
         roles.add("Jonas");
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1PaasResourceIaasComputeLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2PaasResourceIaasComputeLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas3 = new JonasVO("jonas3", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas3 = new JonasVO("jonas3PaasResourceIaasComputeLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
+        iaasCompute1 = new IaasComputeVO("iaasCompute1PaasResourceIaasComputeLink", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
                 "hostname", "conf", roles, "internalId");
-        iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
+        iaasCompute2 = new IaasComputeVO("iaasCompute2PaasResourceIaasComputeLink", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
                 "hostname", "conf", roles, "internalId");
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
@@ -138,16 +122,8 @@ public class TestPaasResourceIaasComputeLink {
         iaasCompute2 = iSrIaasComputeFacade.createIaasCompute(iaasCompute2);
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas1.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas2.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas3.getId());
-        iSrIaasComputeFacade.deleteIaasCompute(iaasCompute1.getId());
-        iSrIaasComputeFacade.deleteIaasCompute(iaasCompute2.getId());
-    }
 
-    @Test
+    @Test(dependsOnMethods="initPaasResourceIaasComputeLink")
     public void testAddResourceIaasComputeLink() {
         iSrPaasResourceIaasComputeLink.addPaasResourceIaasComputeLink(jonas1.getId(), iaasCompute1.getId());
         iSrPaasResourceIaasComputeLink.addPaasResourceIaasComputeLink(jonas2.getId(), iaasCompute1.getId());

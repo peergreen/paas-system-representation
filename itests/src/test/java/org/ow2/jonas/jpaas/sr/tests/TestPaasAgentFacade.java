@@ -13,35 +13,43 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
 /**
  * PaasAgent Facade test case
  * @author David Richard
  */
-public class TestPaasAgentFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasAgentFacade extends SetupTest {
 
     /**
      * PaasAgent Facade
      */
-    private ISrPaasAgentFacade iSrPaasAgentFacade = null;
+    @Inject
+    private ISrPaasAgentFacade iSrPaasAgentFacade ;
 
     /**
      * Capabilities list
@@ -63,15 +71,8 @@ public class TestPaasAgentFacade {
      */
     private PaasAgentVO paasAgent2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
+    @Test
+    public void initPaasAgentFacade() throws NamingException {
 
         capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
@@ -81,18 +82,12 @@ public class TestPaasAgentFacade {
         usedPorts.add(1);
         usedPorts.add(2);
 
-        paasAgent1 = new PaasAgentVO("paasAgent1", "state", capabilitiesList, true, true, usedPorts, "apiUrl");
-        paasAgent2 = new PaasAgentVO("paasAgent2", "state", capabilitiesList, false, false, usedPorts, "apiUrl2");
+        paasAgent1 = new PaasAgentVO("paasAgent1PaasAgentFacade", "state", capabilitiesList, true, true, usedPorts, "apiUrl");
+        paasAgent2 = new PaasAgentVO("paasAgent2PaasAgentFacade", "state", capabilitiesList, false, false, usedPorts, "apiUrl2");
     }
 
 
-    private void getBean() throws NamingException {
-        this.iSrPaasAgentFacade = (ISrPaasAgentFacade) new InitialContext().lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade");
-    }
-
-    @Test
+    @Test(dependsOnMethods="initPaasAgentFacade")
     public void testCreateAgent() {
         PaasAgentVO tmpPaasAgent1 = iSrPaasAgentFacade.createAgent(paasAgent1);
         Assert.assertNotEquals(tmpPaasAgent1.getId(), null);

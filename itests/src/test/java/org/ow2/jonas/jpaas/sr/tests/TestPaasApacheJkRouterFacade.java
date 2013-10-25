@@ -13,37 +13,45 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade;
-import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
 /**
  * PaasApacheJkRouter Facade test case
  * @author David Richard
  */
-public class TestPaasApacheJkRouterFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasApacheJkRouterFacade extends SetupTest {
 
     /**
      * PaasApacheJkRouter Facade
      */
-    private ISrPaasApacheJkRouterFacade iSrPaasApacheJkRouterFacade = null;
+    @Inject
+    private ISrPaasApacheJkRouterFacade iSrPaasApacheJkRouterFacade;
 
     /**
      * Capabilities list
@@ -65,15 +73,8 @@ public class TestPaasApacheJkRouterFacade {
      */
     private ApacheJkVO apacheJk2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
+    @Test
+    public void initPaasApacheJkRouterFacade() throws NamingException {
 
         capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
@@ -83,20 +84,13 @@ public class TestPaasApacheJkRouterFacade {
         usedPorts.add(1);
         usedPorts.add(2);
 
-        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
+        apacheJk1 = new ApacheJkVO("apacheJk1PaasApacheJkRouterFacade", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
                 "jkVersion");
-        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
+        apacheJk2 = new ApacheJkVO("apacheJk2PaasApacheJkRouterFacade", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
                 "jkVersion2");
     }
 
-
-    private void getBean() throws NamingException {
-        this.iSrPaasApacheJkRouterFacade = (ISrPaasApacheJkRouterFacade) new InitialContext().lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade");
-    }
-
-    @Test
+    @Test(dependsOnMethods="initPaasApacheJkRouterFacade")
     public void testCreateApacheJkRouter() {
         //Create and test a apacheJk
         ApacheJkVO tmpApacheJk1 = iSrPaasApacheJkRouterFacade.createApacheJkRouter(apacheJk1);

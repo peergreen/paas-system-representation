@@ -17,8 +17,19 @@
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade;
@@ -29,43 +40,42 @@ import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.DeployableVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasArtefactVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * ApplicationVersionInstance Facade test case
  * @author David Richard
  */
-public class TestApplicationVersionInstanceFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestApplicationVersionInstanceFacade extends SetupTest {
 
     /**
      * User Facade
      */
-    private ISrUserFacade iSrUserFacade = null;
+    @Inject
+    private ISrUserFacade iSrUserFacade;
 
     /**
      * Application Facade
      */
-    private ISrApplicationFacade iSrApplicationFacade = null;
+    @Inject
+    private ISrApplicationFacade iSrApplicationFacade;
 
     /**
      * ApplicationVersion Facade
      */
-    private ISrApplicationVersionFacade iSrApplicationVersionFacade = null;
+    @Inject
+    private ISrApplicationVersionFacade iSrApplicationVersionFacade;
 
     /**
      * ApplicationVersionInstance Facade
      */
-    private ISrApplicationVersionInstanceFacade iSrApplicationVersionInstanceFacade = null;
+    @Inject
+    private ISrApplicationVersionInstanceFacade iSrApplicationVersionInstanceFacade;
 
     /**
      * ID of the User
@@ -92,38 +102,17 @@ public class TestApplicationVersionInstanceFacade {
      */
     private ApplicationVersionInstanceVO appVersionInstance2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
 
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
+    @Test
+    public void initApplicationVersionInstanceFacade() throws NamingException {
         initDatabase();
         appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1", "testState");
         appVersionInstance2 = new ApplicationVersionInstanceVO("appVersionInstance2", "testState2");
     }
 
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-        this.iSrApplicationFacade = (ISrApplicationFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade");
-        this.iSrApplicationVersionFacade = (ISrApplicationVersionFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade");
-        this.iSrApplicationVersionInstanceFacade = (ISrApplicationVersionInstanceFacade) initialContext.lookup(
-                "java:global/" + moduleName + "/SrFacadeBean!" +
-                        "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade");
-    }
-
     private void initDatabase() {
         //Create User
-        UserVO user1 = new UserVO("user1", "testPassword", "testRole");
+        UserVO user1 = new UserVO("user1AppVersionInstance", "testPassword", "testRole");
         user1 = iSrUserFacade.createUser(user1);
         this.userID = user1.getId();
 
@@ -134,7 +123,7 @@ public class TestApplicationVersionInstanceFacade {
         List<String> requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
         requirementsList.add("requirement 2");
-        ApplicationVO app1 =  new ApplicationVO(applicationID, "app1", "testDescription", requirementsList,
+        ApplicationVO app1 =  new ApplicationVO(applicationID, "app1VersionInstance", "testDescription", requirementsList,
                 capabilitiesList);
         app1 = iSrApplicationFacade.createApplication(userID, app1);
         this.applicationID = app1.getId();
@@ -145,14 +134,9 @@ public class TestApplicationVersionInstanceFacade {
         this.applicationVersionID = appVersion1.getVersionId();
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrApplicationVersionFacade.deleteApplicationVersion(applicationID, applicationVersionID);
-        iSrApplicationFacade.deleteApplication(applicationID);
-        iSrUserFacade.deleteUser(userID);
-    }
 
-    @Test
+
+    @Test(dependsOnMethods="initApplicationVersionInstanceFacade")
     public void testCreateApplicationVersionInstance() {
         //Create an ApplicationVersionInstance
         ApplicationVersionInstanceVO tmpAppVersionInstance1 =
@@ -225,7 +209,7 @@ public class TestApplicationVersionInstanceFacade {
     }
 
     @Test(dependsOnMethods = "testDeleteApplicationVersionInstance")
-    public void testDeployable() {
+    public void testDeployableApplicationVersionInstance() {
         DeployableVO deployable1 = new DeployableVO("deployable1", "url", true, new LinkedList<String>(),
                 new HashMap<String, String>());
         ApplicationVersionInstanceVO appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1",
@@ -262,7 +246,7 @@ public class TestApplicationVersionInstanceFacade {
     }
 
     @Test(dependsOnMethods = "testDeleteApplicationVersionInstance")
-    public void testPaasArtefact() {
+    public void testPaasArtefactApplicationVersionInstance() {
         PaasArtefactVO paasArtefactVO = new PaasArtefactVO();
         ApplicationVersionInstanceVO appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1",
                 "testState");
@@ -284,5 +268,7 @@ public class TestApplicationVersionInstanceFacade {
         iSrApplicationVersionInstanceFacade.deleteApplicationVersionInstance(applicationID, applicationVersionID,
                 tmpInstanceVO.getId());
     }
+
+
 
 }

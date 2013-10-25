@@ -13,35 +13,43 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
-import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
+import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
 /**
  * IaasCompute Facade test case
  * @author David Richard
  */
-public class TestIaasComputeFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestIaasComputeFacade extends SetupTest {
 
     /**
      * IaasCompute Facade
      */
-    private ISrIaasComputeFacade iSrIaasComputeFacade = null;
+    @Inject
+    private ISrIaasComputeFacade iSrIaasComputeFacade;
 
     /**
      * Capabilities list
@@ -63,15 +71,10 @@ public class TestIaasComputeFacade {
      */
     private IaasComputeVO iaasCompute2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
 
 
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
+    @Test
+    public void initIaasComputeFacade() throws NamingException {
 
         capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
@@ -91,13 +94,8 @@ public class TestIaasComputeFacade {
     }
 
 
-    private void getBean() throws NamingException {
-        this.iSrIaasComputeFacade = (ISrIaasComputeFacade) new InitialContext().lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade");
-    }
 
-    @Test
+    @Test(dependsOnMethods="initIaasComputeFacade")
     public void testCreateIaasCompute() {
         IaasComputeVO tmpIaasCompute1 = iSrIaasComputeFacade.createIaasCompute(iaasCompute1);
         Assert.assertNotEquals(tmpIaasCompute1.getId(), null);

@@ -13,48 +13,58 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
-import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentIaasComputeLink;
-import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentIaasComputeLink;
+import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
 /**
  * PaasAgentIaasComputeLink test case
  * @author David Richard
  */
-public class TestPaasAgentIaasComputeLink {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasAgentIaasComputeLink extends SetupTest {
+
     /**
      * PaasJonasContainer Facade
      */
-    private ISrPaasAgentFacade iSrPaasAgentFacade = null;
+    @Inject
+    private ISrPaasAgentFacade iSrPaasAgentFacade;
 
     /**
      * IaasCompute Facade
      */
-    private ISrIaasComputeFacade iSrIaasComputeFacade = null;
+    @Inject
+    private ISrIaasComputeFacade iSrIaasComputeFacade;
 
     /**
      * IaasCompute Facade
      */
-    private ISrPaasAgentIaasComputeLink iSrPaasAgentIaasComputeLink = null;
+    @Inject
+    private ISrPaasAgentIaasComputeLink iSrPaasAgentIaasComputeLink;
 
     /**
      * Jonas 1 value object
@@ -81,33 +91,8 @@ public class TestPaasAgentIaasComputeLink {
      */
     private IaasComputeVO iaasCompute2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        initDatabase();
-    }
-
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrPaasAgentFacade = (ISrPaasAgentFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.agent.jpaas.sr.facade.api.ISrPaasAgentFacade");
-        this.iSrIaasComputeFacade = (ISrIaasComputeFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.agent.jpaas.sr.facade.api.ISrIaasComputeFacade");
-        this.iSrPaasAgentIaasComputeLink = (ISrPaasAgentIaasComputeLink) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.agent.jpaas.sr.facade.api.ISrPaasAgentIaasComputeLink");
-    }
-
-    private void initDatabase() {
+    @Test
+    public void initPaasAgentIaasComputeLink() throws NamingException {
         Map<String,String> capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
         capabilitiesList.put("capability 2", "value");
@@ -119,12 +104,12 @@ public class TestPaasAgentIaasComputeLink {
         List<String> roles = new LinkedList<String>();
         roles.add("Jonas");
 
-        agent1 = new PaasAgentVO("agent1", "state", capabilitiesList, true, true, usedPorts, "url1");
-        agent2 = new PaasAgentVO("agent2", "state", capabilitiesList, true, true, usedPorts, "url2");
-        agent3 = new PaasAgentVO("agent3", "state", capabilitiesList, true, true, usedPorts, "url3");
-        iaasCompute1 = new IaasComputeVO("iaasCompute1", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
+        agent1 = new PaasAgentVO("agent1PaasAgentFacade", "state", capabilitiesList, true, true, usedPorts, "url1");
+        agent2 = new PaasAgentVO("agent2PaasAgentFacade", "state", capabilitiesList, true, true, usedPorts, "url2");
+        agent3 = new PaasAgentVO("agent3PaasAgentFacade", "state", capabilitiesList, true, true, usedPorts, "url3");
+        iaasCompute1 = new IaasComputeVO("iaasCompute1PaasAgentFacade", "state", capabilitiesList, true, true, usedPorts, "ipAddress",
                 "hostname", "conf", roles, "internalId");
-        iaasCompute2 = new IaasComputeVO("iaasCompute2", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
+        iaasCompute2 = new IaasComputeVO("iaasCompute2PaasAgentFacade", "state", capabilitiesList, false, false, usedPorts, "ipAddress",
                 "hostname", "conf", roles, "internalId");
 
         agent1 = iSrPaasAgentFacade.createAgent(agent1);
@@ -134,16 +119,8 @@ public class TestPaasAgentIaasComputeLink {
         iaasCompute2 = iSrIaasComputeFacade.createIaasCompute(iaasCompute2);
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrPaasAgentFacade.deleteAgent(agent1.getId());
-        iSrPaasAgentFacade.deleteAgent(agent2.getId());
-        iSrPaasAgentFacade.deleteAgent(agent3.getId());
-        iSrIaasComputeFacade.deleteIaasCompute(iaasCompute1.getId());
-        iSrIaasComputeFacade.deleteIaasCompute(iaasCompute2.getId());
-    }
 
-    @Test
+    @Test(dependsOnMethods="initPaasAgentIaasComputeLink")
     public void testAddAgentIaasComputeLink() {
         iSrPaasAgentIaasComputeLink.addPaasAgentIaasComputeLink(agent1.getId(), iaasCompute1.getId());
         iSrPaasAgentIaasComputeLink.addPaasAgentIaasComputeLink(agent2.getId(), iaasCompute1.getId());

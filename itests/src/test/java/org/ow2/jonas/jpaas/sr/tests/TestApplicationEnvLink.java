@@ -13,65 +13,83 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
-import org.ow2.jonas.jpaas.sr.facade.api.*;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionInstanceVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.EnvironmentVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationEnvLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionInstanceVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.EnvironmentVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
 /**
  * ApplicationEnvLink test case
  * @author David Richard
  */
-public class TestApplicationEnvLink {
+
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestApplicationEnvLink extends SetupTest {
 
     /**
      * User Facade
      */
-    private ISrUserFacade iSrUserFacade = null;
+    @Inject
+    private ISrUserFacade iSrUserFacade;
 
     /**
      * Application Facade
      */
-    private ISrApplicationFacade iSrApplicationFacade = null;
+    @Inject
+    private ISrApplicationFacade iSrApplicationFacade ;
 
     /**
      * ApplicationVersion Facade
      */
-    private ISrApplicationVersionFacade iSrApplicationVersionFacade = null;
+    @Inject
+    private ISrApplicationVersionFacade iSrApplicationVersionFacade;
 
     /**
      * ApplicationVersionInstance Facade
      */
-    private ISrApplicationVersionInstanceFacade iSrApplicationVersionInstanceFacade = null;
+    @Inject
+    private ISrApplicationVersionInstanceFacade iSrApplicationVersionInstanceFacade;
 
     /**
      * ApplicationEnvLink Facade
      */
-    private ISrApplicationEnvLink iSrApplicationEnvLink = null;
+    @Inject
+    private ISrApplicationEnvLink iSrApplicationEnvLink;
 
     /**
      * Environment Facade
      */
-    private ISrEnvironmentFacade iSrEnvironmentFacade = null;
+    @Inject
+    private ISrEnvironmentFacade iSrEnvironmentFacade;
 
     /**
      * ID of the User
@@ -103,42 +121,16 @@ public class TestApplicationEnvLink {
      */
     private String envID;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
 
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
+    @Test
+    public void initApplicationEnvLink() throws NamingException {
         initDatabase();
     }
 
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-        this.iSrApplicationFacade = (ISrApplicationFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade");
-        this.iSrApplicationVersionFacade = (ISrApplicationVersionFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade");
-        this.iSrApplicationVersionInstanceFacade = (ISrApplicationVersionInstanceFacade) initialContext.lookup(
-                "java:global/" + moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade");
-        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade");
-        this.iSrApplicationEnvLink = (ISrApplicationEnvLink) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationEnvLink");
-    }
 
     private void initDatabase() {
         //Create User
-        UserVO user1 = new UserVO("user1", "testPassword", "testRole");
+        UserVO user1 = new UserVO("user1ApplicationEnvLink", "testPassword", "testRole");
         user1 = iSrUserFacade.createUser(user1);
         this.userID = user1.getId();
 
@@ -149,7 +141,7 @@ public class TestApplicationEnvLink {
         List<String> requirementsList = new LinkedList<String>();
         requirementsList.add("requirement 1");
         requirementsList.add("requirement 2");
-        ApplicationVO app1 =  new ApplicationVO(applicationID, "app1", "testDescription", requirementsList,
+        ApplicationVO app1 =  new ApplicationVO(applicationID, "app1ApplicationEnvLink", "testDescription", requirementsList,
                 capabilitiesList);
         app1 = iSrApplicationFacade.createApplication(userID, app1);
         this.applicationID = app1.getId();
@@ -160,36 +152,26 @@ public class TestApplicationEnvLink {
         this.applicationVersionID = appVersion1.getVersionId();
 
         //Create an ApplicationVersionInstance
-        ApplicationVersionInstanceVO appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1", "testState");
+        ApplicationVersionInstanceVO appVersionInstance1 = new ApplicationVersionInstanceVO("appVersionInstance1ApplicationEnvLink", "testState");
         appVersionInstance1 = iSrApplicationVersionInstanceFacade.createApplicationVersionInstance(applicationID,
                 applicationVersionID, appVersionInstance1);
         appVersionInstance1ID = appVersionInstance1.getId();
 
         //Create a second ApplicationVersionInstance
-        ApplicationVersionInstanceVO appVersionInstance2 = new ApplicationVersionInstanceVO("appVersionInstance2", "testState2");
+        ApplicationVersionInstanceVO appVersionInstance2 = new ApplicationVersionInstanceVO("appVersionInstance2ApplicationEnvLink", "testState2");
         appVersionInstance2 = iSrApplicationVersionInstanceFacade.createApplicationVersionInstance(applicationID,
                 applicationVersionID, appVersionInstance2);
         appVersionInstance2ID = appVersionInstance2.getId();
 
         //Create an Environment
-        EnvironmentVO env =  new EnvironmentVO("env1", "testDescription", "testState");
+        EnvironmentVO env =  new EnvironmentVO("env1ApplicationEnvLink", "testDescription", "testState");
         env =  iSrEnvironmentFacade.createEnvironment(userID, env);
         envID = env.getId();
 
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrApplicationVersionInstanceFacade.deleteApplicationVersionInstance(applicationID, applicationVersionID,
-                appVersionInstance1ID);
-        iSrApplicationVersionInstanceFacade.deleteApplicationVersionInstance(applicationID, applicationVersionID,
-                appVersionInstance2ID);
-        iSrApplicationVersionFacade.deleteApplicationVersion(applicationID, applicationVersionID);
-        iSrApplicationFacade.deleteApplication(applicationID);
-        iSrUserFacade.deleteUser(userID);
-    }
 
-    @Test
+    @Test(dependsOnMethods="initApplicationEnvLink")
     public void testApplicationEnvLink() {
         iSrApplicationEnvLink.addApplicationEnvLink(applicationID, applicationVersionID, appVersionInstance1ID,
                 envID);
@@ -207,7 +189,7 @@ public class TestApplicationEnvLink {
         Assert.assertEquals(applicationVersionInstanceVOList.get(1).getId(), appVersionInstance2ID);
     }
 
-    @Test(dependsOnMethods = "testApplicationEnvLink")
+    @Test(dependsOnMethods = "testFindApplicationVersionInstancesByEnv")
     public void testGetEnvByApplicationVersionInstance() {
         EnvironmentVO environmentVO = iSrApplicationEnvLink.getEnvByApplicationVersionInstance(applicationID,
                 applicationVersionID, appVersionInstance1ID);
@@ -217,8 +199,7 @@ public class TestApplicationEnvLink {
         Assert.assertEquals(environmentVO.toString(), environment2VO.toString());
     }
 
-    @Test(dependsOnMethods = { "testApplicationEnvLink", "testFindApplicationVersionInstancesByEnv",
-            "testGetEnvByApplicationVersionInstance" })
+    @Test(dependsOnMethods = "testGetEnvByApplicationVersionInstance")
     public void testRemoveApplicationEnvLink() {
         iSrApplicationEnvLink.removeApplicationEnvLink(applicationID,
                 applicationVersionID, appVersionInstance1ID);

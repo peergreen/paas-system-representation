@@ -13,12 +13,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterPaasContainerLink;
@@ -26,37 +36,36 @@ import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PaasRouterVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * PaasRouterPaasContainerLink test case
  * @author David Richard
  */
-public class TestPaasRouterPaasContainerLink {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestPaasRouterPaasContainerLink extends SetupTest {
+
     /**
      * PaasJonasContainer Facade
      */
-    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade = null;
+    @Inject
+    private ISrPaasJonasContainerFacade iSrPaasJonasContainerFacade;
 
     /**
      * PaasApacheJkRouter Facade
      */
-    private ISrPaasApacheJkRouterFacade iSrPaasApacheJkRouterFacade = null;
+    @Inject
+    private ISrPaasApacheJkRouterFacade iSrPaasApacheJkRouterFacade;
 
     /**
      * PaasRouter Facade
      */
-    private ISrPaasRouterPaasContainerLink iSrPaasContainerPaasRouterLink = null;
+    @Inject
+    private ISrPaasRouterPaasContainerLink iSrPaasContainerPaasRouterLink;
 
     /**
      * Jonas 1 value object
@@ -78,33 +87,9 @@ public class TestPaasRouterPaasContainerLink {
      */
     private ApacheJkVO apacheJk2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
 
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
-        initRouter();
-    }
-
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrPaasJonasContainerFacade = (ISrPaasJonasContainerFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade");
-        this.iSrPaasApacheJkRouterFacade = (ISrPaasApacheJkRouterFacade) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade");
-        this.iSrPaasContainerPaasRouterLink = (ISrPaasRouterPaasContainerLink) initialContext.lookup("java:global/" +
-                moduleName + "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterPaasContainerLink");
-    }
-
-    private void initRouter() {
+    @Test
+    public void initPaasRouterPaasContainerLink() {
         Map<String,String> capabilitiesList = new HashMap<String,String>();
         capabilitiesList.put("capability 1", "value");
         capabilitiesList.put("capability 2", "value");
@@ -113,13 +98,13 @@ public class TestPaasRouterPaasContainerLink {
         usedPorts.add(1);
         usedPorts.add(2);
 
-        jonas1 = new JonasVO("jonas1", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas1 = new JonasVO("jonas1PaasRouterPaasContainerLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        jonas2 = new JonasVO("jonas2", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
+        jonas2 = new JonasVO("jonas2PaasRouterPaasContainerLink", "state", capabilitiesList, true, true, usedPorts, "jonasVersion", "profile",
                 "jdkVersion", "domain");
-        apacheJk1 = new ApacheJkVO("apacheJk1", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
+        apacheJk1 = new ApacheJkVO("apacheJk1PaasRouterPaasContainerLink", "state", capabilitiesList, true, true, usedPorts, "apacheVersion",
                 "jkVersion");
-        apacheJk2 = new ApacheJkVO("apacheJk2", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
+        apacheJk2 = new ApacheJkVO("apacheJk2PaasRouterPaasContainerLink", "state", capabilitiesList, false, false, usedPorts, "apacheVersion2",
                 "jkVersion2");
 
         jonas1 = iSrPaasJonasContainerFacade.createJonasContainer(jonas1);
@@ -128,15 +113,7 @@ public class TestPaasRouterPaasContainerLink {
         apacheJk2 = iSrPaasApacheJkRouterFacade.createApacheJkRouter(apacheJk2);
     }
 
-    @AfterClass
-    public void cleanRouter() {
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas1.getId());
-        iSrPaasJonasContainerFacade.deleteJonasContainer(jonas2.getId());
-        iSrPaasApacheJkRouterFacade.deleteApacheJkRouter(apacheJk1.getId());
-        iSrPaasApacheJkRouterFacade.deleteApacheJkRouter(apacheJk2.getId());
-    }
-
-    @Test
+    @Test(dependsOnMethods="initPaasRouterPaasContainerLink")
     public void testAddRouterContainerLink() {
         iSrPaasContainerPaasRouterLink.addRouterContainerLink(apacheJk1.getId(), jonas1.getId());
         iSrPaasContainerPaasRouterLink.addRouterContainerLink(apacheJk1.getId(), jonas2.getId());

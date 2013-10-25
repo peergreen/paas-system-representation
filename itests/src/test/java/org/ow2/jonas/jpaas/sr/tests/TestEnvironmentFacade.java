@@ -13,12 +13,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
-package org.ow2.jonas.jpaas.sr.facade.tests;
+package org.ow2.jonas.jpaas.sr.tests;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.naming.NamingException;
+
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.testng.listener.PaxExam;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
 import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
 import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorTemplateVO;
@@ -31,32 +41,30 @@ import org.ow2.jonas.jpaas.sr.facade.vo.NodeTemplateVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.RouterNodeTemplateVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.TopologyTemplateVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
+import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Environment Facade test case
  * @author David Richard
  */
-public class TestEnvironmentFacade {
+@Listeners(PaxExam.class)
+@ExamReactorStrategy(PerSuite.class)
+public class TestEnvironmentFacade extends SetupTest {
 
     /**
      * User Facade
      */
-    private ISrUserFacade iSrUserFacade = null;
+    @Inject
+    private ISrUserFacade iSrUserFacade;
 
     /**
      * Environment Facade
      */
-    private ISrEnvironmentFacade iSrEnvironmentFacade = null;
+    @Inject
+    private ISrEnvironmentFacade iSrEnvironmentFacade;
 
     /**
      * User ID
@@ -73,42 +81,22 @@ public class TestEnvironmentFacade {
      */
     private EnvironmentVO env2;
 
-    /**
-     * Name of the module for the lookup
-     */
-    private final String moduleName = System.getProperty("module.name");
-
-    @BeforeClass
-    public void init() throws NamingException {
-        getBean();
+    @Test
+    public void initEnvironmentFacade() throws NamingException {
         initDatabase();
 
-        env1 =  new EnvironmentVO("env1", "testDescription", "testState");
-        env2 =  new EnvironmentVO("env2", "testDescription2", "testState2");
-    }
-
-    private void getBean() throws NamingException {
-        InitialContext initialContext = new InitialContext();
-        this.iSrUserFacade = (ISrUserFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade");
-        this.iSrEnvironmentFacade = (ISrEnvironmentFacade) initialContext.lookup("java:global/" + moduleName +
-                "/SrFacadeBean!" +
-                "org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade");
+        env1 =  new EnvironmentVO("env1EnvironmentFacade", "testDescription", "testState");
+        env2 =  new EnvironmentVO("env2EnvironmentFacade", "testDescription2", "testState2");
     }
 
     private void initDatabase() {
-        UserVO user1 = new UserVO("user1", "testPassword", "testRole");
+        UserVO user1 = new UserVO("user1EnvironmentFacade", "testPassword", "testRole");
         user1 = iSrUserFacade.createUser(user1);
         this.userID = user1.getId();
     }
 
-    @AfterClass
-    public void cleanDatabase() {
-        iSrUserFacade.deleteUser(userID);
-    }
 
-
-    @Test
+    @Test(dependsOnMethods="initEnvironmentFacade")
     public void testCreateEnvironment() {
         //Create an Environment
         EnvironmentVO tmpEnv1 =  iSrEnvironmentFacade.createEnvironment(userID, env1);
