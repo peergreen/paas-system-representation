@@ -13,14 +13,73 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
 package org.ow2.jonas.jpaas.sr.facade.bean;
 
-import org.ow2.jonas.jpaas.sr.facade.api.*;
-import org.ow2.jonas.jpaas.sr.facade.vo.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationEnvLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrApplicationVersionInstanceFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrDeployableNodeLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrEnvironmentPaasResourceLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrIaasComputeFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasAgentIaasComputeLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasApacheJkRouterFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasContainerPaasDatabaseLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasDatabaseFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasFrontendFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasJonasContainerFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasPeergreenServerContainerFacade;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourceIaasComputeLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasResourcePaasAgentLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterFrontendLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrPaasRouterPaasContainerLink;
+import org.ow2.jonas.jpaas.sr.facade.api.ISrUserFacade;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApacheJkVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionInstanceVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVersionVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.DatasourceVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.DeployableVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.EnvironmentVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.IaasComputeVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.LoadBalancerVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.NodeTemplateVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasAgentVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasContainerVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasDatabaseVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasFrontendVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasResourceVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PaasRouterVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.PeergreenServerVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.VirtualHostVO;
+import org.ow2.jonas.jpaas.sr.facade.vo.WorkerVO;
 import org.ow2.jonas.jpaas.sr.model.ApacheJk;
 import org.ow2.jonas.jpaas.sr.model.Application;
 import org.ow2.jonas.jpaas.sr.model.ApplicationVersion;
@@ -42,6 +101,7 @@ import org.ow2.jonas.jpaas.sr.model.PaasEntity;
 import org.ow2.jonas.jpaas.sr.model.PaasFrontend;
 import org.ow2.jonas.jpaas.sr.model.PaasResource;
 import org.ow2.jonas.jpaas.sr.model.PaasRouter;
+import org.ow2.jonas.jpaas.sr.model.PeergreenServer;
 import org.ow2.jonas.jpaas.sr.model.RelationshipTemplate;
 import org.ow2.jonas.jpaas.sr.model.TopologyTemplate;
 import org.ow2.jonas.jpaas.sr.model.User;
@@ -51,18 +111,6 @@ import org.ow2.jonas.jpaas.sr.sequence.IdGenerator;
 import org.ow2.util.log.Log;
 import org.ow2.util.log.LogFactory;
 
-import javax.ejb.Local;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-
 /**
  * SR session facade bean.
  * @author David Richard
@@ -70,20 +118,20 @@ import java.util.ListIterator;
 @Stateless
 @Local({ISrUserFacade.class, ISrApplicationFacade.class, ISrApplicationVersionFacade.class,
         ISrApplicationVersionInstanceFacade.class, ISrEnvironmentFacade.class, ISrApplicationEnvLink.class,
-        ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
+        ISrPaasContainerFacade.class, ISrPaasJonasContainerFacade.class, ISrPaasPeergreenServerContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
         ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
         ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
         ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class,
         ISrPaasAgentIaasComputeLink.class, ISrDeployableNodeLink.class})
 @Remote({ISrUserFacade.class, ISrApplicationFacade.class, ISrApplicationVersionFacade.class,
         ISrApplicationVersionInstanceFacade.class, ISrEnvironmentFacade.class, ISrApplicationEnvLink.class,
-        ISrPaasJonasContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
+        ISrPaasContainerFacade.class, ISrPaasJonasContainerFacade.class, ISrPaasPeergreenServerContainerFacade.class, ISrEnvironmentPaasResourceLink.class, ISrPaasApacheJkRouterFacade.class,
         ISrPaasDatabaseFacade.class, ISrPaasAgentFacade.class, ISrIaasComputeFacade.class, ISrPaasFrontendFacade.class,
         ISrPaasRouterPaasContainerLink.class, ISrPaasContainerPaasDatabaseLink.class,
         ISrPaasResourcePaasAgentLink.class, ISrPaasResourceIaasComputeLink.class, ISrPaasRouterFrontendLink.class,
         ISrPaasAgentIaasComputeLink.class, ISrDeployableNodeLink.class})
 public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApplicationVersionFacade,
-        ISrApplicationVersionInstanceFacade, ISrEnvironmentFacade, ISrApplicationEnvLink, ISrPaasJonasContainerFacade,
+        ISrApplicationVersionInstanceFacade, ISrEnvironmentFacade, ISrApplicationEnvLink, ISrPaasContainerFacade, ISrPaasJonasContainerFacade, ISrPaasPeergreenServerContainerFacade,
         ISrEnvironmentPaasResourceLink, ISrPaasApacheJkRouterFacade, ISrPaasDatabaseFacade, ISrPaasAgentFacade,
         ISrIaasComputeFacade, ISrPaasFrontendFacade, ISrPaasRouterPaasContainerLink, ISrPaasContainerPaasDatabaseLink,
         ISrPaasResourcePaasAgentLink, ISrPaasResourceIaasComputeLink, ISrPaasRouterFrontendLink,
@@ -940,12 +988,12 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         jonas.setId(getNextSequence(entitySequence));
         if (jonas.getConnectorList() != null) {
             for (Connector tmp : jonas.getConnectorList()) {
-                tmp.setJonas(jonas);
+                tmp.setContainer(jonas);
             }
         }
         if (jonas.getDatasourceList() != null) {
             for (Datasource tmp : jonas.getDatasourceList()) {
-                tmp.setJonas(jonas);
+                tmp.setContainer(jonas);
             }
         }
         entityManager.persist(jonas);
@@ -976,16 +1024,51 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         jonas.mergeJonasVO(jonasVO);
         if (jonas.getConnectorList() != null) {
             for (Connector tmp : jonas.getConnectorList()) {
-                tmp.setJonas(jonas);
+                tmp.setContainer(jonas);
             }
         }
         if (jonas.getDatasourceList() != null) {
             for (Datasource tmp : jonas.getDatasourceList()) {
-                tmp.setJonas(jonas);
+                tmp.setContainer(jonas);
             }
         }
         jonas = entityManager.merge(jonas);
         return jonas.createVO();
+    }
+
+    /**
+     * Get a Paas Container.
+     *
+     * @param paasResourceId Id of the container
+     * @return the container entity
+     */
+    private PaasContainer getPaaSContainerBean(String paasResourceId) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PaasContainer> criteriaQuery = criteriaBuilder.createQuery(PaasContainer.class);
+        Root<PaasContainer> from = criteriaQuery.from(PaasContainer.class);
+        CriteriaQuery<PaasContainer> select = criteriaQuery.select(from);
+        Predicate predicate = criteriaBuilder.equal(from.get("id"), paasResourceId);
+        criteriaQuery.where(predicate);
+
+        return entityManager.createQuery(select).getSingleResult();
+    }
+
+
+    /**
+     * Get a PeergreenServer Container.
+     *
+     * @param paasResourceId Id of the PeergreenServer
+     * @return the PeergreenServer entity
+     */
+    private PeergreenServer getPeergreenServerContainerBean(String paasResourceId) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PeergreenServer> criteriaQuery = criteriaBuilder.createQuery(PeergreenServer.class);
+        Root<PeergreenServer> from = criteriaQuery.from(PeergreenServer.class);
+        CriteriaQuery<PeergreenServer> select = criteriaQuery.select(from);
+        Predicate predicate = criteriaBuilder.equal(from.get("id"), paasResourceId);
+        criteriaQuery.where(predicate);
+
+        return entityManager.createQuery(select).getSingleResult();
     }
 
     /**
@@ -1050,10 +1133,14 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         Connector connector = new Connector();
         connector.setName(name);
         connector.setPort(port);
-        Jonas jonas = getJonasContainerBean(paasResourceId);
-        connector.setJonas(jonas);
+        PaasContainer container = getPaaSContainerBean(paasResourceId);
+        connector.setContainer(container);
         entityManager.persist(connector);
     }
+
+
+
+
 
     /**
      * Remove a Connector
@@ -1063,15 +1150,15 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public void removeConnector(String paasResourceId, String name) {
         logger.debug("removeConnector(" + paasResourceId + ", " + name + ")");
-        Jonas jonas = getJonasContainerBean(paasResourceId);
-        List<Connector> list = jonas.getConnectorList();
+        PaasContainer container = getPaaSContainerBean(paasResourceId);
+        List<Connector> list = container.getConnectorList();
         for (ListIterator<Connector> iterator = list.listIterator(); iterator.hasNext();) {
             Connector tmp = iterator.next();
             if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
-        entityManager.merge(jonas);
+        entityManager.merge(container);
     }
 
     /**
@@ -1083,9 +1170,9 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public List<ConnectorVO> getConnectors(String paasResourceId) {
         logger.debug("getConnectors(" + paasResourceId + ")");
-        Jonas jonas = getJonasContainerBean(paasResourceId);
+        PaasContainer container = getPaaSContainerBean(paasResourceId);
         List<ConnectorVO> resultList = new LinkedList<ConnectorVO>();
-        for (Connector tmp : jonas.getConnectorList()) {
+        for (Connector tmp : container.getConnectorList()) {
             resultList.add(tmp.createConnectorVO());
         }
         return resultList;
@@ -1106,8 +1193,8 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         datasource.setName(name);
         datasource.setUrl(url);
         datasource.setClassName(className);
-        Jonas jonas = getJonasContainerBean(paasResourceId);
-        datasource.setJonas(jonas);
+        PaasContainer container = getPaaSContainerBean(paasResourceId);
+        datasource.setContainer(container);
         entityManager.persist(datasource);
     }
 
@@ -1120,15 +1207,15 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public void removeDatasource(String paasResourceId, String name) {
         logger.debug("removeDatasource(" + paasResourceId + ", " + name + ")");
-        Jonas jonas = getJonasContainerBean(paasResourceId);
-        List<Datasource> list = jonas.getDatasourceList();
+        PaasContainer container = getPaaSContainerBean(paasResourceId);
+        List<Datasource> list = container.getDatasourceList();
         for (ListIterator<Datasource> iterator = list.listIterator(); iterator.hasNext();) {
             Datasource tmp = iterator.next();
             if (tmp.getName().equals(name)) {
                 iterator.remove();
             }
         }
-        entityManager.merge(jonas);
+        entityManager.merge(container);
     }
 
     /**
@@ -1140,9 +1227,9 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public List<DatasourceVO> getDatasources(String paasResourceId) {
         logger.debug("getDatasources(" + paasResourceId + ")");
-        Jonas jonas = getJonasContainerBean(paasResourceId);
+        PaasContainer container = getPaaSContainerBean(paasResourceId);
         List<DatasourceVO> resultList = new LinkedList<DatasourceVO>();
-        for (Datasource tmp : jonas.getDatasourceList()) {
+        for (Datasource tmp : container.getDatasourceList()) {
             resultList.add(tmp.createDatasourceVO());
         }
         return resultList;
@@ -1926,20 +2013,6 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     }
 
     /**
-     * Get a PaasContainer.
-     *
-     * @param paasContainerId Id of the PaasContainer
-     * @return the PaasContainer entity
-     */
-    private PaasContainer getPaasContainerBean(String paasContainerId) {
-        logger.debug("getPaasContainerBean(" + paasContainerId + ")");
-        Query q = entityManager.createQuery("SELECT paasContainer FROM PaasContainer paasContainer WHERE " +
-                "paasContainer.id=:paasContainerId");
-        q.setParameter("paasContainerId",paasContainerId);
-        return (PaasContainer) q.getSingleResult();
-    }
-
-    /**
      * Add a link between a PaasContainer and a PaasDatabase
      *
      * @param paasContainerId Id of the PaasContainer
@@ -1948,7 +2021,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public void addContainerDatabaseLink(String paasContainerId, String paasDatabaseId) {
         logger.debug("addContainerDatabaseLink(" + paasContainerId + ", " + paasDatabaseId + ")");
-        PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
+        PaasContainer paasContainer = getPaaSContainerBean(paasContainerId);
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseId);
         paasDatabase.getPaasContainerList().add(paasContainer);
         paasContainer.getPaasDatabaseList().add(paasDatabase);
@@ -1965,7 +2038,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void removeContainerDatabaseLink(String paasContainerId, String paasDatabaseId) {
         logger.debug("removeContainerDatabaseLink(" + paasContainerId + ", " + paasDatabaseId + ")");
-        PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
+        PaasContainer paasContainer = getPaaSContainerBean(paasContainerId);
         PaasDatabase paasDatabase = getPaasDatabaseBean(paasDatabaseId);
         paasDatabase.getPaasContainerList().remove(paasContainer);
         paasContainer.getPaasDatabaseList().remove(paasDatabase);
@@ -1998,7 +2071,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public List<PaasDatabaseVO> findDatabasesByContainer(String paasContainerId) {
         logger.debug("findDatabasesByContainer(" + paasContainerId + ")");
-        PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
+        PaasContainer paasContainer = getPaaSContainerBean(paasContainerId);
         List<PaasDatabaseVO> resultList = new LinkedList<PaasDatabaseVO>();
         if (paasContainer.getPaasDatabaseList() != null) {
             for (PaasDatabase tmp : paasContainer.getPaasDatabaseList()) {
@@ -2017,7 +2090,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public void addRouterContainerLink(String paasRouterId, String paasContainerId) {
         logger.debug("addRouterContainerLink(" + paasRouterId + ", " + paasContainerId + ")");
-        PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
+        PaasContainer paasContainer = getPaaSContainerBean(paasContainerId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         paasRouter.getPaasContainerList().add(paasContainer);
         paasContainer.getPaasRouterList().add(paasRouter);
@@ -2034,7 +2107,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void removeRouterContainerLink(String paasRouterId, String paasContainerId) {
         logger.debug("removeRouterContainerLink(" + paasRouterId + ", " + paasContainerId + ")");
-        PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
+        PaasContainer paasContainer = getPaaSContainerBean(paasContainerId);
         PaasRouter paasRouter = getPaasRouterBean(paasRouterId);
         paasRouter.getPaasContainerList().remove(paasContainer);
         paasContainer.getPaasRouterList().remove(paasRouter);
@@ -2049,7 +2122,7 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
     @Override
     public List<PaasRouterVO> findRoutersByContainer(String paasContainerId) {
         logger.debug("findRoutersByContainer(" + paasContainerId + ")");
-        PaasContainer paasContainer = getPaasContainerBean(paasContainerId);
+        PaasContainer paasContainer = getPaaSContainerBean(paasContainerId);
         List<PaasRouterVO> resultList = new LinkedList<PaasRouterVO>();
         if (paasContainer.getPaasDatabaseList() != null) {
             for (PaasRouter tmp : paasContainer.getPaasRouterList()) {
@@ -2425,6 +2498,77 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
         if (deployable.getNodeTemplateList() != null) {
             for (NodeTemplate tmp : deployable.getNodeTemplateList()) {
                 resultList.add(tmp.createNodeTemplateVO());
+            }
+        }
+        return resultList;
+    }
+
+    @Override
+    public PeergreenServerVO createPeergreenServerContainer(
+            PeergreenServerVO peergreenServerVO) {
+        PeergreenServer peergreenServer = peergreenServerVO.createBean();
+        peergreenServer.setId(getNextSequence(entitySequence));
+        if (peergreenServer.getConnectorList() != null) {
+            for (Connector tmp : peergreenServer.getConnectorList()) {
+                tmp.setContainer(peergreenServer);
+            }
+        }
+        if (peergreenServer.getDatasourceList() != null) {
+            for (Datasource tmp : peergreenServer.getDatasourceList()) {
+                tmp.setContainer(peergreenServer);
+            }
+        }
+        entityManager.persist(peergreenServer);
+        return peergreenServer.createVO();
+    }
+
+    @Override
+    public void deletePeergreenServerContainer(String paasResourceId) {
+        entityManager.remove(getPeergreenServerContainerBean(paasResourceId));
+
+    }
+
+    @Override
+    public PeergreenServerVO updatePeergreenServerContainer(
+            PeergreenServerVO peergreenServerVO) {
+        PeergreenServer peergreenServer = getPeergreenServerContainerBean(peergreenServerVO.getId());
+        peergreenServer.mergePeergreenServerVO(peergreenServerVO);
+        if (peergreenServer.getConnectorList() != null) {
+            for (Connector tmp : peergreenServer.getConnectorList()) {
+                tmp.setContainer(peergreenServer);
+            }
+        }
+        if (peergreenServer.getDatasourceList() != null) {
+            for (Datasource tmp : peergreenServer.getDatasourceList()) {
+                tmp.setContainer(peergreenServer);
+            }
+        }
+        peergreenServer = entityManager.merge(peergreenServer);
+        return peergreenServer.createVO();
+    }
+
+    @Override
+    public PeergreenServerVO getPeergreenServerContainer(String paasResourceId) {
+        PeergreenServer peergreenServer = getPeergreenServerContainerBean(paasResourceId);
+        if (peergreenServer != null) {
+            return peergreenServer.createVO();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<PeergreenServerVO> findPeergreenServerContainers() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PeergreenServer> criteriaQuery = criteriaBuilder.createQuery(PeergreenServer.class);
+        Root<PeergreenServer> from = criteriaQuery.from(PeergreenServer.class);
+        CriteriaQuery<PeergreenServer> select = criteriaQuery.select(from);
+        List<PeergreenServer> containerList = entityManager.createQuery(select).getResultList();
+
+        List<PeergreenServerVO> resultList = new LinkedList<PeergreenServerVO>();
+        if (containerList != null) {
+            for (PeergreenServer tmp : containerList) {
+                resultList.add(tmp.createVO());
             }
         }
         return resultList;
