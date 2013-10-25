@@ -16,7 +16,6 @@ import org.ow2.jonas.jpaas.sr.facade.vo.ApplicationVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.UserVO;
 import org.ow2.jonas.jpaas.sr.init.SetupTest;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 

@@ -19,6 +19,8 @@
 
 package org.ow2.jonas.jpaas.sr.tests;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -140,17 +142,18 @@ public class TestIaasComputeFacade extends SetupTest {
     @Test(dependsOnMethods = "testUpdateIaasCompute")
     public void testFindIaasCompute() {
         List<IaasComputeVO> jonasList = iSrIaasComputeFacade.findIaasComputes();
-        Assert.assertEquals(jonasList.size(), 2);
+        assertTrue(jonasList.size() > 0);
     }
 
     @Test(dependsOnMethods = "testFindIaasCompute")
     public void testDeleteIaasCompute() {
         iSrIaasComputeFacade.deleteIaasCompute(iaasCompute1.getId());
         List<IaasComputeVO> jonasList = iSrIaasComputeFacade.findIaasComputes();
-        Assert.assertEquals(jonasList.size(), 1);
+        int size = jonasList.size();
+        assertTrue(jonasList.size() > 0);
         iSrIaasComputeFacade.deleteIaasCompute(iaasCompute2.getId());
         jonasList = iSrIaasComputeFacade.findIaasComputes();
-        Assert.assertEquals(jonasList.isEmpty(), true);
+        Assert.assertEquals(jonasList.size(), size - 1);
     }
 
 }
