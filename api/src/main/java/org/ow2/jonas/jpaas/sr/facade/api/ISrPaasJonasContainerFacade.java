@@ -67,4 +67,11 @@ public interface ISrPaasJonasContainerFacade {
      */
     public List<JonasVO> findJonasContainers();
 
+    /**
+     * Get the PaasJonasContainer
+     * @return a PaasJonasContainer
+     */
+    public JonasVO findJonasContainer(String containerName);
+
+
 }

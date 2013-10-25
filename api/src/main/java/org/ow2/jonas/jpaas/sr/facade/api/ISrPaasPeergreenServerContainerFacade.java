@@ -3,6 +3,7 @@ package org.ow2.jonas.jpaas.sr.facade.api;
 
 import java.util.List;
 
+import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 import org.ow2.jonas.jpaas.sr.facade.vo.PeergreenServerVO;
 
 /**
@@ -48,5 +49,11 @@ public interface ISrPaasPeergreenServerContainerFacade {
      * @return a list of PaasPeergreenServerContainers
      */
     public List<PeergreenServerVO> findPeergreenServerContainers();
+
+    /**
+     * Get the PeergreenServer container
+     * @return a PeergreenServerVO
+     */
+    public PeergreenServerVO findPeergreenServerContainer(String containerName);
 
 }

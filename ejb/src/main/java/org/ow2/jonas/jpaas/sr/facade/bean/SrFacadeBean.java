@@ -29,6 +29,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -2572,5 +2573,39 @@ public class SrFacadeBean implements ISrUserFacade, ISrApplicationFacade, ISrApp
             }
         }
         return resultList;
+    }
+
+    @Override
+    public PeergreenServerVO findPeergreenServerContainer(String containerName) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PeergreenServer> criteriaQuery = criteriaBuilder.createQuery(PeergreenServer.class);
+        Root<PeergreenServer> from = criteriaQuery.from(PeergreenServer.class);
+        CriteriaQuery<PeergreenServer> select = criteriaQuery.select(from);
+        Predicate predicate = criteriaBuilder.equal(from.get("name"), containerName);
+        criteriaQuery.where(predicate);
+
+        try {
+            PeergreenServer peergreenServer = entityManager.createQuery(select).getSingleResult();
+            return peergreenServer.createVO();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public JonasVO findJonasContainer(String containerName) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Jonas> criteriaQuery = criteriaBuilder.createQuery(Jonas.class);
+        Root<Jonas> from = criteriaQuery.from(Jonas.class);
+        CriteriaQuery<Jonas> select = criteriaQuery.select(from);
+        Predicate predicate = criteriaBuilder.equal(from.get("name"), containerName);
+        criteriaQuery.where(predicate);
+
+        try {
+            Jonas jonas = entityManager.createQuery(select).getSingleResult();
+            return jonas.createVO();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
