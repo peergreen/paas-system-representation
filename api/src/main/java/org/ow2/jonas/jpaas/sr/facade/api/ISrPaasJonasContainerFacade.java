@@ -13,17 +13,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
 package org.ow2.jonas.jpaas.sr.facade.api;
 
-import org.ow2.jonas.jpaas.sr.facade.vo.ConnectorVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.DatasourceVO;
-import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
-
 import java.util.List;
+
+import org.ow2.jonas.jpaas.sr.facade.vo.JonasVO;
 
 /**
  * Interface for the PaasJonasContainer facade.
@@ -69,53 +67,4 @@ public interface ISrPaasJonasContainerFacade {
      */
     public List<JonasVO> findJonasContainers();
 
-    /**
-     * Add a Connector
-     *
-     * @param paasResourceId Id of the PaasJonasContainer
-     * @param name the name of the Connector
-     * @param port the port of the Connector
-     */
-    public void addConnector(String paasResourceId, String name, int port);
-
-    /**
-     * Remove a Connector
-     *
-     * @param name the name of the Connector
-     */
-    public void removeConnector(String paasResourceId, String name);
-
-    /**
-     * Get the Connectors
-     *
-     * @param paasResourceId Id of the PaasJonasContainer
-     * @return a list with the Connectors
-     */
-    public List<ConnectorVO> getConnectors(String paasResourceId);
-
-    /**
-     * Add a Datasource
-     *
-     * @param paasResourceId Id of the PaasJonasContainer
-     * @param name the name of the datasource
-     * @param url the url of the datasource
-     * @param className the className of the datasource
-     */
-    public void addDatasource(String paasResourceId, String name, String url, String className);
-
-    /**
-     * Remove a DataSource
-     *
-     * @param paasResourceId Id of the PaasJonasContainer
-     * @param name the name of the datasource
-     */
-    public void removeDatasource(String paasResourceId, String name);
-
-    /**
-     * Get the Datasources
-     *
-     * @param paasResourceId Id of the PaasJonasContainer
-     * @return a list with the Datasources
-     */
-    public List<DatasourceVO> getDatasources(String paasResourceId);
 }
