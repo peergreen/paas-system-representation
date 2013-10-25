@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
@@ -52,10 +52,10 @@ public class Connector implements java.io.Serializable {
     private int port;
 
     /**
-     * Jonas of the Connector.
+     * Container of the Connector.
      */
     @ManyToOne(optional=false)
-    private Jonas jonas;
+    private PaasContainer container;
 
 
     public long getKey() {
@@ -87,18 +87,18 @@ public class Connector implements java.io.Serializable {
         sb.append("Connector[key=").append(getKey())
                 .append(", name=").append(getName())
                 .append(", port=").append(getPort())
-                .append(", jonas=").append(getJonas())
+                .append(", container=").append(getContainer())
                 .append("]");
         return sb.toString();
     }
 
 
-    public Jonas getJonas() {
-        return jonas;
+    public PaasContainer getContainer() {
+        return container;
     }
 
-    public void setJonas(Jonas jonas) {
-        this.jonas = jonas;
+    public void setContainer(PaasContainer container) {
+        this.container = container;
     }
 
     public ConnectorVO createConnectorVO() {

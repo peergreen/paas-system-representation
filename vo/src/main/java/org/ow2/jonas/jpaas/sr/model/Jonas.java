@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
@@ -62,18 +62,6 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
      */
     private String domain;
 
-    /**
-     * Connectors of the Jonas.
-     */
-    @OneToMany(mappedBy="jonas", orphanRemoval=true, cascade={CascadeType.ALL})
-    private List<Connector> connectorList;
-
-    /**
-     * Datasources of the Jonas.
-     */
-    @OneToMany(mappedBy="jonas", orphanRemoval=true, cascade={CascadeType.ALL})
-    private List<Datasource> datasourceList;
-
 
     public String getJonasVersion() {
         return jonasVersion;
@@ -107,36 +95,12 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
         this.domain = domain;
     }
 
-    public List<Connector> getConnectorList() {
-        return connectorList;
-    }
-
-    public void setConnectorList(List<Connector> connectorList) {
-        this.connectorList = connectorList;
-    }
-
-    public List<Datasource> getDatasourceList() {
-        return datasourceList;
-    }
-
-    public void setDatasourceList(List<Datasource> datasourceList) {
-        this.datasourceList = datasourceList;
-    }
 
     public JonasVO createVO() {
         JonasVO jonasVO = new JonasVO(getId(), getName(), getState(), new HashMap<String,String>(getCapabilities()),
                 isMultitenant(), isReusable(), new LinkedList<Integer>(getUsedPorts()), jonasVersion, profile,
                 jdkVersion, domain);
-        if (connectorList != null) {
-            for (Connector tmp : connectorList) {
-                jonasVO.getConnectorList().add(tmp.createConnectorVO());
-            }
-        }
-        if (datasourceList != null) {
-            for (Datasource tmp : datasourceList) {
-                jonasVO.getDatasourceList().add(tmp.createDatasourceVO());
-            }
-        }
+        
         return jonasVO;
     }
 
@@ -154,44 +118,11 @@ public class Jonas extends PaasContainer implements java.io.Serializable {
     }
 
     public void mergeJonasVO(JonasVO jonasVO) {
-        setName(jonasVO.getName());
-        setState(jonasVO.getState());
-        setCapabilities(jonasVO.getCapabilities());
-        setMultitenant(jonasVO.isMultitenant());
-        setReusable(jonasVO.isReusable());
-        setUsedPorts(jonasVO.getUsedPorts());
+        super.mergePaasContainerVO(jonasVO);
         setJonasVersion(jonasVO.getJonasVersion());
         setProfile(jonasVO.getProfile());
         setJdkVersion(jonasVO.getJdkVersion());
         setDomain(jonasVO.getDomain());
-        if (jonasVO.getConnectorList() != null) {
-            LinkedList<Connector> originalConnectorList = new LinkedList<Connector>(this.connectorList);
-            this.connectorList.clear();
-            for (ConnectorVO tmp : jonasVO.getConnectorList()) {
-                Connector connector = tmp.createBean();
-                for (Connector originalConnector : originalConnectorList) {
-                    if (originalConnector.getName().equals(connector.getName())) {
-                        connector.setKey(originalConnector.getKey());
-                        break;
-                    }
-                }
-                this.connectorList.add(connector);
-            }
-        }
-        if (jonasVO.getDatasourceList() != null) {
-            LinkedList<Datasource> originalDatasourceList = new LinkedList<Datasource>(this.datasourceList);
-            this.datasourceList.clear();
-            for (DatasourceVO tmp : jonasVO.getDatasourceList()) {
-                Datasource datasource = tmp.createBean();
-                for (Datasource originalDatasource : originalDatasourceList) {
-                    if (originalDatasource.getName().equals(datasource.getName())) {
-                        datasource.setKey(originalDatasource.getKey());
-                        break;
-                    }
-                }
-                this.datasourceList.add(datasource);
-            }
-        }
     }
 
 }

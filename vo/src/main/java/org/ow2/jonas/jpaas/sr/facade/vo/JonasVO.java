@@ -13,19 +13,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
 package org.ow2.jonas.jpaas.sr.facade.vo;
 
-import org.ow2.jonas.jpaas.sr.model.Connector;
-import org.ow2.jonas.jpaas.sr.model.Datasource;
-import org.ow2.jonas.jpaas.sr.model.Jonas;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.ow2.jonas.jpaas.sr.model.Jonas;
 
 /**
  * Define a Jonas Value Object
@@ -53,21 +50,11 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
      */
     private String domain;
 
-    /**
-     * Connectors of the Jonas.
-     */
-    private List<ConnectorVO> connectorList;
 
-    /**
-     * Datasources of the Jonas.
-     */
-    private List<DatasourceVO> datasourceList;
 
 
     public JonasVO() {
         super();
-        this.connectorList = new LinkedList<ConnectorVO>();
-        this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
     public JonasVO(String id, String name, String state, Map<String,String> capabilities, boolean multitenant,
@@ -78,8 +65,6 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
         this.profile = profile;
         this.jdkVersion = jdkVersion;
         this.domain = domain;
-        this.connectorList = new LinkedList<ConnectorVO>();
-        this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
     public JonasVO(String name, String state, Map<String,String> capabilities, boolean multitenant,
@@ -90,8 +75,6 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
         this.profile = profile;
         this.jdkVersion = jdkVersion;
         this.domain = domain;
-        this.connectorList = new LinkedList<ConnectorVO>();
-        this.datasourceList = new LinkedList<DatasourceVO>();
     }
 
     public String getJonasVersion() {
@@ -145,50 +128,12 @@ public class JonasVO extends PaasContainerVO implements java.io.Serializable {
      */
     public Jonas createBean() {
         Jonas jonas = new Jonas();
-        jonas.setName(getName());
-        jonas.setState(getState());
-        jonas.setCapabilities(getCapabilities());
-        jonas.setMultitenant(isMultitenant());
-        jonas.setReusable(isReusable());
-        jonas.setUsedPorts(getUsedPorts());
+        super.mergeBean(jonas);
         jonas.setJonasVersion(jonasVersion);
         jonas.setJdkVersion(jdkVersion);
         jonas.setDomain(domain);
         jonas.setProfile(profile);
-        if (connectorList != null) {
-            List<Connector> list = new LinkedList<Connector>();
-            for (ConnectorVO tmp : connectorList ) {
-                Connector connector = tmp.createBean();
-                connector.setJonas(jonas);
-                list.add(connector);
-            }
-            jonas.setConnectorList(list);
-        }
-        if (datasourceList != null) {
-            List<Datasource> list = new LinkedList<Datasource>();
-            for (DatasourceVO tmp : datasourceList ) {
-                Datasource datasource = tmp.createBean();
-                datasource.setJonas(jonas);
-                list.add(datasource);
-            }
-            jonas.setDatasourceList(list);
-        }
         return jonas;
     }
 
-    public List<ConnectorVO> getConnectorList() {
-        return connectorList;
-    }
-
-    public void setConnectorList(List<ConnectorVO> connectorList) {
-        this.connectorList = connectorList;
-    }
-
-    public List<DatasourceVO> getDatasourceList() {
-        return datasourceList;
-    }
-
-    public void setDatasourceList(List<DatasourceVO> datasourceList) {
-        this.datasourceList = datasourceList;
-    }
 }

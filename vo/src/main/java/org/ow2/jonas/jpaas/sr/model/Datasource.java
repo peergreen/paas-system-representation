@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * $Id:$
  */
 
@@ -57,10 +57,10 @@ public class Datasource implements java.io.Serializable {
     private String className;
 
     /**
-     * Jonas of the Datasource.
+     * Container of the Datasource.
      */
     @ManyToOne(optional=false)
-    private Jonas jonas;
+    private PaasContainer container;
 
 
     public long getKey() {
@@ -101,18 +101,18 @@ public class Datasource implements java.io.Serializable {
                 .append(", name=").append(getName())
                 .append(", url=").append(getUrl())
                 .append(", className=").append(getClassName())
-                .append(", jonas=").append(getJonas())
+                .append(", container=").append(getContainer())
                 .append("]");
         return sb.toString();
     }
 
 
-    public Jonas getJonas() {
-        return jonas;
+    public PaasContainer getContainer() {
+        return container;
     }
 
-    public void setJonas(Jonas jonas) {
-        this.jonas = jonas;
+    public void setContainer(PaasContainer container) {
+        this.container = container;
     }
 
     public DatasourceVO createDatasourceVO() {
